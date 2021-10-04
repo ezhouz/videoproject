@@ -1,13 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dbconfig');
 
-const votes = db.define('votes', {
-  ip: {
+const voteCount = db.define('voteCount', {
+  videoName: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  count: {
-    type: DataTypes.NUMBER,
+  voteTally: {
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {
@@ -15,6 +15,6 @@ const votes = db.define('votes', {
   timestamps: false
 })
 
-votes.sync({force: true})
+voteCount.sync({force: true})
 
-module.exports = votes;
+module.exports = voteCount;

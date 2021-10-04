@@ -1,0 +1,27 @@
+{
+  "name": "cli-backend",
+  "version": "1.0.0",
+  "description": "video upload backend ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yossi",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "busboy": "^0.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "hebrew-date": "^1.0.6",
+    "mariadb": "^2.5.4",
+    "path": "^0.12.7",
+    "sequelize": "^6.6.5",
+    "sha1": "^1.1.1"
+  }
+}

@@ -1,9 +1,11 @@
+require('dotenv').config()
+
 const express = require("express");
 const app = express();
 
-var path = require("path");
-var cors = require("cors");
+const path = require("path");
 
+const cors = require("cors");
 app.use(cors());
 
 

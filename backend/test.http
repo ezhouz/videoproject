@@ -1,0 +1,15 @@
+POST http://localhost:3000/post/convertdate
+Content-Type: application/json
+
+{
+    "date": "2020-01-05",
+    "userIp": "192.168.1.1"
+}
+
+###
+
+
+GET http://localhost:3000/allvideos
+
+
+###

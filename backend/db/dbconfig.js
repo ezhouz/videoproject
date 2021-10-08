@@ -10,7 +10,7 @@ const dbconfig = {
 module.exports = new Sequelize(dbconfig.dbname, dbconfig.dbusername, dbconfig.dbpass, {
   host: 'localhost',
   port: 3306,
-  dialect: 'mariadb',
+  dialect: 'mysql',
   timezone: "America/New_York",
   logging: false
 });

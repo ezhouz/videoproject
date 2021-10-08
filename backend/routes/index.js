@@ -1,12 +1,12 @@
 // const products = require('./products');
-const create = require('./create');
+const post = require('./post');
 const getall = require('./getall');
 // const erase = require('./delete');
 // const update = require('./update');
 
 module.exports = app => {
     // app.use('/products', products),
-    app.use('/create', create),
+    app.use('/post', post),
     app.use('/getall', getall)
     // app.use('/delete', erase),
     // app.use('/update', update)

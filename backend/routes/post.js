@@ -2,33 +2,121 @@ const express = require("express");
 const router = express.Router();
 const hebrewDate = require("hebrew-date");
 const Mux = require("@mux/mux-node");
-const fs = require("fs");
-const request = require("request");
+const voteCount = require("../db/models/voteCount");
 
+const stripe = require("stripe")(
+  "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
+);
 
+async function createVoteRecord(name, stripeId, muxId) {
+  try {
+    voteCount
+      .create({
+        videoName: name,
+        voteTally: 0,
+        stripeId,
+        muxId
+      })
+      .then((res) => {
+        console.log("created");
+        return "product created";
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+router.post("/register", (req, res) => {
+  console.log(req.body.user)
+}) 
 
+router.post("/processvid", async (req, res) => {
 
-router.post("/processvid", function (req, res) {
+  const productName = req.body.videoTitle;
+  const stripeId = "";
 
-  const { Video, Data }  = new Mux();
+  const { Video, Data } = new Mux();
 
   Video.Uploads.create({
     cors_origin: "http://localhost:8080",
     new_asset_settings: {
       playback_policy: "public",
     },
-
   }).then((upload) => {
     // upload.url is what you'll want to return to your client.
     console.log(upload);
     res.send(upload.url);
-
   });
+
 });
 
+router.post("/create-new-product", async (req, res) => {
+  const vm = res;
+  const filename = req.body.fileName;
+  const muxId = req.body.MuxId;
 
+  let stripeId = '';
+  console.log(filename)
+  try {
+    await stripe.products
+      .create({
+        name: filename,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.id) {
+          stripeId = res.id;
+          try {
+             stripe.prices
+              .create({
+                product: res.id,
+                unit_amount: 100,
+                currency: "usd",
+              })
+              .then((res) => {
+                if(res.id) {
+                  createVoteRecord(filename, res.id, muxId)
+                  .then(res => {
+                    vm.send(res);
+                  })
+                }  
+              });
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
 
+  
+})
+
+router.post("/create-checkout-session", async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price: "price_1JiQpFLdf9pUITPXCptDssnG",
+
+        quantity: req.body.qty,
+      },
+    ],
+    payment_method_types: ["card"],
+
+    mode: "payment",
+
+    success_url: `${YOUR_DOMAIN}/success.html`,
+
+    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+  });
+
+  res.redirect(303, session.url);
+});
 
 router.post("/convertdate", function (req, res) {
   let newHebDateSplit = req.body.date.split("-");
@@ -39,8 +127,5 @@ router.post("/convertdate", function (req, res) {
   let processedHebrewDate = hebrewDate(year, month, day);
   res.send(processedHebrewDate);
 });
-
-
-
 
 module.exports = router;

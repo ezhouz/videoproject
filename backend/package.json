@@ -15,17 +15,23 @@
   "dependencies": {
     "@mux/mux-node": "^3.3.1",
     "axios": "^0.22.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
     "hebrew-date": "^1.0.6",
     "http": "^0.0.1-security",
     "mysql2": "^2.3.0",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "request": "^2.88.2",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "stripe": "^8.179.0",
+    "uuid": "^8.3.2"
   }
 }

@@ -2,7 +2,19 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dbconfig');
 
 const uploaderInfo = db.define('uploaderInfo', {
-  uploaderName: {
+  uploaderFirstName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  uploaderLastName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  uploaderEmail: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  uploaderPassword: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -13,16 +25,12 @@ const uploaderInfo = db.define('uploaderInfo', {
   uploaderDOBHebrew: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  videoFileName: {
-    type: DataTypes.STRING,
-    allowNull: false
   }
 }, {
   freezeTableName: true,
   timestamps: false
 })
 
-uploaderInfo.sync({force: true})
+//uploaderInfo.sync({force: true})
 
 module.exports = uploaderInfo;

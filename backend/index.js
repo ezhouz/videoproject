@@ -1,14 +1,21 @@
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const express = require("express");
 const app = express();
 
-const path = require("path");
+
+const session = require('express-session');
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
 
 const cors = require("cors");
 app.use(cors());
-
-
 
 app.use(express.static(__dirname + "/"));
 
@@ -28,7 +35,5 @@ db.authenticate()
 const routes = require("./routes/index");
 routes(app);
 
-// Init server.
-app.listen(3000, function () {
-  console.log("Example app listening on port 3000!");
-});
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('App listening on port ' + port));

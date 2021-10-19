@@ -9,7 +9,25 @@ Content-Type: application/json
 ###
 
 
-GET http://localhost:3000/allvideos
+POST http://localhost:3000/auth/register/
+Content-Type: application/json
 
+{
+    "firstname": "meedia",
+    "lastname": "bloke",
+    "email": "medbtee375@aol.com",
+    "password": "password",
+    "passwordRepeat": "password",
+    "uploaderDOBEnglish": "2020-10-13",
+    "uploaderDOBHebrew": "5773-12-11"
+}
 
 ###
+
+POST http://localhost:3000/auth/login/
+Content-Type: application/json
+
+{
+    "email": "medbtee375@aol.com",
+    "password": "password"
+}

@@ -9,6 +9,14 @@ const voteCount = db.define('voteCount', {
   voteTally: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  stripeId: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  muxId: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   freezeTableName: true,

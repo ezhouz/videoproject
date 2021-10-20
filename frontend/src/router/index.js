@@ -4,8 +4,11 @@ import Home from "../views/Home.vue";
 import Vote from "../views/Vote.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
+import UploadVideo from "../views/UploadVideo";
 
 Vue.use(VueRouter);
+
+import axios from "axios";
 
 const routes = [
   {
@@ -14,10 +17,15 @@ const routes = [
     component: Home,
   },
   {
+    path: "/uploadvideo",
+    name: "UploadVideo",
+    component: UploadVideo,
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/vote",
     name: "Vote",
     component: Vote,
-    meta: { requiresAuth: true },
   },
   {
     path: "/register",
@@ -40,19 +48,29 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!auth.loggedIn()) {
-//       next({
-//         path: "/login",
-//         query: { redirect: to.fullPath },
-//       });
-//     } else {
-//       next();
-//     }
-//   } else {
-//     next(); // make sure to always call next()!
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    const currentToken = localStorage.getItem("chabadtoken");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${currentToken}`,
+      },
+    };
+   
+    axios.post("http://localhost:3000/post/validatetoken", {}, config)
+    .then(res => {
+      if (res.data.status !== 200) {
+        next({ name: "Login" });
+      } else {
+        next();
+      }
+    })
+
+    
+  } else {
+    next();
+  }
+});
 
 export default router;

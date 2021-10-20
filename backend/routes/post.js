@@ -3,6 +3,9 @@ const router = express.Router();
 const hebrewDate = require("hebrew-date");
 const Mux = require("@mux/mux-node");
 const voteCount = require("../db/models/voteCount");
+var passport = require("passport");
+require("../config/passport")(passport);
+const jwt = require("jsonwebtoken");
 
 const stripe = require("stripe")(
   "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
@@ -15,7 +18,7 @@ async function createVoteRecord(name, stripeId, muxId) {
         videoName: name,
         voteTally: 0,
         stripeId,
-        muxId
+        muxId,
       })
       .then((res) => {
         console.log("created");
@@ -29,13 +32,44 @@ async function createVoteRecord(name, stripeId, muxId) {
     console.log(err);
   }
 }
+ 
+function validateMyToken(token) {
+  if (token) {
+    return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return {
+          success: false,
+          message: 'Token is not valid'
+        };
+      }
+      return decoded;
+    });
+  } else {
+    return {
+      success: false,
+      message: 'Token not provided'
+    };
+  }
+}
 
-router.post("/register", (req, res) => {
-  console.log(req.body.user)
-}) 
+router.post("/validatetoken",  (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  
+    let tokenres = validateMyToken(token);
+    if (tokenres.id) {
+      res.json({
+        status: 200,
+        message: "Token is valid",
+      });
+    } else {
+      res.json({
+        status: 401,
+        message: "Token is not valid",
+      });
+    }
+});
 
 router.post("/processvid", async (req, res) => {
-
   const productName = req.body.videoTitle;
   const stripeId = "";
 
@@ -51,7 +85,6 @@ router.post("/processvid", async (req, res) => {
     console.log(upload);
     res.send(upload.url);
   });
-
 });
 
 router.post("/create-new-product", async (req, res) => {
@@ -59,8 +92,8 @@ router.post("/create-new-product", async (req, res) => {
   const filename = req.body.fileName;
   const muxId = req.body.MuxId;
 
-  let stripeId = '';
-  console.log(filename)
+  let stripeId = "";
+  console.log(filename);
   try {
     await stripe.products
       .create({
@@ -71,19 +104,18 @@ router.post("/create-new-product", async (req, res) => {
         if (res.id) {
           stripeId = res.id;
           try {
-             stripe.prices
+            stripe.prices
               .create({
                 product: res.id,
                 unit_amount: 100,
                 currency: "usd",
               })
               .then((res) => {
-                if(res.id) {
-                  createVoteRecord(filename, res.id, muxId)
-                  .then(res => {
+                if (res.id) {
+                  createVoteRecord(filename, res.id, muxId).then((res) => {
                     vm.send(res);
-                  })
-                }  
+                  });
+                }
               });
           } catch (err) {
             console.log(err);
@@ -93,9 +125,7 @@ router.post("/create-new-product", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-
-  
-})
+});
 
 router.post("/create-checkout-session", async (req, res) => {
   const session = await stripe.checkout.sessions.create({

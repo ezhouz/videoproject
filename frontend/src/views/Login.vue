@@ -3,7 +3,6 @@
     <article>
       <h2>Log In</h2>
       <form @submit.prevent="loginUser(email, password)">
-
         <label for="email">Email</label>
         <input v-model="email" type="email" name="email" id="email" />
 
@@ -28,24 +27,31 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: "",
+      showError: false,
+      errorMessage: "",
+      email: "mediablokedeals@gmail.com",
+      password: "password",
     };
   },
   methods: {
     async loginUser(email, password) {
       console.log(email, password);
       try {
-        const loggedInUser = await axios({
-          method: "POST",
-          url: "http://localhost:3000/auth/login",
-          data: {
-            email,
-            password
-          },
-        });
-
+        const loggedInUser = await axios.post(
+          "http://localhost:3000/auth/login",
+          { email, password }
+        );
         console.log(loggedInUser);
+
+        if (loggedInUser) {
+          localStorage.setItem('chabadtoken', loggedInUser.data.token);
+          this.$router.push({
+            name: "UploadVideo",
+          });
+        } else {
+          this.showError = true;
+          this.errorMessage = loggedInUser;
+        }
       } catch (error) {
         console.log(error);
       }

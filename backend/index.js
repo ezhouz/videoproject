@@ -5,15 +5,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require("express");
 const app = express();
 
-
-const session = require('express-session');
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
-}));
-
 const cors = require("cors");
 app.use(cors());
 

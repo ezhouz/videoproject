@@ -12,6 +12,9 @@ module.exports = new Sequelize(dbconfig.dbname, dbconfig.dbusername, dbconfig.db
   port: 3306,
   dialect: 'mysql',
   timezone: "America/New_York",
+  dialectOptions: {
+    timezone: "local",
+  },
   logging: false
 });
 

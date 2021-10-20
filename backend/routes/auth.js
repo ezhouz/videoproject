@@ -1,53 +1,47 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const initializePassport = require("../passport-config");
 const uploaderInfo = require("../db/models/uploaderInfo");
-const { randomInt } = require("crypto");
 const bcrypt = require("bcrypt");
-const { checkAuthenticated, checkNotAuthenticated } = require("./authcheck");
+const jwt= require("jsonwebtoken");
+const authcheck = require("./authcheck");
 
 router.use(passport.initialize());
-router.use(passport.session());
 
-async function getUserByEmail(email) {
+router.post("/login", async (req, res) => {
   try {
-    return await uploaderInfo.findOne({
+    const user = await uploaderInfo.findOne({
       where: {
-        uploaderEmail: email,
+        uploaderEmail: req.body.email,
       },
     });
+
+    if (!user) {
+      res.status(401).send({
+        success: false,
+        msg: "Authentication failed. User not found.",
+      });
+    } else {
+      authcheck.comparePassword(req.body.password,user.dataValues.uploaderPassword, function (err, isMatch) {
+        if (isMatch && !err) {
+          // if user is found and password is right create a token
+          let token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
+          // return the information including token as JSON
+          res.json({ status: 200, success: true, token });
+        } else {
+          res.status(401).send({
+            success: false,
+            msg: "Authentication failed. Wrong password.",
+          });
+        }
+      });
+    }
   } catch (error) {
-    res.send({
-      status: 500,
-      message: "find email Error: " + error,
-    });
+    console.log(error);
   }
-}
+});
 
-async function getUserById(id) {
-  try {
-    return await uploaderInfo.findOne({
-      id,
-    });
-  } catch (error) {
-    res.send({
-      status: 500,
-      message: "find id Error: " + error,
-    });
-  }
-}
-
-initializePassport(passport, getUserByEmail, getUserById);
-
-router.post("/login", checkNotAuthenticated, passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
-
-router.post("/register", checkNotAuthenticated, async (req, res) => {
+router.post("/register", async (req, res) => {
   const uploader = req.body.user;
 
   try {
@@ -58,14 +52,13 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
     });
 
     if (user) {
-      console.log(user)
+      console.log(user);
       res.send({
         status: 201,
         message: "User already exists",
       });
     } else {
       try {
-        console.log('made it here')
         const hashedPassword = await bcrypt.hash(uploader.password, 10);
         await uploaderInfo.create({
           uploaderFirstName: uploader.firstname,
@@ -81,7 +74,7 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
           message: "New User Created",
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         res.send({
           status: 500,
           message: "Creation error " + error,
@@ -89,7 +82,7 @@ router.post("/register", checkNotAuthenticated, async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send({
       status: 500,
       message: "New User Error?",

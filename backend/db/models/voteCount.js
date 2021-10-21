@@ -2,7 +2,11 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dbconfig');
 
 const voteCount = db.define('voteCount', {
-  videoName: {
+  muxVideoId: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  uploadedVideoFileName: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -10,19 +14,27 @@ const voteCount = db.define('voteCount', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  stripeId: {
+  stripeProductId: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  muxId: {
+  stripePriceId: {
     type: DataTypes.STRING,
     allowNull: false
-  }
+  },
+  uploaderId: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  uploaderEmail: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 }, {
   freezeTableName: true,
   timestamps: false
 })
 
-voteCount.sync({force: true})
+//voteCount.sync({force: true})
 
 module.exports = voteCount;

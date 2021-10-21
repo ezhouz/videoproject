@@ -5,6 +5,7 @@ import Vote from "../views/Vote.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
 import UploadVideo from "../views/UploadVideo";
+import Logout from "../views/Logout";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,8 @@ const routes = [
   },
   {
     path: "/logout",
+    name: "logout",
+    component: Logout,
   },
 ];
 
@@ -57,17 +60,16 @@ router.beforeEach((to, from, next) => {
         Authorization: `Bearer ${currentToken}`,
       },
     };
-   
-    axios.post("http://localhost:3000/post/validatetoken", {}, config)
-    .then(res => {
-      if (res.data.status !== 200) {
-        next({ name: "Login" });
-      } else {
-        next();
-      }
-    })
 
-    
+    axios
+      .post("http://localhost:3000/post/validatetoken", {}, config)
+      .then((res) => {
+        if (res.data.status !== 200) {
+          next({ name: "Login" });
+        } else {
+          next();
+        }
+      });
   } else {
     next();
   }

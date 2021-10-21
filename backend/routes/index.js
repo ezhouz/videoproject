@@ -2,9 +2,11 @@
 const post = require('./post');
 const getall = require('./getall');
 const auth = require('./auth');
+const get = require('./get');
 
 module.exports = app => {
-    app.use('/post', post),
-    app.use('/getall', getall)
+    app.use("/post", post),
+    app.use("/getall", getall)
     app.use("/auth", auth)
+    app.use("/get", get)
 }

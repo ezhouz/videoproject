@@ -1,5 +1,17 @@
 <template>
   <section>
+    <article class="messages">
+      <div v-if="showError" class="errorMessage">
+        {{ uploadErrorMessage }}
+      </div>
+
+      <div v-if="loggedInUser" class="user-info">
+        {{ loggedInUser.firstname }}
+        {{ loggedInUser.lastname }}
+        {{ loggedInUser.email }}
+        {{ loggedInUser.hebrewDOB }}
+      </div>
+    </article>
     <article>
       <input
         @change="getFileName"
@@ -8,6 +20,18 @@
         accept="video/*"
       />
       <button @click="uploadVideo(uploadedVideoFile)">Upload Video File</button>
+    </article>
+    <article>
+      <div v-if="progress > 0 && progress < 100" class="progress">
+        <div
+          class="progress-bar progress-bar-striped bg-info"
+          role="progressbar"
+          v-bind:style="{ width: progress + '%' }"
+          aria-valuenow="50"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
     </article>
   </section>
 </template>
@@ -20,13 +44,58 @@ export default {
   name: "UploadVideo",
   data() {
     return {
+      existingToken: "",
+      backendUrl: process.env.VUE_APP_BACKEND_URL,
       uploadedVideoFile: "",
       uploadedVideoFileName: "",
       showUploadError: false,
-      uploadError: "",
+      uploadErrorMessage: "",
       showUploadSuccess: false,
       uploadSuccessMessage: "",
+      loggedInUser: null,
+      showError: false,
+      progress: 0,
+      newVideoOptions: {},
     };
+  },
+  async created() {
+    const existingToken = localStorage.getItem("chabadtoken");
+    if (!existingToken) {
+      this.$router.push({
+        name: "Login",
+      });
+    } else {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${existingToken}`,
+        },
+      };
+      this.existingToken = config;
+      try {
+        const existingUser = await axios.post(
+          `${this.backendUrl}/post/validatetoken`,
+          {},
+          config
+        );
+        if (existingUser.data.status === 200) {
+          // get logged in user info
+          try {
+            const curentUser = await axios.get(
+              `${this.backendUrl}/get/getuser`,
+              config
+            );
+            this.loggedInUser = curentUser.data;
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          this.showError = true;
+          this.uploadErrorMessage = "Invalid Token";
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   methods: {
     getFileName() {
@@ -36,54 +105,70 @@ export default {
         document.getElementById("uploadedVideoFile").files[0].name;
     },
 
-    uploadVideo() {
-      axios({
+    async uploadVideo() {
+      const newVideoUpload = await axios({
         method: "post",
-        url: "http://localhost:3000/post/processvid",
+        url: `${this.backendUrl}/post/processvid`,
         data: {},
-      }).then((res) => {
-        console.log(res)
-        const upload = UpChunk.createUpload({
-          endpoint: res.data,
-          file: document.getElementById("uploadedVideoFile").files[0],
-          chunkSize: 5120,
-        });
-
-        // subscribe to events
-        upload.on("error", (err) => {
-          this.showUploadError = true;
-          this.uploadError = err.detail;
-          console.error("💥 🙀", err.detail);
-        });
-
-        upload.on("progress", (progress) => {
-          console.log("Uploaded", progress.detail, "percent of this file.");
-        });
-
-        // subscribe to events
-        upload.on("success", (err) => {
-          console.log(err);
-          this.showUploadSuccess = true;
-          this.uploadSuccessMessage = "Successful Upload";
-          console.log("Wrap it up, we're done here. 👋");
-
-          try {
-            axios({
-              method: "post",
-              url: "http://localhost:3000/post/create-new-product",
-              data: { 
-                fileName: this.uploadedVideoFileName,
-                muxId:  '12'
-                },
-            }).then((res) => console.log(res));
-          } catch (err) {
-            console.log(err);
-          }
-        });
       });
+
+      console.log(newVideoUpload);
+
+      if (newVideoUpload.status === 200) {
+        this.newVideoOptions.uploaderId = this.loggedInUser.id;
+        this.newVideoOptions.videoUploadId = newVideoUpload.data.id;
+        this.newVideoOptions.uploaderEmail = this.loggedInUser.email;
+        this.newVideoOptions.uploadedVideoFileName = this.uploadedVideoFileName;
+
+        try {
+          const upload = UpChunk.createUpload({
+            endpoint: newVideoUpload.data.url,
+            file: document.getElementById("uploadedVideoFile").files[0],
+            chunkSize: 5120,
+          });
+
+          // subscribe to events
+          upload.on("error", (err) => {
+            this.showUploadError = true;
+            this.uploadErrorMessage = err.detail;
+            console.error("💥 🙀", err.detail);
+          });
+
+          upload.on("progress", (progress) => {
+            this.progress = progress.detail;
+          });
+
+          // subscribe to events
+          upload.on("success", async () => {
+            const newProduct = await axios.post(
+              `${this.backendUrl}/post/create-new-product`,
+              this.newVideoOptions,
+              this.existingToken
+            );
+            console.log(newProduct);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        console.log("error");
+      }
     },
   },
 };
+
+// try {
+//   axios({
+//     method: "post",
+//     url: `${this.backendUrl}/post/create-new-product`,
+//     data: {
+//       fileName: this.uploadedVideoFileName,
+//       muxId: "12",
+//     },
+//   }).then((res) => console.log(res));
+// } catch (err) {
+//   console.log(err);
+// }
 </script>
 
 <style scoped>

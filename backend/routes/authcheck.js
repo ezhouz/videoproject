@@ -31,8 +31,28 @@ function comparePassword(attemptedPassword, existingUserPassword, cb) {
   );
 }
 
+function validateMyToken(token) {
+  if (token) {
+    return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return {
+          success: false,
+          message: 'Token is not valid'
+        };
+      }
+      return decoded;
+    });
+  } else {
+    return {
+      success: false,
+      message: 'Token not provided'
+    };
+  }
+}
+
 module.exports = {
   checkAuthenticated,
   checkNotAuthenticated,
-  comparePassword
+  comparePassword,
+  validateMyToken
 };

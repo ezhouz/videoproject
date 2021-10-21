@@ -6,73 +6,60 @@ const voteCount = require("../db/models/voteCount");
 var passport = require("passport");
 require("../config/passport")(passport);
 const jwt = require("jsonwebtoken");
+const { validateMyToken } = require("./authcheck");
 
 const stripe = require("stripe")(
   "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
 );
 
-async function createVoteRecord(name, stripeId, muxId) {
+async function createVoteRecord(
+  muxVideoId,
+  uploadedVideoFileName,
+  stripeProductId,
+  stripePriceId,
+  uploaderId,
+  uploaderEmail
+) {
   try {
-    voteCount
-      .create({
-        videoName: name,
-        voteTally: 0,
-        stripeId,
-        muxId,
-      })
-      .then((res) => {
-        console.log("created");
-        return "product created";
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  } catch (err) {
-    console.log(err);
-  }
-}
- 
-function validateMyToken(token) {
-  if (token) {
-    return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return {
-          success: false,
-          message: 'Token is not valid'
-        };
-      }
-      return decoded;
+    const newVote = await voteCount.create({
+      muxVideoId,
+      uploadedVideoFileName,
+      voteTally: 0,
+      stripeProductId,
+      stripePriceId,
+      uploaderId,
+      uploaderEmail,
     });
-  } else {
-    return {
-      success: false,
-      message: 'Token not provided'
-    };
+    console.log(newVote);
+    if (newVote) {
+      console.log(newVote);
+      return "product created";
+    } else {
+      return "no vote";
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-router.post("/validatetoken",  (req, res) => {
+router.post("/validatetoken", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
-  
-    let tokenres = validateMyToken(token);
-    if (tokenres.id) {
-      res.json({
-        status: 200,
-        message: "Token is valid",
-      });
-    } else {
-      res.json({
-        status: 401,
-        message: "Token is not valid",
-      });
-    }
+
+  let tokenres = validateMyToken(token);
+  if (tokenres.id) {
+    res.json({
+      status: 200,
+      message: "Token is valid",
+    });
+  } else {
+    res.json({
+      status: 401,
+      message: "Token is not valid",
+    });
+  }
 });
 
 router.post("/processvid", async (req, res) => {
-  const productName = req.body.videoTitle;
-  const stripeId = "";
-
   const { Video, Data } = new Mux();
 
   Video.Uploads.create({
@@ -82,48 +69,63 @@ router.post("/processvid", async (req, res) => {
     },
   }).then((upload) => {
     // upload.url is what you'll want to return to your client.
-    console.log(upload);
-    res.send(upload.url);
+    res.json({
+      url: upload.url,
+      id: upload.id,
+    });
   });
 });
 
 router.post("/create-new-product", async (req, res) => {
+  console.log(req.body);
+  const uploaderId = req.body.uploaderId;
+  const videoUploadId = req.body.videoUploadId;
+  const uploaderEmail = req.body.uploaderEmail;
+  const uploadedVideoFileName = req.body.uploadedVideoFileName;
+  console.log(uploadedVideoFileName);
+
   const vm = res;
-  const filename = req.body.fileName;
-  const muxId = req.body.MuxId;
 
   let stripeId = "";
-  console.log(filename);
-  try {
-    await stripe.products
-      .create({
-        name: filename,
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.id) {
-          stripeId = res.id;
-          try {
-            stripe.prices
-              .create({
-                product: res.id,
-                unit_amount: 100,
-                currency: "usd",
-              })
-              .then((res) => {
-                if (res.id) {
-                  createVoteRecord(filename, res.id, muxId).then((res) => {
-                    vm.send(res);
-                  });
-                }
-              });
-          } catch (err) {
-            console.log(err);
-          }
-        }
+
+  if (uploadedVideoFileName) {
+    try {
+      const newStripeProduct = await stripe.products.create({
+        name: uploadedVideoFileName,
       });
-  } catch (err) {
-    console.log(err);
+
+      if (newStripeProduct.id) {
+        stripeId = newStripeProduct.id;
+        try {
+          const stripePrice = await stripe.prices.create({
+            product: stripeId,
+            unit_amount: 100,
+            currency: "usd",
+          });
+          if (stripePrice) {
+            const voteRecord = await createVoteRecord(
+              videoUploadId,
+              uploadedVideoFileName,
+              newStripeProduct.id,
+              stripePrice.id,
+              uploaderId,
+              uploaderEmail
+            );
+            console.log(voteRecord);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        console.log("I have no id");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    res.json({
+      message: "No video filename",
+    });
   }
 });
 

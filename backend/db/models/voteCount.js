@@ -11,7 +11,7 @@ const voteCount = db.define('voteCount', {
     allowNull: false
   },
   voteTally: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   stripeProductId: {

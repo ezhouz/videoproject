@@ -157,18 +157,6 @@ export default {
   },
 };
 
-// try {
-//   axios({
-//     method: "post",
-//     url: `${this.backendUrl}/post/create-new-product`,
-//     data: {
-//       fileName: this.uploadedVideoFileName,
-//       muxId: "12",
-//     },
-//   }).then((res) => console.log(res));
-// } catch (err) {
-//   console.log(err);
-// }
 </script>
 
 <style scoped>

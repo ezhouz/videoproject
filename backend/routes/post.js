@@ -8,6 +8,16 @@ require("../config/passport")(passport);
 const jwt = require("jsonwebtoken");
 const { validateMyToken } = require("./authcheck");
 
+const SmeeClient = require("smee-client");
+
+const smee = new SmeeClient({
+  source: process.env.WEBHOOK_PROXY_URL,
+  target: "http://localhost:3000/post/created-video-info",
+  logger: console,
+});
+
+const events = smee.start();
+
 const stripe = require("stripe")(
   "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
 );
@@ -30,9 +40,7 @@ async function createVoteRecord(
       uploaderId,
       uploaderEmail,
     });
-    console.log(newVote);
     if (newVote) {
-      console.log(newVote);
       return "product created";
     } else {
       return "no vote";
@@ -41,6 +49,34 @@ async function createVoteRecord(
     console.log(error);
   }
 }
+
+router.post("/create-checkout-session", async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price: req.body.priceId,
+        adjustable_quantity: {
+          enabled: true,
+          minimum: 1,
+          maximum: 1000
+        },
+        price_data: {
+          product_data: {
+            name: "T-shirt",
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    payment_method_types: ["card"],
+    mode: "payment",
+    success_url: `${YOUR_DOMAIN}/success.html`,
+    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+  });
+
+  res.redirect(303, session.url);
+});
 
 router.post("/validatetoken", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
@@ -76,15 +112,20 @@ router.post("/processvid", async (req, res) => {
   });
 });
 
+let muxVideoId = "";
+
+router.post("/created-video-info", (req, res) => {
+  console.log(req.body)
+  if (req.body.type === "video.asset.created") {
+    muxVideoId = req.body.object.id;
+  }
+});
+
 router.post("/create-new-product", async (req, res) => {
-  console.log(req.body);
   const uploaderId = req.body.uploaderId;
-  const videoUploadId = req.body.videoUploadId;
+  //const videoUploadId = req.body.videoUploadId;
   const uploaderEmail = req.body.uploaderEmail;
   const uploadedVideoFileName = req.body.uploadedVideoFileName;
-  console.log(uploadedVideoFileName);
-
-  const vm = res;
 
   let stripeId = "";
 
@@ -103,15 +144,15 @@ router.post("/create-new-product", async (req, res) => {
             currency: "usd",
           });
           if (stripePrice) {
-            const voteRecord = await createVoteRecord(
-              videoUploadId,
+            console.log(muxVideoId);
+            createVoteRecord(
+              muxVideoId,
               uploadedVideoFileName,
               newStripeProduct.id,
               stripePrice.id,
               uploaderId,
               uploaderEmail
             );
-            console.log(voteRecord);
           }
         } catch (err) {
           console.log(err);
@@ -127,27 +168,6 @@ router.post("/create-new-product", async (req, res) => {
       message: "No video filename",
     });
   }
-});
-
-router.post("/create-checkout-session", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: "price_1JiQpFLdf9pUITPXCptDssnG",
-
-        quantity: req.body.qty,
-      },
-    ],
-    payment_method_types: ["card"],
-
-    mode: "payment",
-
-    success_url: `${YOUR_DOMAIN}/success.html`,
-
-    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
-  });
-
-  res.redirect(303, session.url);
 });
 
 router.post("/convertdate", function (req, res) {

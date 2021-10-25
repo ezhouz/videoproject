@@ -1,36 +1,76 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/uploadvideo">Upload</router-link> |
-      <router-link to="/vote">Vote</router-link>
-      <router-link to="/register">Register</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/logout">Logout</router-link>
+    <div>
+      <b-navbar toggleable="sm" type="light" variant="light">
+        <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
+
+        <b-navbar-brand>Chabad</b-navbar-brand>
+
+        <b-collapse id="nav-text-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item>
+              <router-link to="/">Home</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link to="/vote">Vote</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link to="/uploadvideo">Upload</router-link>
+            </b-nav-item>
+            
+
+            <b-nav-item-dropdown right>
+              <template #button-content>
+                <em>Account</em>
+              </template>
+              <b-dropdown-item href="register">Register</b-dropdown-item>
+              <b-dropdown-item href="login">Log in</b-dropdown-item>
+              <b-dropdown-item href="logout">Log Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ml-auto">
+            <div class="icon-yellow-wrapper">
+              <b-icon-facebook />
+            </div>
+            <div class="icon-yellow-wrapper">
+              <b-icon-instagram />
+            </div>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
+<script>
+import { BIconFacebook, BIconInstagram } from "bootstrap-vue";
+export default {
+  components: {
+    BIconFacebook,
+    BIconInstagram,
+  },
+};
+</script>
+
+
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  margin: 0 auto;
 }
-
-#nav {
-  padding: 30px;
+.nav-item a {
+  color: #000;
+  text-decoration: none;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.icon-yellow-wrapper {
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  background: #febf59;
+  border-radius: 50%;
 }
 </style>

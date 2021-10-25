@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const { validateMyToken } = require("./authcheck");
 
 const SmeeClient = require("smee-client");
+const { default: axios } = require("axios");
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL,
@@ -58,7 +59,7 @@ router.post("/create-checkout-session", async (req, res) => {
         adjustable_quantity: {
           enabled: true,
           minimum: 1,
-          maximum: 1000
+          maximum: 1000,
         },
         price_data: {
           product_data: {
@@ -113,17 +114,52 @@ router.post("/processvid", async (req, res) => {
 });
 
 let muxVideoId = "";
+let token = Buffer.from(
+  `${process.env.MUX_TOKEN_ID}:${process.env.MUX_TOKEN_SECRET}`,
+  "utf8"
+).toString("base64");
+
+let config = {
+  headers: {
+    Authorization: `Basic ${token}`,
+    "Content-Type": "text/plain",
+  },
+};
 
 router.post("/created-video-info", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   if (req.body.type === "video.asset.created") {
     muxVideoId = req.body.object.id;
   }
 });
 
+router.get("/testmux", async (req, res) => {
+  
+  
+});
+
 router.post("/create-new-product", async (req, res) => {
+
+  let muxVideoId = '';
+
+  try {
+    const singlevideo = await axios.get(
+      `http://api.mux.com/video/v1/assets/y2BA3JOLKfazscnKIMhvfswQRY9Epsm302mB02e3eN1yg`,
+      config
+    );
+   
+    if(singlevideo.data.data) {
+      muxVideoId = singlevideo.data.data["playback_ids"][0].id
+    } else {
+      res.json({
+        message: 'No video found'
+      })
+    }
+  } catch (error) {
+    res.send(error);
+  }
+
   const uploaderId = req.body.uploaderId;
-  //const videoUploadId = req.body.videoUploadId;
   const uploaderEmail = req.body.uploaderEmail;
   const uploadedVideoFileName = req.body.uploadedVideoFileName;
 

@@ -50,3 +50,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVwbG9hZ
 ###
 POST http://localhost:3000/post/created-video-info/
 Content-Type: application/json
+
+###
+GET http://localhost:3000/getall/allvideos
+
+###
+GET http://localhost:3000/post/testmux

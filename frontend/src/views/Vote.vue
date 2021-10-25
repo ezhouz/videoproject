@@ -6,6 +6,9 @@
       </div>
     </div>
 
+
+
+
     <!-- <section>
       <div class="product">
         <img
@@ -48,7 +51,7 @@
           <b-form-input
             v-model="video.newVotes"
             type="number"
-            min=0
+            min="0"
             @change="changeVoteCount(video.newVotes, video.id)"
           ></b-form-input>
 
@@ -69,6 +72,7 @@
 import axios from "axios";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import "video.js/dist/video-js.css";
+
 
 export default {
   name: "Votes",
@@ -140,14 +144,11 @@ export default {
           number++;
         }
       }
-   
+
       this.videos.forEach((video) => {
-        console.log(video.id);
         if (video.id === id) {
-          console.log(number)
           video.newVotes = number;
         }
-        console.log(this.videos)
       });
     },
     submitStripePayment() {

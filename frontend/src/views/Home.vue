@@ -1,5 +1,5 @@
 <template>
     <section>
-        <h1>Home Page</h1>
+        <h1>Home Page updated</h1>
     </section>
 </template>

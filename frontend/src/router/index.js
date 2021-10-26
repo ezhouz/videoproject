@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
     };
 
     axios
-      .post("http://localhost:3000/post/validatetoken", {}, config)
+      .post(`http://${process.env.VUE_APP_BACKEND_URL}/post/validatetoken`, {}, config)
       .then((res) => {
         if (res.data.status !== 200) {
           next({ name: "Login" });

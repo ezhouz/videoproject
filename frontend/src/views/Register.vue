@@ -68,6 +68,7 @@ export default {
   name: "Register",
   data() {
     return {
+      backendUrl: process.env.VUE_APP_BACKEND_URL,
       showError: false,
       errorMessage: "",
       uploaderDOBEnglish: "",
@@ -87,7 +88,7 @@ export default {
     convertDate(date) {
       axios({
         method: "post",
-        url: "http://localhost:3000/post/convertdate",
+        url: `http://${backendUrl}/post/convertdate`,
         data: {
           date,
         },
@@ -109,7 +110,7 @@ export default {
       try {
         const newuser = await axios({
           method: "POST",
-          url: "http://localhost:3000/auth/register",
+          url: `http://${backendUrl}/auth/register`,
           data: {
             user,
           },

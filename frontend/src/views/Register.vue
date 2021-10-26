@@ -69,7 +69,6 @@ export default {
   data() {
     return {
       showError: false,
-      backendUrl: process.env.VUE_APP_BACKEND_URL,
       errorMessage: "",
       uploaderDOBEnglish: "",
       uploaderDOBHebrew: "",
@@ -87,7 +86,7 @@ export default {
   methods: {
     async convertDate(date) {
       try {
-        const hebrewDate = await axios.post(`${this.backendUrl}/post/convertdate`, {
+        const hebrewDate = await axios.post(`api/post/convertdate`, {
           date,
         });
         if (hebrewDate) {
@@ -110,7 +109,7 @@ export default {
       user.uploaderDOBEnglish = this.uploaderDOBEnglish;
       user.uploaderDOBHebrew = this.uploaderDOBHebrew;
       try {
-        const newuser = await axios.post(`${this.backendUrl}/auth/register`, {
+        const newuser = await axios.post(`api/auth/register`, {
           user,
         });
 

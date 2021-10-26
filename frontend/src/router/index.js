@@ -51,7 +51,7 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     const currentToken = localStorage.getItem("chabadtoken");
 
@@ -61,15 +61,13 @@ router.beforeEach((to, from, next) => {
       },
     };
 
-    axios
-      .post(`http://${process.env.VUE_APP_BACKEND_URL}/post/validatetoken`, {}, config)
-      .then((res) => {
-        if (res.data.status !== 200) {
-          next({ name: "Login" });
-        } else {
-          next();
-        }
-      });
+    const tokenStatus = await axios.post("api/post/validatetoken", {}, config);
+
+    if (tokenStatus.data.status !== 200) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
   } else {
     next();
   }

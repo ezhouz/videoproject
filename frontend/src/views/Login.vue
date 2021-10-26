@@ -27,7 +27,6 @@ export default {
   name: "Login",
   data() {
     return {
-      backendUrl: process.env.VUE_APP_BACKEND_URL,
       showError: false,
       errorMessage: "",
       email: "mediablokedeals@gmail.com",
@@ -38,7 +37,7 @@ export default {
     async loginUser(email, password) {
       try {
         const loggedInUser = await axios.post(
-          `${this.backendUrl}/auth/login`,
+          `api/auth/login`,
           { email, password }
         );
 

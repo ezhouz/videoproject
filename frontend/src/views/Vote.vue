@@ -77,7 +77,6 @@ export default {
   },
   data() {
     return {
-      backendUrl: process.env.VUE_APP_BACKEND_URL,
       loadError: false,
       loadErrorMessge: "",
       videos: [],
@@ -89,7 +88,7 @@ export default {
   },
   async created() {
     const voteInfo = await axios.get(
-      `${this.backendUrl}/getall/current-vote-count`
+      `api/getall/current-vote-count`
     );
     if (voteInfo.status !== 200) {
       this.loadError = true;
@@ -105,7 +104,7 @@ export default {
       }
     }
 
-    const allVideos = await axios.get(`${this.backendUrl}/getall/allvideos`);
+    const allVideos = await axios.get(`api/getall/allvideos`);
     try {
       allVideos.data.forEach((video) => {
         const currentPlaybackId = video.muxVideoId;
@@ -145,7 +144,7 @@ export default {
       });
     },
     submitStripePayment() {
-      axios.post(`${this.backendUrl}/post/create-checkout-session`);
+      axios.post(`api/post/create-checkout-session`);
     },
   },
 };

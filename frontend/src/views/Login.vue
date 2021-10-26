@@ -36,13 +36,11 @@ export default {
   },
   methods: {
     async loginUser(email, password) {
-      console.log(email, password);
       try {
         const loggedInUser = await axios.post(
-          `http://${backendUrl}/auth/login`,
+          `${this.backendUrl}/auth/login`,
           { email, password }
         );
-        console.log(loggedInUser);
 
         if (loggedInUser) {
           localStorage.setItem('chabadtoken', loggedInUser.data.token);

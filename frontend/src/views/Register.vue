@@ -18,7 +18,7 @@
       </div>
 
       <form @submit.prevent="registerUser(user)">
-        <input type="hidden" name="hebDate">
+        <input type="hidden" name="hebDate" />
 
         <label for="firstname">First Name</label>
         <input
@@ -68,8 +68,8 @@ export default {
   name: "Register",
   data() {
     return {
-      backendUrl: process.env.VUE_APP_BACKEND_URL,
       showError: false,
+      backendUrl: process.env.VUE_APP_BACKEND_URL,
       errorMessage: "",
       uploaderDOBEnglish: "",
       uploaderDOBHebrew: "",
@@ -79,48 +79,45 @@ export default {
         lastname: "",
         email: "",
         password: "",
-        passwordRepeat: ""
+        passwordRepeat: "",
       },
     };
   },
 
   methods: {
-    convertDate(date) {
-      axios({
-        method: "post",
-        url: `http://${backendUrl}/post/convertdate`,
-        data: {
+    async convertDate(date) {
+      try {
+        const hebrewDate = await axios.post(`${this.backendUrl}/post/convertdate`, {
           date,
-        },
-      }).then((res) => {
-        this.uploaderDOBHebrewMessage = `Your Hebrew Date of birth is ${res.data.date} ${res.data.month_name} ${res.data.year}`;
-        this.uploaderDOBHebrew = `${res.data.date}-${res.data.month_name}-${res.data.year}`
-      });
+        });
+        if (hebrewDate) {
+          this.uploaderDOBHebrewMessage = `Your Hebrew Date of birth is ${hebrewDate.data.date} ${hebrewDate.data.month_name} ${hebrewDate.data.year}`;
+          this.uploaderDOBHebrew = `${hebrewDate.data.date}-${hebrewDate.data.month_name}-${hebrewDate.data.year}`;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
+
     async registerUser(userInput) {
       const user = userInput;
-      console.log(user)
-      if(user.password !== user.passwordrepeat) {
-          this.showError = true;
-          this.errorMessage = "Passwords don't match"
-          return;
+
+      if (user.password !== user.passwordrepeat) {
+        this.showError = true;
+        this.errorMessage = "Passwords don't match";
+        return;
       }
       user.uploaderDOBEnglish = this.uploaderDOBEnglish;
       user.uploaderDOBHebrew = this.uploaderDOBHebrew;
       try {
-        const newuser = await axios({
-          method: "POST",
-          url: `http://${backendUrl}/auth/register`,
-          data: {
-            user,
-          },
+        const newuser = await axios.post(`${this.backendUrl}/auth/register`, {
+          user,
         });
-        console.log(newuser)
-        if(newuser.data.status === 201) {
+
+        if (newuser.data.status === 201) {
           this.showError = true;
           this.errorMessage = newuser.data.message;
-        }
-        else if (newuser.data.status === 200) {
+        } else if (newuser.data.status === 200) {
           this.$router.push("/login");
         } else {
           this.showError = true;

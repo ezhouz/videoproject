@@ -84,13 +84,12 @@ export default {
       voteInfo: [],
       voteInfoVideoIds: [],
       videoOptions: {},
-      num: 0,
       votingData: {},
     };
   },
   async created() {
     const voteInfo = await axios.get(
-      `http://${backendUrl}/getall/current-vote-count`
+      `${this.backendUrl}/getall/current-vote-count`
     );
     if (voteInfo.status !== 200) {
       this.loadError = true;
@@ -106,7 +105,7 @@ export default {
       }
     }
 
-    const allVideos = await axios.get(`http://${backendUrl}/getall/allvideos`);
+    const allVideos = await axios.get(`${this.backendUrl}/getall/allvideos`);
     try {
       allVideos.data.forEach((video) => {
         const currentPlaybackId = video.muxVideoId;
@@ -146,7 +145,7 @@ export default {
       });
     },
     submitStripePayment() {
-      axios.post(`http://${backendUrl}/post/create-checkout-session`);
+      axios.post(`${this.backendUrl}/post/create-checkout-session`);
     },
   },
 };

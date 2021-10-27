@@ -5,11 +5,20 @@ import router from './router'
 import { BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueMq from 'vue-mq';
 
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+
+Vue.use(VueMq, {
+  breakpoints: {
+    mobile: 375,
+    tablet: 768,
+    desktop: 1200,
+  }
+})
 
 Vue.config.productionTip = false
 

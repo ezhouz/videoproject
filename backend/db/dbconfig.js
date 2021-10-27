@@ -2,8 +2,8 @@ const { Sequelize } = require('sequelize');
 
 const dbconfig = {
   dbname: 'votetracker',
-  dbusername: 'root',
-  dbpass: 'root'
+  dbusername: process.env.DB_USERNAME || 'root',
+  dbpass: process.env.DB_PASSWORD || 'root'
 }
 
 

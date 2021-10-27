@@ -6,6 +6,7 @@ import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
 import UploadVideo from "../views/UploadVideo";
 import Logout from "../views/Logout";
+import AboutBirthdays from "../views/AboutBirthdays";
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes = [
     component: Vote,
   },
   {
+    path: "/about-birthdays",
+    name: "AboutBirthdays",
+    component: AboutBirthdays,
+  },
+  {
     path: "/register",
     name: "Register",
     component: Register,
@@ -43,6 +49,10 @@ const routes = [
     name: "logout",
     component: Logout,
   },
+  {
+    path: '*',
+    component: Home 
+  }
 ];
 
 const router = new VueRouter({
@@ -51,7 +61,7 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     const currentToken = localStorage.getItem("chabadtoken");
 
@@ -61,15 +71,13 @@ router.beforeEach((to, from, next) => {
       },
     };
 
-    axios
-      .post("http://localhost:3000/post/validatetoken", {}, config)
-      .then((res) => {
-        if (res.data.status !== 200) {
-          next({ name: "Login" });
-        } else {
-          next();
-        }
-      });
+    const tokenStatus = await axios.post("api/post/validatetoken", {}, config);
+
+    if (tokenStatus.data.status !== 200) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
   } else {
     next();
   }

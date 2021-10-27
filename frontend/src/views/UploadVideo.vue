@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       existingToken: "",
-      backendUrl: process.env.VUE_APP_BACKEND_URL,
       uploadedVideoFile: "",
       uploadedVideoFileName: "",
       showUploadError: false,
@@ -73,7 +72,7 @@ export default {
       this.existingToken = config;
       try {
         const existingUser = await axios.post(
-          `${this.backendUrl}/post/validatetoken`,
+          `api/post/validatetoken`,
           {},
           config
         );
@@ -81,7 +80,7 @@ export default {
           // get logged in user info
           try {
             const curentUser = await axios.get(
-              `${this.backendUrl}/get/getuser`,
+              `api/get/getuser`,
               config
             );
             this.loggedInUser = curentUser.data;
@@ -108,7 +107,7 @@ export default {
     async uploadVideo() {
       const newVideoUpload = await axios({
         method: "post",
-        url: `${this.backendUrl}/post/processvid`,
+        url: `api/post/processvid`,
         data: {},
       });
 
@@ -141,7 +140,7 @@ export default {
           // subscribe to events
           upload.on("success", async () => {
             const newProduct = await axios.post(
-              `${this.backendUrl}/post/create-new-product`,
+              `api/post/create-new-product`,
               this.newVideoOptions,
               this.existingToken
             );

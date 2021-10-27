@@ -4,7 +4,9 @@
       <b-navbar toggleable="sm" type="light" variant="light">
         <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
 
-        <b-navbar-brand>Chabad</b-navbar-brand>
+        <b-navbar-brand>
+          <a href="/"><img height="50px" src="./assets/logo.png" alt="" /></a>
+        </b-navbar-brand>
 
         <b-collapse id="nav-text-collapse" is-nav>
           <b-navbar-nav>
@@ -15,9 +17,13 @@
               <router-link to="/vote">Vote</router-link>
             </b-nav-item>
             <b-nav-item>
+              <router-link to="/about-birthdays"
+                >About Jewish Birthdays</router-link
+              >
+            </b-nav-item>
+            <b-nav-item>
               <router-link to="/uploadvideo">Upload</router-link>
             </b-nav-item>
-            
 
             <b-nav-item-dropdown right>
               <template #button-content>
@@ -58,6 +64,12 @@ export default {
 <style>
 #app {
   margin: 0 auto;
+  max-width: 1200px;
+  overflow: hidden;
+}
+body,
+html {
+  font-size: 62.5%;
 }
 .nav-item a {
   color: #000;
@@ -72,5 +84,8 @@ export default {
   margin-right: 1rem;
   background: #febf59;
   border-radius: 50%;
+}
+.nav-item {
+  font-size: 1.8rem;
 }
 </style>

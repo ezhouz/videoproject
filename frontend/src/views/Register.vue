@@ -1,133 +1,91 @@
 <template>
-  <section>
-    <article>
-      <label for="date">Enter your DOB</label>
-      <input v-model="uploaderDOBEnglish" type="date" name="" id="date" />
-      <button @click="convertDate(JSON.stringify(uploaderDOBEnglish))">
-        Submit
-      </button>
+  <section class="">
+    <article class="image-header">
+      <div class="header-image-wrapper">
+        <img
+          src="../../public/images/register/Intersection_3_bl.png"
+          alt=""
+          class="header-image"
+        />
+      </div>
+      <div class="header-text-wrapper">
+        <h1 class="header-text" :class="$mq">
+          ENTER THE CONTEST AND SUBMIT A VIDEO
+        </h1>
+      </div>
+    </article>
+
+    <article class="d-flex align-items-center flex-column">
+      <label class="display-4 mt-4 mb-5" for="date"
+        >Enter your Date of Birth</label
+      >
+      <b-form-datepicker
+        id="date"
+        v-model="uploaderDOBEnglish"
+        class="mb-2"
+      ></b-form-datepicker>
+
+      <b-button
+        class="hebrew-convert-button"
+        @click="convertDate(JSON.stringify(uploaderDOBEnglish))"
+      >
+        Show my Jewish Date of Birth and Register
+      </b-button>
     </article>
 
     <article v-if="uploaderDOBHebrew">
-      {{ uploaderDOBHebrewMessage }}
-
-      <h2>Register</h2>
-
-      <div v-if="showError">
-        {{ errorMessage }}
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          margin: 3rem auto 0rem auto;
+        "
+      >
+        <h3 style="font-weight: 900">
+          {{ uploaderDOBHebrewMessage }}
+        </h3>
       </div>
 
-      <form @submit.prevent="registerUser(user)">
-        <input type="hidden" name="hebDate">
+      <RegisterForm :engdob="uploaderDOBEnglish" :hebdob="uploaderDOBHebrew" />
+    </article>
 
-        <label for="firstname">First Name</label>
-        <input
-          v-model="user.firstname"
-          type="text"
-          name="firstname"
-          id="firstname"
-        />
-
-        <label for="lastname">First Name</label>
-        <input
-          v-model="user.lastname"
-          type="text"
-          name="lastname"
-          id="lastname"
-        />
-
-        <label for="email">Email</label>
-        <input v-model="user.email" type="email" name="email" id="email" />
-
-        <label for="password">Password</label>
-        <input
-          v-model="user.password"
-          type="password"
-          name="password"
-          id="password"
-        />
-
-        <label for="passwordrepeat">Repeat Password</label>
-        <input
-          v-model="user.passwordrepeat"
-          type="password"
-          name="passwordrepeat"
-          id="passwordrepeat"
-        />
-
-        <button>Register</button>
-      </form>
+    <article>
+      <p style="display: flex; justify-content: center; margin: 3rem auto">
+        <a href="/login"><span class="login-text">I have an account. Login.</span></a>
+      </p>
     </article>
   </section>
 </template>
 
 <script>
 import axios from "axios";
+import RegisterForm from "../components/RegisterForm.vue";
 
 export default {
   name: "Register",
+  components: {
+    RegisterForm,
+  },
   data() {
     return {
-      showError: false,
-      errorMessage: "",
       uploaderDOBEnglish: "",
       uploaderDOBHebrew: "",
       uploaderDOBHebrewMessage: "",
-      user: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        passwordRepeat: ""
-      },
     };
   },
 
   methods: {
-    convertDate(date) {
-      axios({
-        method: "post",
-        url: "http://localhost:3000/post/convertdate",
-        data: {
-          date,
-        },
-      }).then((res) => {
-        this.uploaderDOBHebrewMessage = `Your Hebrew Date of birth is ${res.data.date} ${res.data.month_name} ${res.data.year}`;
-        this.uploaderDOBHebrew = `${res.data.date}-${res.data.month_name}-${res.data.year}`
-      });
-    },
-    async registerUser(userInput) {
-      const user = userInput;
-      console.log(user)
-      if(user.password !== user.passwordrepeat) {
-          this.showError = true;
-          this.errorMessage = "Passwords don't match"
-          return;
-      }
-      user.uploaderDOBEnglish = this.uploaderDOBEnglish;
-      user.uploaderDOBHebrew = this.uploaderDOBHebrew;
+    async convertDate(date) {
       try {
-        const newuser = await axios({
-          method: "POST",
-          url: "http://localhost:3000/auth/register",
-          data: {
-            user,
-          },
+        const hebrewDate = await axios.post(`api/post/convertdate`, {
+          date,
         });
-        console.log(newuser)
-        if(newuser.data.status === 201) {
-          this.showError = true;
-          this.errorMessage = newuser.data.message;
-        }
-        else if (newuser.data.status === 200) {
-          this.$router.push("/login");
-        } else {
-          this.showError = true;
-          this.errorMessage = newuser.data.message;
+        if (hebrewDate) {
+          this.uploaderDOBHebrewMessage = `Your Jewish Date of birth is ${hebrewDate.data.date} ${hebrewDate.data.month_name} ${hebrewDate.data.year}`;
+          this.uploaderDOBHebrew = `${hebrewDate.data.date}-${hebrewDate.data.month_name}-${hebrewDate.data.year}`;
         }
       } catch (error) {
-        this.showError = true;
-        this.errorMessage = error;
+        console.log(error);
       }
     },
   },
@@ -136,4 +94,52 @@ export default {
 
 
 <style scoped>
+.image-header {
+  position: relative;
+  text-align: center;
+}
+
+.header-text.desktop {
+  font-size: 6rem;
+}
+.header-text.tablet {
+  font-size: 4rem;
+}
+.header-text {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.header-text-wrapper {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.b-form-btn-label-control.form-control {
+  width: 60%;
+  font-size: 2rem;
+}
+.hebrew-convert-button {
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+.register-button {
+  margin-top: 2rem;
+  width: 31rem;
+  height: 6rem;
+  color: #fff;
+  border-radius: 4rem;
+  font-size: 2.6rem;
+  font-weight: bold;
+  background: #ef91dc;
+}
+
+.login-text {
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #ef91dc;
+  text-decoration: none;
+}
 </style>

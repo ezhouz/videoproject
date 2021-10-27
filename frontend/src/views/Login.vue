@@ -1,20 +1,59 @@
 <template>
   <section>
-    <article>
-      <h2>Log In</h2>
-      <form @submit.prevent="loginUser(email, password)">
-        <label for="email">Email</label>
-        <input v-model="email" type="email" name="email" id="email" />
-
-        <label for="password">Password</label>
-        <input
-          v-model="password"
-          type="password"
-          name="password"
-          id="password"
+    <article class="image-header">
+      <div class="header-image-wrapper">
+        <img
+          src="../../public/images/register/Intersection_3_bl.png"
+          alt=""
+          class="header-image"
         />
+      </div>
+      <div class="header-text-wrapper">
+        <h1 class="header-text" :class="$mq">
+          LOGIN TO SUBMIT A VIDEO
+        </h1>
+      </div>
+    </article>
+    <article>
+      <div v-if="showError">
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+      <form style="margin: 7rem" @submit.prevent="loginUser(email, password)">
+        <b-form-group id="email" label="Email:" label-for="email">
+          <b-form-input
+            id="email"
+            v-model="email"
+            type="email"
+            placeholder="Email"
+            required
+          ></b-form-input>
+        </b-form-group>
 
-        <button>Log In</button>
+        <b-form-group id="password" label="Password:" label-for="password">
+          <b-form-input
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button
+          style="
+            width: 100%;
+            margin-top: 2rem;
+            background: #febf59;
+            border-radius: 4rem;
+            height: 4rem;
+            font-size: 2rem;
+            border: none;
+          "
+          type="submit"
+          >Login</b-button
+        >
       </form>
     </article>
   </section>
@@ -35,16 +74,14 @@ export default {
   },
   methods: {
     async loginUser(email, password) {
-      console.log(email, password);
       try {
-        const loggedInUser = await axios.post(
-          "http://localhost:3000/auth/login",
-          { email, password }
-        );
-        console.log(loggedInUser);
+        const loggedInUser = await axios.post(`api/auth/login`, {
+          email,
+          password,
+        });
 
         if (loggedInUser) {
-          localStorage.setItem('chabadtoken', loggedInUser.data.token);
+          localStorage.setItem("chabadtoken", loggedInUser.data.token);
           this.$router.push({
             name: "UploadVideo",
           });
@@ -62,4 +99,30 @@ export default {
 
 
 <style scoped>
+form div {
+  font-size: 1.6rem;
+}
+.image-header {
+  position: relative;
+  text-align: center;
+}
+
+.header-text.desktop {
+  font-size: 6rem;
+}
+.header-text.tablet {
+  font-size: 4rem;
+}
+.header-text {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.header-text-wrapper {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

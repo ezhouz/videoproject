@@ -8,15 +8,16 @@ require("../../config/passport")(passport);
 const jwt = require("jsonwebtoken");
 const { validateMyToken } = require("./authcheck");
 
-const SmeeClient = require("smee-client");
+if (process.env.NODE_ENV !== "production") {
+  const SmeeClient = require("smee-client");
 
-const smee = new SmeeClient({
-  source: process.env.WEBHOOK_PROXY_URL,
-  target: "http://localhost:3000/post/created-video-info",
-  logger: console,
-});
-
-const events = smee.start();
+  const smee = new SmeeClient({
+    source: process.env.WEBHOOK_PROXY_URL,
+    target: "http://localhost:3001/post/created-video-info",
+    logger: console,
+  });
+  smee.start();
+}
 
 const stripe = require("stripe")(
   "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
@@ -58,7 +59,7 @@ router.post("/create-checkout-session", async (req, res) => {
         adjustable_quantity: {
           enabled: true,
           minimum: 1,
-          maximum: 1000
+          maximum: 1000,
         },
         price_data: {
           product_data: {
@@ -115,7 +116,7 @@ router.post("/processvid", async (req, res) => {
 let muxVideoId = "";
 
 router.post("/created-video-info", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   if (req.body.type === "video.asset.created") {
     muxVideoId = req.body.object.id;
   }

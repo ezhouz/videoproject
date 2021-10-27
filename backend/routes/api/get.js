@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const uploaderInfo = require("../../db/models/uploaderInfo");
+const {validateMyToken} = require("./authcheck");
 
 router.get("/getuser", async (req, res) => {
     const token = req.headers.authorization.split(" ")[1];

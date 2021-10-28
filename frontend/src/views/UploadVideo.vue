@@ -124,7 +124,6 @@ export default {
 
       if (newVideoUpload.status === 200) {
         this.newVideoOptions.uploaderId = this.loggedInUser.id;
-        this.newVideoOptions.videoUploadId = newVideoUpload.data.id;
         this.newVideoOptions.uploaderEmail = this.loggedInUser.email;
         this.newVideoOptions.uploadedVideoFileName = this.uploadedVideoFileName;
 

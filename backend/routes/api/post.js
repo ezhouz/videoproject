@@ -19,9 +19,7 @@ if (process.env.NODE_ENV !== "production") {
   smee.start();
 }
 
-const stripe = require("stripe")(
-  "sk_test_51JiQROLdf9pUITPXjFVhN1U57TFuK9XUeZZJ68erb9xDTOl8fRQSELgfpZwgZ0KO1prHmJBVX9M0KplNtbwMvVw6000ZPp9YTs"
-);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 async function createVoteRecord(
   muxVideoId,
@@ -97,7 +95,10 @@ router.post("/processvid", async (req, res) => {
   });
 });
 
-let muxVideoId = "";
+
+let muxVideoAssetId = "";
+let muxVideoPlaybackId = "";
+
 let token = Buffer.from(
   `${process.env.MUX_TOKEN_ID}:${process.env.MUX_TOKEN_SECRET}`,
   "utf8"
@@ -113,21 +114,22 @@ let config = {
 // webhook response. supposed to get the playback id
 router.post("/created-video-info", (req, res) => {
   if (req.body.type === "video.asset.created") {
-    muxVideoId = req.body.object.id;
+    muxVideoAssetId = req.body.object.id;
   }
+  console.log(muxVideoAssetId)
 });
 
 // where all the issues are happening
 router.post("/create-new-product", async (req, res) => {
   try {
     const singlevideo = await axios.get(
-      `http://api.mux.com/video/v1/assets/00WhQbIeu42SPuU52WJO01ksJjXQ8b66BjZDiWvGiJ87w`,
+      `http://api.mux.com/video/v1/assets/${muxVideoAssetId}`,
       config
     );
-    console.log(singlevideo)
+    console.log(singlevideo);
 
     if (singlevideo.data.data) {
-      muxVideoId = singlevideo.data.data["playback_ids"][0].id;
+      muxVideoPlaybackId = singlevideo.data.data["playback_ids"][0].id;
     } else {
       res.json({
         message: "No video found",
@@ -158,9 +160,8 @@ router.post("/create-new-product", async (req, res) => {
             currency: "usd",
           });
           if (stripePrice) {
-        
             createVoteRecord(
-              muxVideoId,
+              muxVideoPlaybackId,
               uploadedVideoFileName,
               newStripeProduct.id,
               stripePrice.id,

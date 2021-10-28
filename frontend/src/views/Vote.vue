@@ -23,6 +23,7 @@
     </section>
 
     <VideoList />
+    <Telethon />
 
   </div>
 </template>
@@ -30,11 +31,13 @@
 <script>
 import axios from "axios";
 import VideoList from "../components/VideoList.vue";
+import Telethon from "../components/Telethon.vue"
 
 export default {
   name: "Votes",
   components: {
-    VideoList
+    VideoList,
+    Telethon
   },
   data() {
     return {

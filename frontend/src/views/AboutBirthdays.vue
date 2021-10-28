@@ -155,6 +155,15 @@ export default {
   font-size: 3rem;
   font-weight: 900;
 }
+.header-text-wrapper {
+  width: 90%;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .so-great-image-container {
 }
 .so-great-image {
@@ -181,15 +190,6 @@ export default {
 .thats-why-mobile {
   margin-top: 2rem;
   font-size: 1.6rem;
-}
-
-.header-text-wrapper {
-  width: 90%;
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @media (min-width: 600px) {

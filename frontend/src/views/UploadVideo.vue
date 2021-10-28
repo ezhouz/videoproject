@@ -1,33 +1,52 @@
 <template>
   <section>
+
+     <article class="image-header">
+      <div class="header-image-wrapper">
+        <img
+          src="../../public/images/register/Intersection_3_bl.png"
+          alt=""
+          class="header-image"
+        />
+      </div>
+      <div class="header-text-wrapper">
+        <h1 class="header-text" :class="$mq">
+          UPLOAD YOUR VIDEO FOR THE CONTEST
+        </h1>
+      </div>
+    </article>
+
     <article class="messages">
       <div v-if="showError" class="errorMessage">
         {{ uploadErrorMessage }}
       </div>
 
       <div v-if="loggedInUser" class="user-info">
-        {{ loggedInUser.firstname }}
-        {{ loggedInUser.lastname }}
-        {{ loggedInUser.email }}
-        {{ loggedInUser.hebrewDOB }}
+        <h3>Uploader Information</h3>
+        <ul>
+          <li>First Name: {{ loggedInUser.firstname }}</li>
+          <li>Last Name: {{ loggedInUser.lastname }}</li>
+          <li>Email Address: {{ loggedInUser.email }}</li>
+          <li>Jewish Date of Birth: {{ loggedInUser.hebrewDOB }}</li>
+        </ul>
       </div>
     </article>
-    <article>
+    <article style="display: flex; justify-content: center; font-size: 2rem">
 
 
-  <b-form-group label="Drand and drop video here:" label-cols-sm="2" label-size="lg">
+  <!-- <b-form-group label="Drand and drop video here:" label-cols-sm="2" label-size="lg">
     <b-form-file id="uploadedVideoFile" size="lg" accept="video/*"
     @change="getFileName"
     ></b-form-file>
-  </b-form-group>
+  </b-form-group> -->
 
 
-      <!-- <input
+      <input
         @change="getFileName"
         id="uploadedVideoFile"
         type="file"
         accept="video/*"
-      /> -->
+      />
       <button @click="uploadVideo(uploadedVideoFile)">Upload Video File</button>
     </article>
     <article>
@@ -120,8 +139,6 @@ export default {
         data: {},
       });
 
-      console.log(newVideoUpload)
-
       if (newVideoUpload.status === 200) {
         this.newVideoOptions.uploaderId = this.loggedInUser.id;
         this.newVideoOptions.uploaderEmail = this.loggedInUser.email;
@@ -167,4 +184,41 @@ export default {
 </script>
 
 <style scoped>
+.image-header {
+  position: relative;
+  text-align: center;
+}
+.header-text.desktop {
+  font-size: 6rem;
+}
+.header-text.tablet {
+  font-size: 4rem;
+}
+.header-text {
+  font-size: 3rem;
+  font-weight: 900;
+}
+.header-text-wrapper {
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.user-info {
+  margin: 3rem;
+}
+
+.user-info h3 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+.user-info ul {
+  list-style: none;
+}
+.user-info li {
+  font-size: 2rem;
+}
+
 </style>

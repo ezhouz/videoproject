@@ -136,6 +136,7 @@ export default {
 <style>
  .submission-container {
   display: flex;
+  flex-wrap: wrap;
 }
 /*
 .player-wrapper,

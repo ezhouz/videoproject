@@ -116,16 +116,19 @@ router.post("/created-video-info", (req, res) => {
   if (req.body.type === "video.asset.created") {
     muxVideoAssetId = req.body.object.id;
   }
-  console.log(muxVideoAssetId)
 });
 
 // where all the issues are happening
 router.post("/create-new-product", async (req, res) => {
+  
+  console.log('asset id')
+  console.log(muxVideoAssetId)
   try {
     const singlevideo = await axios.get(
       `http://api.mux.com/video/v1/assets/${muxVideoAssetId}`,
       config
     );
+    console.log('responded')
     console.log(singlevideo);
 
     if (singlevideo.data.data) {

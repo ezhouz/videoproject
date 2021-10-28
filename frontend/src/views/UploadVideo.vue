@@ -13,12 +13,21 @@
       </div>
     </article>
     <article>
-      <input
+
+
+  <b-form-group label="Drand and drop video here:" label-cols-sm="2" label-size="lg">
+    <b-form-file id="uploadedVideoFile" size="lg" accept="video/*"
+    @change="getFileName"
+    ></b-form-file>
+  </b-form-group>
+
+
+      <!-- <input
         @change="getFileName"
         id="uploadedVideoFile"
         type="file"
         accept="video/*"
-      />
+      /> -->
       <button @click="uploadVideo(uploadedVideoFile)">Upload Video File</button>
     </article>
     <article>
@@ -111,7 +120,7 @@ export default {
         data: {},
       });
 
-      console.log(newVideoUpload);
+      console.log(newVideoUpload)
 
       if (newVideoUpload.status === 200) {
         this.newVideoOptions.uploaderId = this.loggedInUser.id;
@@ -131,7 +140,7 @@ export default {
             this.showUploadError = true;
             this.uploadErrorMessage = err.detail;
             console.error("💥 🙀", err.detail);
-          });
+          }); 
 
           upload.on("progress", (progress) => {
             this.progress = progress.detail;

@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== "production") {
 
   const smee = new SmeeClient({
     source: process.env.WEBHOOK_PROXY_URL,
-    target: "http://localhost:3001/post/created-video-info",
+    target: "http://localhost:3001/api/post/created-video-info",
     logger: console,
   });
   smee.start();
@@ -53,30 +53,14 @@ async function createVoteRecord(
 
 router.post("/create-checkout-session", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: req.body.priceId,
-        adjustable_quantity: {
-          enabled: true,
-          minimum: 1,
-          maximum: 1000,
-        },
-        price_data: {
-          product_data: {
-            name: "T-shirt",
-          },
-          unit_amount: 2000,
-        },
-        quantity: 1,
-      },
-    ],
     payment_method_types: ["card"],
+    line_items: req.body.products,
     mode: "payment",
-    success_url: `${YOUR_DOMAIN}/success.html`,
-    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+    success_url: "http://localhost:3001/vote",
+    cancel_url: "http://localhost:3001/vote",
   });
 
-  res.redirect(303, session.url);
+  res.json({ id: session.id });
 });
 
 router.post("/validatetoken", (req, res) => {
@@ -127,33 +111,25 @@ let config = {
 };
 
 router.post("/created-video-info", (req, res) => {
-  console.log(req.body);
   if (req.body.type === "video.asset.created") {
     muxVideoId = req.body.object.id;
   }
 });
 
-router.get("/testmux", async (req, res) => {
-  
-  
-});
-
 router.post("/create-new-product", async (req, res) => {
-
-  let muxVideoId = '';
-
   try {
     const singlevideo = await axios.get(
-      `http://api.mux.com/video/v1/assets/y2BA3JOLKfazscnKIMhvfswQRY9Epsm302mB02e3eN1yg`,
+      `http://api.mux.com/video/v1/assets/00WhQbIeu42SPuU52WJO01ksJjXQ8b66BjZDiWvGiJ87w`,
       config
     );
-   
-    if(singlevideo.data.data) {
-      muxVideoId = singlevideo.data.data["playback_ids"][0].id
+    console.log(singlevideo)
+
+    if (singlevideo.data.data) {
+      muxVideoId = singlevideo.data.data["playback_ids"][0].id;
     } else {
       res.json({
-        message: 'No video found'
-      })
+        message: "No video found",
+      });
     }
   } catch (error) {
     res.send(error);

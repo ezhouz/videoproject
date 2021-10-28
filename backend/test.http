@@ -4,9 +4,34 @@ Content-Type: application/json
 {
     "date": "2020-01-05"
 }
+###
+
+POST http://localhost:3001/api/auth/password-reset
+Content-Type: application/json
+
+{
+    "email": "info@jewishbirthdaymakeover.com"
+}
 
 ###
 
+POST http://localhost:3001/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2MzUzNzkxMjgsImV4cCI6MTYzNTQ2NTUyOH0.Ro661t1Mon3FVInZJue-NRJePwTyj6R1em-0QRQQFmg
+
+
+###
+
+
+POST   http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2MzUzNzUzODQsImV4cCI6MTYzNTQ2MTc4NH0.aQVpogiac5npg-IbBp6ja-GVetTypfGwDqiCm9YQULU
+
+
+###
+POST http://localhost:3001/api/auth/test
+Content-Type: application/json
+
+{
+    
+}
+###
 POST http://localhost:3001/api/auth/register/
 Content-Type: application/json
 
@@ -14,7 +39,7 @@ Content-Type: application/json
     "user": {
         "firstname": "meedia",
         "lastname": "bloke",
-        "email": "mediablokedeals2@gmail.com",
+        "email": "info@jewishbirthdaymakeover.com",
         "password": "password",
         "passwordRepeat": "password",
         "uploaderDOBEnglish": "2020-10-13",
@@ -28,7 +53,7 @@ POST http://localhost:3001/api/auth/login/
 Content-Type: application/json
 
 {
-    "email": "mediablokedeals2@gmail.com",
+    "email": "info@jewishbirthdaymakeover.com",
     "password": "password"
 }
 
@@ -48,8 +73,46 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInVwbG9hZ
 
 
 ###
-POST http://localhost:3001/api/post/created-video-info/
+POST http://localhost:3001/api/post/create-new-product
 Content-Type: application/json
+
+{
+
+}
 ###
 GET http://localhost:3000/getall/allvideos
 
+###
+POST http://localhost:3001/api/post/create-checkout-session
+Content-Type: application/json
+
+{
+	"products": [{
+			"adjustable_quantity": {
+				"enabled": true,
+				"minimum": 1,
+				"maximum": 999
+			},
+			"price_data": {
+                "currency": "usd",
+                "unit_amount": 2000,
+                "product_data": {
+                    "name": "SampleVideo_1280x720_2mb.mp4"
+                    }
+                },
+            
+			"quantity": 1
+		}
+	]
+}
+
+###
+GET http://api.mux.com/video/v1/assets/00WhQbIeu42SPuU52WJO01ksJjXQ8b66BjZDiWvGiJ87w
+Authorization: Basic YmU2NDQyNmQtMjAzMC00ZmRjLTk1MDYtMWQwZWQwNGE3M2EzOmlMSVB6RDFxSUpoRW1UUzBFNHlGbVFkd3BJSEZ2T0ZLWjA0N2NRanlDcm1MaTNRcnFROG9WelA2ZHFsTXM1OXpJamcyTnpxZElZZg==
+Content-Type: text/plain
+###
+POST http://localhost:3001/api/post/mux
+
+{
+    "videoUploadId": "jF7dgXJgN1qsVaGB56c1KzVwTd9K700ynAH01OaTyYF800"
+}

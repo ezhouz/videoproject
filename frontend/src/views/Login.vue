@@ -9,17 +9,10 @@
         />
       </div>
       <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">
-          LOGIN TO SUBMIT A VIDEO
-        </h1>
+        <h1 class="header-text" :class="$mq">LOGIN TO SUBMIT A VIDEO</h1>
       </div>
     </article>
     <article>
-      <div v-if="showError">
-        <div class="alert alert-danger" role="alert">
-          {{ errorMessage }}
-        </div>
-      </div>
       <form style="margin: 7rem" @submit.prevent="loginUser(email, password)">
         <b-form-group id="email" label="Email:" label-for="email">
           <b-form-input
@@ -40,7 +33,11 @@
             required
           ></b-form-input>
         </b-form-group>
-
+        <div v-if="showError">
+          <div class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
+        </div>
         <b-button
           style="
             width: 100%;
@@ -80,14 +77,14 @@ export default {
           password,
         });
 
-        if (loggedInUser) {
+        if (loggedInUser.data.status === 401) {
+          this.showError = true;
+          this.errorMessage = `${loggedInUser.data.message}`
+        } else {
           localStorage.setItem("chabadtoken", loggedInUser.data.token);
           this.$router.push({
             name: "UploadVideo",
           });
-        } else {
-          this.showError = true;
-          this.errorMessage = loggedInUser;
         }
       } catch (error) {
         console.log(error);

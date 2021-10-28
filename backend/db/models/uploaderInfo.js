@@ -25,6 +25,10 @@ const uploaderInfo = db.define('uploaderInfo', {
   uploaderDOBHebrew: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  uploaderIsConfirmed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   freezeTableName: true,

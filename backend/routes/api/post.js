@@ -110,12 +110,14 @@ let config = {
   },
 };
 
+// webhook response. supposed to get the playback id
 router.post("/created-video-info", (req, res) => {
   if (req.body.type === "video.asset.created") {
     muxVideoId = req.body.object.id;
   }
 });
 
+// where all the issues are happening
 router.post("/create-new-product", async (req, res) => {
   try {
     const singlevideo = await axios.get(
@@ -156,7 +158,7 @@ router.post("/create-new-product", async (req, res) => {
             currency: "usd",
           });
           if (stripePrice) {
-            console.log(muxVideoId);
+        
             createVoteRecord(
               muxVideoId,
               uploadedVideoFileName,

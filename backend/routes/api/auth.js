@@ -131,13 +131,14 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/confirmation/:emailtoken", async (req, res) => {
+router.get("/confirmation/:emailtoken", async (req, res) => {
   try {
     const user = await jwt.verify(
       req.params.emailtoken,
       process.env.EMAIL_SECRET
     );
     if (user) {
+      console.log(user)
       const foundUser = await uploaderInfo.findOne({ where: user.user });
       if (foundUser) {
         console.log(foundUser);
@@ -145,15 +146,12 @@ router.post("/confirmation/:emailtoken", async (req, res) => {
           foundUser.uploaderIsConfirmed = true;
           foundUser.save();
           sendEmail(
-            foundUser.uploaderEmailuploaderEmail,
+            foundUser.uploaderEmail,
             "Account Confirmed",
             "<h2>Your account has been confirmed at jewishbirthdaymakeover.com! Mazal Tov!" +
             "</h2><h3>Please <a href='jewishbirthdaymakeover.com/vote'>Click here to log and post your video.</a></h3>"
           );
-          res.send({
-            status: 200,
-            message: "user confirmed",
-          });
+          res.redirect("/login");
         } catch (error) {
           res.send(error);
         }

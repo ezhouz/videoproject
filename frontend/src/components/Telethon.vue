@@ -1,5 +1,6 @@
 <template>
   <section style="margin-bottom: 5rem">
+    <hr class="telethon-hr">
     <div style="width: 16rem; margin: 2rem 0">
       <img
         style="width: 100%; height: auto"
@@ -27,6 +28,12 @@ export default {
 </script>
 
 <style scoped>
+.telethon-hr {
+  border-top: 7px solid #febf59;
+  width: 50%;
+  display: inline-block;
+  margin-top: 8rem;
+}
 p {
   font-size: 1.2rem;
 }

@@ -21,7 +21,8 @@ POST http://localhost:3001/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6I
 ###
 
 
-POST   http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxMSwiaWF0IjoxNjM1NDc3NTU5LCJleHAiOjE2MzU1NjM5NTl9.RPn58CyoinnwnCPzxiUGO-0uJhPun3Zp1jAypWUpLMU
+GET  http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxNCwiaWF0IjoxNjM1NDg5NzA5LCJleHAiOjE2MzU1NzYxMDl9.fzSxGJKfOrF72d-FYYCkwzlZFE7fTAisl0X8pqZNKdY
+
 ###
 POST http://localhost:3001/api/auth/test
 Content-Type: application/json
@@ -37,7 +38,7 @@ Content-Type: application/json
     "user": {
         "firstname": "meedia",
         "lastname": "bloke",
-        "email": "info@jewishbirthdaymakeover.com",
+        "email": "yyitzinger@gmail.com",
         "password": "password",
         "passwordRepeat": "password",
         "uploaderDOBEnglish": "2020-10-13",
@@ -51,7 +52,7 @@ POST http://localhost:3001/api/auth/login/
 Content-Type: application/json
 
 {
-    "email": "info@jewishbirthdaymakeover.com",
+    "email": "yyitzinger@gmail.com",
     "password": "password"
 }
 

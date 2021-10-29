@@ -14,26 +14,37 @@
       </ul>
     </article>
     <article class="countdown-numbers">
-      {{ timeRemaining }}
       <div>
         <div class="countdown-image-container countdown-days">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number"></div>
+          <div class="countdown-number-wrapper">
+            <h3>{{timeRemaining.days}}</h3>
+            <h5>Days</h5>
+          </div>
         </div>
         <div class="countdown-image-container countdown-hours">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number">10</div>
+          <div class="countdown-number-wrapper">
+            <h3>{{timeRemaining.minutes}}</h3>
+            <h5>Minutes</h5>
+          </div>
         </div>
       </div>
 
       <div>
         <div class="countdown-image-container countdown-minutes">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number">10</div>
+         <div class="countdown-number-wrapper">
+            <h3>{{timeRemaining.hours}}</h3>
+            <h5>Hours</h5>
+          </div>
         </div>
         <div class="countdown-image-container countdown-seconds">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number">10</div>
+          <div class="countdown-number-wrapper">
+            <h3>{{timeRemaining.seconds}}</h3>
+            <h5>Seconds</h5>
+          </div>
         </div>
       </div>
     </article>
@@ -46,7 +57,7 @@ export default {
   data() {
     return {
       eventListItems: ["Contest Winners", "Celebration", "Birthday Presents"],
-      timeRemaining: {},
+      timeRemaining: null,
     };
   },
   methods: {
@@ -75,6 +86,9 @@ export default {
       }, 1000);
     },
   },
+  created() {
+    this.countdown()
+  }
 };
 </script>
 
@@ -82,14 +96,22 @@ export default {
 .countdown-numbers {
   display: flex;
 }
-.countdown-number {
-  display: block;
+.countdown-number-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
-  font-size: 9rem;
+}
+.countdown-number-wrapper h3 {
+  font-size: 7rem;
+}
+.countdown-number-wrapper h5 {
+  font-size: 3rem;
 }
 .countdown-image-container {
   width: 15rem;

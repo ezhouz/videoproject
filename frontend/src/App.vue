@@ -97,14 +97,17 @@ html {
   font-size: 1.6rem;
 }
 .icon-yellow-wrapper {
-  height: 2rem;
-  width: 2rem;
+  height: 3rem;
+  width: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1rem;
   background: #febf59;
   border-radius: 50%;
+}
+.icon-yellow-wrapper a {
+  font-size: 1.6rem;
 }
 .nav-item {
   font-size: 1.8rem;

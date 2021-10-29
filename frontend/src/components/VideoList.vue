@@ -26,6 +26,9 @@
               <h3>Name: {{ video.uploadedVideoFileName }}</h3>
               <h3>Votes: {{ video.voteTally }}</h3>
             </div>
+            <div v-if="addedToCart" class="messages">
+              {{ addedToCartMessage }}
+            </div>
             <div class="video-form">
               <b-input-group>
                 <b-input-group-prepend>
@@ -96,7 +99,9 @@ export default {
       loadError: false,
       loadErrorMessge: "",
       videos: [],
-      cart: [],
+      cartForDisplay: [],
+      addedToCart: false,
+      addedToCartMessage: "Succesfully added to cart",
     };
   },
   async created() {
@@ -136,6 +141,12 @@ export default {
       this.loadErrorMessge = "Error loading videos";
       console.log(error);
     }
+
+    const onCreateLocalCartExistingItems = localStorage.getItem("shoppingCart");
+    let onCreateLocalCartExistingItemsFormatted = JSON.parse(
+      onCreateLocalCartExistingItems
+    );
+    this.cartForDisplay = onCreateLocalCartExistingItemsFormatted;
   },
   methods: {
     changeVoteCount(operator = null, number, id) {
@@ -154,30 +165,35 @@ export default {
     },
 
     addToCart(name, newVotes, thumbnail, id) {
-      console.log(typeof newVotes)
-      const inCart = localStorage.getItem("shoppingCart");
-      let inCartFormatted = JSON.parse(inCart);
-      console.log(inCartFormatted);
+      const localCartExistingItems = localStorage.getItem("shoppingCart");
+      let localCartExistingItemsFormatted = JSON.parse(localCartExistingItems);
 
-      //check if the cart is empty
-      if (inCartFormatted) {
+      if (localCartExistingItemsFormatted) {
         //check if the product is in the cart
-        let existing = inCartFormatted
+        let existing = localCartExistingItemsFormatted
           .map((product) => product.name)
           .includes(name);
-        
-        if (existing) {
+
+        if (!existing) {
+          localCartExistingItemsFormatted.push({
+            name,
+            newVotes: newVotes,
+            thumbnail,
+            id,
+          });
+          this.addUpdateLocalCart(localCartExistingItemsFormatted);
           //loop through the products and add newvotes to the produt in the cart
-          inCartFormatted.forEach((product) => {
+        } else {
+          localCartExistingItemsFormatted.forEach((product) => {
             if (product.name === name) {
-               product.newVotes += newVotes
-               console.log(product)
-               return product
+              let newVotesParsed = parseInt(newVotes);
+              let existingVotesNumber = parseInt(product.newVotes, 10);
+              existingVotesNumber += newVotesParsed;
+              product.newVotes = existingVotesNumber;
+              return product;
             }
           });
-        } else {
-          inCartFormatted.push({ name, newVotes, thumbnail, id });
-          this.addUpdateLocalCart(inCartFormatted);
+          this.addUpdateLocalCart(localCartExistingItemsFormatted);
         }
       } else {
         // if the cart is empty, push the new product
@@ -186,13 +202,17 @@ export default {
     },
 
     addUpdateLocalCart(cart) {
-      console.log(cart)
-      localStorage.setItem("shoppingCart", JSON.stringify(cart));
+      const cartString = JSON.stringify(cart)
+      localStorage.setItem("shoppingCart", cartString);
+      let updatedCart = localStorage.getItem("shoppingCart");
+      let updatedCartParsed = JSON.parse(updatedCart);
+      this.cartForDisplay = updatedCartParsed;
+      location.reload();
     },
 
     async submitStripePayment() {
       let formattedProducts = [];
-      this.cart.forEach((product) => {
+      this.cartForDisplay.forEach((product) => {
         formattedProducts.push({
           adjustable_quantity: {
             enabled: true,

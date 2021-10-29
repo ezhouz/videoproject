@@ -20,6 +20,9 @@
 
 export default {
   name: "Success",
+  created() {
+    localStorage.removeItem("shoppingCart")
+  }
 };
 </script>
 

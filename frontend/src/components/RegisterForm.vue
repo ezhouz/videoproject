@@ -1,16 +1,20 @@
 <template>
   <article>
-    <div v-if="showError">
-      <div class="alert alert-danger" role="alert">
-        {{ errorMessage }}
+    <div style="font-size: 1.6rem">
+      <div v-if="showError">
+        <div v-for="(message, index) in errorMessages" :key="index" class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      </div>
+      <div v-if="showSuccess">
+        <div class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
       </div>
     </div>
-    <form @submit.prevent="registerUser(user)">
-      <b-form-group
-        id="firstname"
-        label="First Name:"
-        label-for="firstname"
-      >
+
+    <form v-if="showForm" @submit.prevent="registerUser(user)">
+      <b-form-group id="firstname" label="First Name:" label-for="firstname">
         <b-form-input
           id="firstname"
           v-model="user.firstname"
@@ -20,11 +24,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="lastname"
-        label="Last Name:"
-        label-for="lastname"
-      >
+      <b-form-group id="lastname" label="Last Name:" label-for="lastname">
         <b-form-input
           id="lastname"
           v-model="user.lastname"
@@ -34,11 +34,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="email"
-        label="Email:"
-        label-for="email"
-      >
+      <b-form-group id="email" label="Email:" label-for="email">
         <b-form-input
           id="email"
           v-model="user.email"
@@ -48,16 +44,12 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="password"
-        label="Password:"
-        label-for="password"
-      >
+      <b-form-group id="password" label="Password:" label-for="password">
         <b-form-input
           id="password"
           v-model="user.password"
           type="password"
-          placeholder="Password"
+          placeholder="Passwords must be at least 8 characters"
           required
         ></b-form-input>
       </b-form-group>
@@ -75,7 +67,18 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button style="width: 100%; background: #febf59; border-radius: 4rem; height: 4rem; font-size: 2rem; border: none;" type="submit">Submit</b-button>
+      <b-button
+        style="
+          width: 100%;
+          background: #febf59;
+          border-radius: 4rem;
+          height: 4rem;
+          font-size: 2rem;
+          border: none;
+        "
+        type="submit"
+        >Submit</b-button
+      >
     </form>
   </article>
 </template>
@@ -89,7 +92,10 @@ export default {
   data() {
     return {
       showError: false,
-      errorMessage: "",
+      errorMessages: [],
+      showSuccess: false,
+      successMessage: "",
+      showForm: true,
       user: {
         firstname: "",
         lastname: "",
@@ -101,12 +107,20 @@ export default {
   },
   methods: {
     async registerUser(userInput) {
+      
+      this.errorMessages = [];
       const user = userInput;
+      console.log(user.password.length)
 
       if (user.password !== user.passwordrepeat) {
         this.showError = true;
-        this.errorMessage = "Passwords don't match";
+        this.errorMessages.push("Passwords don't match");
         return;
+      }
+      if(user.password.length < 8) {
+        this.showError = true;
+        this.errorMessages.push("Password must be at least 8 characters")
+        return
       }
       user.uploaderDOBEnglish = this.engdob;
       user.uploaderDOBHebrew = this.hebdob;
@@ -119,7 +133,9 @@ export default {
           this.showError = true;
           this.errorMessage = newuser.data.message;
         } else if (newuser.data.status === 200) {
-          this.$router.push("/login");
+          this.showSuccess = true;
+          this.successMessage = newuser.data.message;
+          this.showForm = false;
         } else {
           this.showError = true;
           this.errorMessage = newuser.data.message;
@@ -137,5 +153,4 @@ export default {
 form div {
   font-size: 1.6rem;
 }
-
 </style>

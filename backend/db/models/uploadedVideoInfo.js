@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dbconfig');
 
 const uploadedVideoInfo = db.define('uploaderInfo', {
+  // user uploader id
   uploaderId: {
     type: DataTypes.STRING,
     allowNull: false
@@ -11,6 +12,10 @@ const uploadedVideoInfo = db.define('uploaderInfo', {
     allowNull: false
   },
   videoUploadId: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  videoPlaybackId: {
     type: DataTypes.STRING,
     allowNull: false
   },

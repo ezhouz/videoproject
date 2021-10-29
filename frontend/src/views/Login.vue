@@ -65,8 +65,8 @@ export default {
     return {
       showError: false,
       errorMessage: "",
-      email: "mediablokedeals@gmail.com",
-      password: "password",
+      email: "",
+      password: "",
     };
   },
   methods: {

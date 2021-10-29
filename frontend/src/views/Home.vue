@@ -2,50 +2,70 @@
   <section>
     <article class="image-header">
       <div class="header-image-wrapper">
-        <img
-          src="../../public/images/home/Intersection 4.png"
-          alt=""
-          class="header-image"
-        />
-
-        <div style="display: flex">
-          <div>
-            <div class="header-text-wrapper">
-              <h1 class="header-text" :class="$mq">Let’s celebrate you.</h1>
-              <h1 class="header-text" :class="$mq">The Jewish way.</h1>
-              <h2 class="header-text-h2" :class="$mq">
-                The Jewish Birthday Makeover Contest
-              </h2>
-              <h3 class="header-text-h3" :class="$mq">
-                HELP CHABAD OF MINEOLA SAVE LIVES.
-              </h3>
-            </div>
-            <div class="button-wrapper">
-              <button class="learn-more-button">Learn More</button>
-            </div>
+        <div class="header-text-wrapper">
+          <h1 class="header-text" :class="$mq">Let’s celebrate you.</h1>
+          <h1 class="header-text" :class="$mq">The Jewish way.</h1>
+          <h2 class="header-text-h2" :class="$mq">
+            The Jewish Birthday Makeover Contest
+          </h2>
+          <h3 class="header-text-h3" :class="$mq">
+            HELP CHABAD OF MINEOLA SAVE LIVES.
+          </h3>
+          <div class="button-wrapper">
+            <button class="learn-more-button">Learn More</button>
           </div>
+        </div>
 
-          <div class="header-secondary-images">
-            <div class="header-secondary-image-1">
-              <img src="../../public/images/home/Group 511.png" alt="" />
-            </div>
-            <div class="header-secondary-image-2">
-              <img src="../../public/images/home/Group 359.png" alt="" />
-            </div>
+        <div class="header-secondary-images">
+          <!-- <div class="header-secondary-image-1">
+            <img src="../../public/images/home/Group 511.png" alt="" />
           </div>
+          <div class="header-secondary-image-2">
+            <img src="../../public/images/home/Group 359.png" alt="" />
+          </div> -->
         </div>
       </div>
     </article>
     <Countdown />
+
+    <div class="once-a-year-wrapper">
+      <h2>Who says birthdays come only once a year?</h2>
+      <h2>
+        Enter the contest. <span style="color: #ef91dc">CELEBRATE NOW.</span>
+      </h2>
+    </div>
+
+    <div class="home-temp-buttons">
+      <div class="home-temp-button-container" style="margin-top: 3rem">
+        <a href="/about-birthdays"
+          ><button style="background: #ef91dc">
+            When is my Jewish birthday?
+          </button></a
+        >
+      </div>
+      <div class="home-temp-button-container">
+        <a href="/uploadvideo"
+          ><button style="background: #699af1">Enter the contest</button></a
+        >
+      </div>
+      <div class="home-temp-button-container">
+        <a href="/vote"
+          ><button style="background-color: #ef91dc">Vote</button></a
+        >
+      </div>
+    </div>
+    <Telethon />  
   </section>
 </template>
 
 <script>
-import Countdown from "../components/Countodwn.vue";
+import Countdown from "../components/Countdown.vue";
+import Telethon from "../components/Telethon.vue";
 export default {
   name: "Home",
   components: {
     Countdown,
+    Telethon
   },
   data() {
     return {};
@@ -55,6 +75,35 @@ export default {
 
 
 <style scoped>
+.home-temp-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-temp-buttons button {
+  min-width: 50rem;
+  height: 5rem;
+  border: none;
+  font-size: 3rem;
+  font-weight: 700;
+  border-radius: 40px;
+  color: #fff;
+}
+.home-temp-button-container {
+  margin-bottom: 3rem;
+}
+.home-temp-buttons button:hover {
+  opacity: 0.8;
+}
+.once-a-year-wrapper h2 {
+  font-weight: 800;
+  font-size: 5.6rem;
+  color: #699af1;
+}
+.header-image-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
 .header-secondary-images {
   position: absolute;
   top: 0;
@@ -62,17 +111,16 @@ export default {
 }
 .image-header {
   position: relative;
-  text-align: center;
   height: 50rem;
+  background: url("../../public/images/home/Intersection 4.png");
+  background-position: bottom;
 }
 .header-image {
   width: 100%;
   height: auto;
 }
 .button-wrapper {
-  position: absolute;
-  bottom: 6rem;
-  left: 6rem;
+  margin-top: 2rem;
 }
 .learn-more-button {
   background: #fff;

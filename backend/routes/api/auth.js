@@ -7,22 +7,21 @@ const jwt = require("jsonwebtoken");
 const authcheck = require("./authcheck");
 
 const postmark = require("postmark");
-var client = new postmark.ServerClient("59377c79-d6d3-4879-af4e-03f39c9c40b0");
+var client = new postmark.ServerClient(process.env.POSTMARK_SECRET);
 
 function sendEmail(email, subject, emailText) {
-  client.sendEmail({
-    From: "info@jewishbirthdaymakeover.com",
-    To: email,
-    Subject: subject,
-    HtmlBody: emailText,
-    MessageStream: "outbound",
-  });
+  try {
+    client.sendEmail({
+      From: "noreply@jewishbirthdaymakeover.com",
+      To: email,
+      Subject: subject,
+      HtmlBody: emailText,
+      MessageStream: "outbound",
+    });
+  } catch (error) {
+    console.log('issue sending confirmation email')
+  }
 }
-
-router.post("/test", async (req, res) => {
-  const email = await sendEmail();
-  res.send(email);
-});
 
 router.use(passport.initialize());
 
@@ -43,7 +42,7 @@ router.post("/login", async (req, res) => {
     } else if (!user.uploaderIsConfirmed) {
       res.send({
         status: 401,
-        message: "Please confirm your email",
+        message: "Please confirm your email. If you don't see our email in your inbox, please check the spam folder.",
         success: false,
       });
     } else {
@@ -104,16 +103,16 @@ router.post("/register", async (req, res) => {
             { expiresIn: "1d" },
 
             (err, emailToken) => {
-              const url = `http://localhost:3001/api/auth/confirmation/${emailToken}`;
-              const emailText = `<h1>Please confirm your email by clicking this link</h1>: <a href="${url}">${url}</a>`;
-              sendEmail(newUser.uploaderEmail, newUser.subject, emailText);
+              const url = `${process.env.EMAIL_AUTH_URL}/${emailToken}`;
+              const emailText = `<h1>Please confirm your email by clicking this link</h1> <a href="${url}">${url}</a>`;
+              sendEmail(newUser.uploaderEmail, "Confirm your account", emailText);
             }
           );
         }
 
         res.send({
           status: 200,
-          message: "New User Created",
+          message: "Thank you for creating your account. Please click on the link in the email that we sent confirm your email address",
         });
       } catch (error) {
         console.log(error);
@@ -146,9 +145,10 @@ router.post("/confirmation/:emailtoken", async (req, res) => {
           foundUser.uploaderIsConfirmed = true;
           foundUser.save();
           sendEmail(
-            "info@jewishbirthdaymakeover.com",
-            "account confirmed",
-            "your account is working! mazal tov!"
+            foundUser.uploaderEmailuploaderEmail,
+            "Account Confirmed",
+            "<h2>Your account has been confirmed at jewishbirthdaymakeover.com! Mazal Tov!" +
+            "</h2><h3>Please <a href='jewishbirthdaymakeover.com/vote'>Click here to log and post your video.</a></h3>"
           );
           res.send({
             status: 200,
@@ -181,7 +181,7 @@ router.post("/password-reset", async (req, res) => {
         { expiresIn: "1d" },
 
         (err, emailToken) => {
-          const url = `http://localhost:3001/api/auth/password-reset/${emailToken}`;
+          const url = `${process.env.EMAIL_RESET_URL}/${emailToken}` || `http://localhost:3001/api/auth/password-reset/${emailToken}`;
           const emailText = `<h1>Please reset your password by clicking this link</h1>: <a href="${url}">${url}</a>`;
           sendEmail(
             foundUser.uploaderEmail,

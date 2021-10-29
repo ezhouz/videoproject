@@ -7,6 +7,7 @@ import Login from "../views/Login.vue";
 import UploadVideo from "../views/UploadVideo";
 import Logout from "../views/Logout";
 import AboutBirthdays from "../views/AboutBirthdays";
+import Success from "../views/Success";
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/success",
+    name: "Success",
+    component: Success,
   },
   {
     path: "/logout",

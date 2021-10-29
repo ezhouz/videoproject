@@ -139,7 +139,10 @@ export default {
         data: {},
       });
 
+      console.log(newVideoUpload)
+
       if (newVideoUpload.status === 200) {
+        this.newVideoOptions.muxUploadId = newVideoUpload.data.uploadId;
         this.newVideoOptions.uploaderId = this.loggedInUser.id;
         this.newVideoOptions.uploaderEmail = this.loggedInUser.email;
         this.newVideoOptions.uploadedVideoFileName = this.uploadedVideoFileName;

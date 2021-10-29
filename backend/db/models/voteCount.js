@@ -2,9 +2,13 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dbconfig');
 
 const voteCount = db.define('voteCount', {
-  muxVideoId: {
+  muxUploadId: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  muxPlaybackId: {
+    type: DataTypes.STRING,
+    allowNull: true
   },
   uploadedVideoFileName: {
     type: DataTypes.STRING,

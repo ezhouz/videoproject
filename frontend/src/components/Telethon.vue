@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section style="margin-bottom: 5rem">
     <div style="width: 16rem; margin: 2rem 0">
       <img
         style="width: 100%; height: auto"

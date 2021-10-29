@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <article class="image-header">
       <div class="header-image-wrapper">
         <img
@@ -9,38 +9,25 @@
         />
       </div>
       <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">
-          WATCH, VOTE, SUPPORT, CELEBRATE.
-        </h1>
-        <h3 style="font-size: 3rem; margin-top: 2rem">CHABAD OF MINEOLA</h3>
+        <h1 class="header-text" :class="$mq">THANK YOU FOR SUPPORTING CHABAD OF MINEOLA</h1>
       </div>
     </article>
-    <VideoList />
-    <Telethon />
-  </div>
+  
+  </section>
 </template>
 
 <script>
-// import axios from "axios";
-import VideoList from "../components/VideoList.vue";
-import Telethon from "../components/Telethon.vue";
 
 export default {
-  name: "Votes",
-  components: {
-    VideoList,
-    Telethon
-  },
-  data() {
-    return {
-      voteInfo: [],
-      votingData: {},
-    };
-  },
+  name: "Success",
 };
 </script>
 
+
 <style scoped>
+form div {
+  font-size: 1.6rem;
+}
 .image-header {
   position: relative;
   text-align: center;
@@ -63,6 +50,5 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 85%;
 }
 </style>

@@ -45,15 +45,18 @@
           {{ uploaderDOBHebrewMessage }}
         </h3>
       </div>
-
       <RegisterForm :engdob="uploaderDOBEnglish" :hebdob="uploaderDOBHebrew" />
     </article>
-
+    
     <article>
       <p style="display: flex; justify-content: center; margin: 3rem auto">
-        <a href="/login"><span class="login-text">I have an account. Login.</span></a>
+        <a href="/login"
+          ><span class="login-text">I have an account. Login.</span></a
+        >
       </p>
     </article>
+
+
   </section>
 </template>
 

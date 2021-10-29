@@ -18,7 +18,7 @@
             </b-nav-item>
             <b-nav-item>
               <router-link to="/about-birthdays"
-                >About Jewish Birthdays</router-link
+                >Jewish Birthdays</router-link
               >
             </b-nav-item>
             <b-nav-item>
@@ -29,18 +29,31 @@
               <template #button-content>
                 <em>Account</em>
               </template>
-              <b-dropdown-item href="register">Register</b-dropdown-item>
-              <b-dropdown-item href="login">Log in</b-dropdown-item>
-              <b-dropdown-item href="logout">Log Out</b-dropdown-item>
+              <b-dropdown-item class="dropdown-nav-item" href="register">Register</b-dropdown-item>
+              <b-dropdown-item class="dropdown-nav-item" href="login">Log in</b-dropdown-item>
+              <b-dropdown-item class="dropdown-nav-item" href="logout">Log Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <template #button-content>
+                <em>Cart</em>
+              </template>
+              <b-dropdown-item>
+                <CartItems />
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+
             <div class="icon-yellow-wrapper">
-              <b-icon-facebook />
+              <a href="https://www.facebook.com/rabbiperl">
+                <b-icon-facebook />
+              </a>
             </div>
             <div class="icon-yellow-wrapper">
-              <b-icon-instagram />
+              <a href="https://twitter.com/RabbiPerl">
+              <b-icon-twitter />
+              </a>
             </div>
           </b-navbar-nav>
         </b-collapse>
@@ -51,11 +64,16 @@
 </template>
 
 <script>
-import { BIconFacebook, BIconInstagram } from "bootstrap-vue";
+import { BIconFacebook, BIconTwitter } from "bootstrap-vue";
+import CartItems from "./components/CartItems.vue";
 export default {
   components: {
     BIconFacebook,
-    BIconInstagram,
+    BIconTwitter,
+    CartItems,
+  },
+  data() {
+    return {};
   },
 };
 </script>
@@ -75,6 +93,9 @@ html {
   color: #000;
   text-decoration: none;
 }
+.dropdown-nav-item {
+  font-size: 1.6rem;
+}
 .icon-yellow-wrapper {
   height: 2rem;
   width: 2rem;
@@ -87,5 +108,6 @@ html {
 }
 .nav-item {
   font-size: 1.8rem;
+  margin-right: 1rem;
 }
 </style>

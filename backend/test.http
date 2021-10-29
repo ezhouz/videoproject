@@ -21,9 +21,7 @@ POST http://localhost:3001/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6I
 ###
 
 
-POST   http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2MzUzNzUzODQsImV4cCI6MTYzNTQ2MTc4NH0.aQVpogiac5npg-IbBp6ja-GVetTypfGwDqiCm9YQULU
-
-
+POST   http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxMSwiaWF0IjoxNjM1NDc3NTU5LCJleHAiOjE2MzU1NjM5NTl9.RPn58CyoinnwnCPzxiUGO-0uJhPun3Zp1jAypWUpLMU
 ###
 POST http://localhost:3001/api/auth/test
 Content-Type: application/json
@@ -95,7 +93,7 @@ Content-Type: application/json
 			},
 			"price_data": {
                 "currency": "usd",
-                "unit_amount": 2000,
+                "unit_amount": 1000,
                 "product_data": {
                     "name": "SampleVideo_1280x720_2mb.mp4"
                     }
@@ -107,12 +105,12 @@ Content-Type: application/json
 }
 
 ###
-GET http://api.mux.com/video/v1/assets/00WhQbIeu42SPuU52WJO01ksJjXQ8b66BjZDiWvGiJ87w
+GET http://api.mux.com/video/v1/assets/nK01Wb01xbu8TxyY3NFyPKG02qCta5np7PrRrVDuQkpee00
 Authorization: Basic YmU2NDQyNmQtMjAzMC00ZmRjLTk1MDYtMWQwZWQwNGE3M2EzOmlMSVB6RDFxSUpoRW1UUzBFNHlGbVFkd3BJSEZ2T0ZLWjA0N2NRanlDcm1MaTNRcnFROG9WelA2ZHFsTXM1OXpJamcyTnpxZElZZg==
 Content-Type: text/plain
 ###
-POST http://localhost:3001/api/post/mux
+POST http://localhost:3001/api/post/stripe-success
 
 {
-    "videoUploadId": "jF7dgXJgN1qsVaGB56c1KzVwTd9K700ynAH01OaTyYF800"
+    
 }

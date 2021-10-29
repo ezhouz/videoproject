@@ -5,55 +5,78 @@
         <h3>{{ loadErrorMessge }}</h3>
       </div>
     </div>
-<div class="submission-container">
-  <div v-for="video in videos" :key="video.id" class="submission">
-      <article class="video-component-container">
-        <div class="player-wrapper">
-          <video-player
-            class="video-player"
-            :options="{
-              autoplay: false,
-              controls: true,
-              poster: video.thumbnail,
-              sources: [{ src: video.src, type: video.type }],
-            }"
-          />
-        </div>
-
-        <div class="video-info-container">
-          <div class="video-info">video info</div>
-          <div class="video-form">
-            <h3>{{ video.uploadedVideoFileName }}</h3>
-            <b-input-group>
-              <b-input-group-prepend>
-                <b-btn
-                  variant="outline-info"
-                  @click="changeVoteCount('minus', video.newVotes, video.id)"
-                  >-</b-btn
-                >
-              </b-input-group-prepend>
-
-              <b-form-input
-                v-model="video.newVotes"
-                type="number"
-                min="0"
-                @change="changeVoteCount(video.newVotes, video.id)"
-              ></b-form-input>
-
-              <b-input-group-append>
-                <b-btn
-                  variant="outline-secondary"
-                  @click="changeVoteCount('plus', video.newVotes, video.id)"
-                  >+</b-btn
-                >
-              </b-input-group-append>
-            </b-input-group>
+    <div class="submission-container">
+      <div v-for="video in videos" :key="video.id" class="submission">
+        <article class="video-component-container">
+          <div class="player-wrapper">
+            <video-player
+              class="video-player"
+              :options="{
+                autoplay: false,
+                controls: true,
+                poster: video.thumbnail,
+                sources: [{ src: video.src, type: video.type }],
+              }"
+            />
           </div>
-        </div>
-      </article>
+
+          <div class="video-info-container">
+            <div style="margin: 3rem 0" class="video-info">
+              <h2 style="font-weight: 900">Submission Information</h2>
+              <h3>Name: {{ video.uploadedVideoFileName }}</h3>
+              <h3>Votes: {{ video.voteTally }}</h3>
+            </div>
+            <div class="video-form">
+              <b-input-group>
+                <b-input-group-prepend>
+                  <b-btn
+                    variant="outline-info"
+                    @click="changeVoteCount('minus', video.newVotes, video.id)"
+                    >-</b-btn
+                  >
+                </b-input-group-prepend>
+
+                <b-form-input
+                  v-model="video.newVotes"
+                  type="number"
+                  min="1"
+                  @change="changeVoteCount(video.newVotes, video.id)"
+                ></b-form-input>
+
+                <b-input-group-append>
+                  <b-btn
+                    variant="outline-secondary"
+                    @click="changeVoteCount('plus', video.newVotes, video.id)"
+                    >+</b-btn
+                  >
+                </b-input-group-append>
+
+                <b-input-group-append>
+                  <b-btn
+                    variant="warning"
+                    @click="
+                      addToCart(
+                        video.uploadedVideoFileName,
+                        video.newVotes,
+                        video.thumbnail,
+                        video.id
+                      )
+                    "
+                    >Add to cart</b-btn
+                  >
+                </b-input-group-append>
+
+                <b-input-group-append>
+                  <b-btn variant="success" @click="submitStripePayment()"
+                    >Purchase Votes</b-btn
+                  >
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
-</div>
-  
   </section>
 </template>
 
@@ -73,6 +96,7 @@ export default {
       loadError: false,
       loadErrorMessge: "",
       videos: [],
+      cart: [],
     };
   },
   async created() {
@@ -94,13 +118,13 @@ export default {
     const allVideos = await axios.get(`api/getall/allvideos`);
     try {
       allVideos.data.forEach((video) => {
-        const currentPlaybackId = video.muxVideoId;
+        const currentPlaybackId = video.muxPlaybackId;
         this.videos.push({
           src: `https://stream.mux.com/${currentPlaybackId}.m3u8`,
           thumbnail: `https://image.mux.com/${currentPlaybackId}/thumbnail.jpg`,
           type: "application/x-mpegURL",
           voteTally: video.voteTally,
-          newVotes: 0,
+          newVotes: 1,
           id: currentPlaybackId,
           uploadedVideoFileName: video.uploadedVideoFileName,
           uploaderEmail: video.uploaderEmail,
@@ -122,21 +146,100 @@ export default {
           number++;
         }
       }
-
       this.videos.forEach((video) => {
         if (video.id === id) {
           video.newVotes = number;
         }
       });
     },
+
+    addToCart(name, newVotes, thumbnail, id) {
+      console.log(typeof newVotes)
+      const inCart = localStorage.getItem("shoppingCart");
+      let inCartFormatted = JSON.parse(inCart);
+      console.log(inCartFormatted);
+
+      //check if the cart is empty
+      if (inCartFormatted) {
+        //check if the product is in the cart
+        let existing = inCartFormatted
+          .map((product) => product.name)
+          .includes(name);
+        
+        if (existing) {
+          //loop through the products and add newvotes to the produt in the cart
+          inCartFormatted.forEach((product) => {
+            if (product.name === name) {
+               product.newVotes += newVotes
+               console.log(product)
+               return product
+            }
+          });
+        } else {
+          inCartFormatted.push({ name, newVotes, thumbnail, id });
+          this.addUpdateLocalCart(inCartFormatted);
+        }
+      } else {
+        // if the cart is empty, push the new product
+        this.addUpdateLocalCart([{ name, newVotes: newVotes, thumbnail, id }]);
+      }
+    },
+
+    addUpdateLocalCart(cart) {
+      console.log(cart)
+      localStorage.setItem("shoppingCart", JSON.stringify(cart));
+    },
+
+    async submitStripePayment() {
+      let formattedProducts = [];
+      this.cart.forEach((product) => {
+        formattedProducts.push({
+          adjustable_quantity: {
+            enabled: true,
+            minimum: 1,
+            maximum: 999,
+          },
+          price_data: {
+            currency: "usd",
+            unit_amount: 100,
+            product_data: {
+              name: product.name,
+            },
+          },
+          quantity: product.newVotes,
+        });
+      });
+
+      try {
+        let stripeSession = await axios.post(
+          "api/post/create-checkout-session",
+          { products: formattedProducts }
+        );
+        window.location = stripeSession.data.url;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
 
 <style>
- .submission-container {
+.submission-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.video-form {
+  font-size: 1.6rem;
+}
+.video-component-container {
+  margin: 3rem;
+}
+.input-group-append .btn,
+input.form-control {
+  font-size: 1.6rem !important;
+  margin-left: 0.5rem;
 }
 /*
 .player-wrapper,

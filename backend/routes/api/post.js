@@ -10,7 +10,6 @@ const { validateMyToken } = require("./authcheck");
 const axios = require("axios");
 
 if (process.env.NODE_ENV !== "production") {
-
   const SmeeClient = require("smee-client");
 
   const smee = new SmeeClient({
@@ -21,19 +20,37 @@ if (process.env.NODE_ENV !== "production") {
   smee.start();
 }
 
-router.post("/stripe-success", express.json({ type: 'application/json' }), (req, res) => {
-  console.log(req.body)
-  if (req.body.data.object.items) {
-    console.log(req.body.data.object.items.quantity);
+router.post(
+  "/stripe-success",
+  express.json({ type: "application/json" }),
+  async (req, res) => {
+    let processedLines = [];
+    if (req.body.type === "invoice.created") {
+      let lines = req.body.data.object.lines.data;
+      lines.forEach((product) => {
+        processedLines.push([product.price.product, product.quantity]);
+      });
+      console.log(processedLines);
+
+      processedLines.forEach(async (line) => {
+        try {
+          let voteUpdate = await voteCount.findOne({
+            where: {
+              uploadedVideoFileName: line[0],
+            },
+          });
+          voteUpdate.voteTally += line[1];
+          voteUpdate.save();
+        } catch (error) {
+          console.log(error);
+        }
+      });
+      res.status(200).end();
+    }
   }
-  if(req.body.type === "charge.succeeded") {
-    console.log(req.body);
-  }
-  res.status(200).end()  
-});
+);
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
-
 
 async function createVoteRecord(
   muxUploadId,
@@ -69,7 +86,7 @@ router.post("/create-checkout-session", async (req, res) => {
     line_items: req.body.products,
     mode: "payment",
     success_url: process.env.SUCCESS_URL || "http://localhost:8080/success",
-    cancel_url: process.env.CANCEL_URL ||"http://localhost:8080/vote",
+    cancel_url: process.env.CANCEL_URL || "http://localhost:8080/vote",
   });
 
   res.send({ url: session.url });

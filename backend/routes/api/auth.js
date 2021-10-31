@@ -199,7 +199,7 @@ router.post("/password-reset", async (req, res) => {
           }
 
           const url = `${process.env.EMAIL_RESET_URL}/${emailToken}`;
-          const emailText = `<h1>Please reset your password by clicking this link</h1>: <a href="${url}">${url}</a>`;
+          const emailText = `<h1>Please reset your password by clicking this link</h1> <a href="${url}">${url}</a>`;
           sendEmail(
             foundUser.uploaderEmail,
             "Jewish Birthday Password Reset",

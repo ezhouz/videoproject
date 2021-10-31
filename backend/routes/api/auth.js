@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
       res.send({
         status: 401,
         success: false,
-        message: "Authentication failed. User not found.",
+        message: "User not found.",
       });
     } else if (!user.uploaderIsConfirmed) {
       res.send({
@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
             res.send({
               success: false,
               status: 401,
-              msg: "Authentication failed. Wrong password.",
+              msg: "Password incorrect.",
             });
           }
         }

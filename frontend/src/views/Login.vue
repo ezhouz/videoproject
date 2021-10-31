@@ -90,7 +90,7 @@ export default {
 
         if (loggedInUser.data.status === 401) {
           this.showError = true;
-          this.errorMessage = `${loggedInUser.data.message}`
+          this.errorMessage = loggedInUser.data.message
         } else {
           localStorage.setItem("chabadtoken", loggedInUser.data.token);
           this.$router.push({

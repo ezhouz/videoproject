@@ -8,6 +8,7 @@ import UploadVideo from "../views/UploadVideo";
 import Logout from "../views/Logout";
 import AboutBirthdays from "../views/AboutBirthdays";
 import Success from "../views/Success";
+import About from "../views/About";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/about-birthdays",
     name: "AboutBirthdays",
     component: AboutBirthdays,
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: About,
   },
   {
     path: "/register",

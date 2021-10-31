@@ -12,7 +12,9 @@
             HELP CHABAD OF MINEOLA SAVE LIVES.
           </h3>
           <div class="button-wrapper">
-            <button class="learn-more-button">Learn More</button>
+            <a href="/about">
+              <button class="learn-more-button">Learn More</button>
+            </a>
           </div>
         </div>
 
@@ -54,7 +56,7 @@
         >
       </div>
     </div>
-    <Telethon />  
+    <Telethon />
   </section>
 </template>
 
@@ -65,7 +67,7 @@ export default {
   name: "Home",
   components: {
     Countdown,
-    Telethon
+    Telethon,
   },
   data() {
     return {};
@@ -81,8 +83,9 @@ export default {
   align-items: center;
 }
 .home-temp-buttons button {
-  min-width: 50rem;
-  height: 5rem;
+  width: 30rem;
+  height: auto;
+  padding: 1.5rem;
   border: none;
   font-size: 3rem;
   font-weight: 700;
@@ -95,10 +98,15 @@ export default {
 .home-temp-buttons button:hover {
   opacity: 0.8;
 }
+.once-a-year-wrapper {
+  margin: 3rem;
+}
 .once-a-year-wrapper h2 {
-  font-weight: 800;
-  font-size: 5.6rem;
+  font-weight: 700;
+  font-size: 3.5rem;
   color: #699af1;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 .header-image-wrapper {
   display: grid;
@@ -174,6 +182,21 @@ export default {
   color: #fff;
   position: absolute;
   top: 6rem;
-  left: 6rem;
+  left: 3rem;
+}
+@media (min-width: 650px) {
+  .header-text-wrapper {
+    left: 6rem;
+  }
+  .home-temp-buttons button {
+    min-width: 50rem;
+    height: initial;
+    padding: initial;
+  }
+
+  .once-a-year-wrapper h2 {
+    font-weight: 800;
+    font-size: 5.6rem;
+  }
 }
 </style>

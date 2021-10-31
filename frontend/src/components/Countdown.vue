@@ -5,12 +5,14 @@
         Countdown to the Chanukah Telethon
       </div>
       <hr class="telethon-hr" />
-      <ul
-        class="countdown-ul"
-        v-for="(eventListItem, index) in eventListItems"
-        :key="index"
-      >
-        <li class="countdown-li">{{ eventListItem }}</li>
+      <ul class="countdown-ul">
+        <li
+          v-for="(eventListItem, index) in eventListItems"
+          :key="index"
+          class="countdown-li"
+        >
+          {{ eventListItem }}
+        </li>
       </ul>
     </article>
     <article class="countdown-numbers">
@@ -18,31 +20,31 @@
         <div class="countdown-image-container countdown-days">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
           <div class="countdown-number-wrapper">
-            <h3>{{timeRemaining.days}}</h3>
+            <h3>{{ timeRemaining.days }}</h3>
             <h5>Days</h5>
           </div>
         </div>
-        <div class="countdown-image-container countdown-hours">
+        <div class="countdown-image-container countdown-minutes">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
           <div class="countdown-number-wrapper">
-            <h3>{{timeRemaining.minutes}}</h3>
+            <h3>{{ timeRemaining.minutes }}</h3>
             <h5>Minutes</h5>
           </div>
         </div>
       </div>
 
-      <div>
-        <div class="countdown-image-container countdown-minutes">
+      <div class="hours-and-seconds">
+        <div class="countdown-image-container countdown-hours">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-         <div class="countdown-number-wrapper">
-            <h3>{{timeRemaining.hours}}</h3>
+          <div class="countdown-number-wrapper">
+            <h3>{{ timeRemaining.hours }}</h3>
             <h5>Hours</h5>
           </div>
         </div>
         <div class="countdown-image-container countdown-seconds">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
           <div class="countdown-number-wrapper">
-            <h3>{{timeRemaining.seconds}}</h3>
+            <h3>{{ timeRemaining.seconds }}</h3>
             <h5>Seconds</h5>
           </div>
         </div>
@@ -87,15 +89,12 @@ export default {
     },
   },
   created() {
-    this.countdown()
-  }
+    this.countdown();
+  },
 };
 </script>
 
 <style scoped>
-.countdown-numbers {
-  display: flex;
-}
 .countdown-number-wrapper {
   display: flex;
   flex-direction: column;
@@ -108,13 +107,13 @@ export default {
   color: #fff;
 }
 .countdown-number-wrapper h3 {
-  font-size: 7rem;
+  font-size: 5rem;
 }
 .countdown-number-wrapper h5 {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 .countdown-image-container {
-  width: 15rem;
+  width: 11rem;
   height: auto;
   margin: 2rem 1rem;
   position: relative;
@@ -124,7 +123,7 @@ export default {
   height: auto;
 }
 .countdown-wrapper {
-  margin: 5rem;
+  margin: 2rem;
   display: flex;
   justify-content: space-between;
 }
@@ -138,9 +137,38 @@ export default {
 }
 .countdown-ul {
   list-style: none;
+  padding: 0;
 }
 .countdown-li {
   font-weight: 700;
   font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.countdown-numbers {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 374px) {
+  .countdown-image-container {
+    width: 15rem;
+  }
+  .countdown-number-wrapper h3 {
+    font-size: 7rem;
+  }
+  .countdown-number-wrapper h5 {
+    font-size: 3rem;
+  }
+}
+@media (min-width: 650px) {
+  .countdown-numbers {
+    display: flex;
+    flex-direction: row;
+  }
+  .countdown-ul {
+    padding-left: 2rem;
+  }
+  .countdown-wrapper {
+    margin: 5rem;
+  }
 }
 </style>

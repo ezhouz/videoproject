@@ -8,6 +8,7 @@ require("../../config/passport")(passport);
 const jwt = require("jsonwebtoken");
 const { validateMyToken } = require("./authcheck");
 const axios = require("axios");
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 if (process.env.NODE_ENV !== "production") {
   const SmeeClient = require("smee-client");
@@ -24,33 +25,46 @@ router.post(
   "/stripe-success",
   express.json({ type: "application/json" }),
   async (req, res) => {
-    let processedLines = [];
-    if (req.body.type === "invoice.created") {
-      let lines = req.body.data.object.lines.data;
-      lines.forEach((product) => {
-        processedLines.push([product.price.product, product.quantity]);
-      });
-      console.log(processedLines);
 
-      processedLines.forEach(async (line) => {
-        try {
-          let voteUpdate = await voteCount.findOne({
-            where: {
-              uploadedVideoFileName: line[0],
-            },
-          });
-          voteUpdate.voteTally += line[1];
-          voteUpdate.save();
-        } catch (error) {
-          console.log(error);
-        }
-      });
-      res.status(200).end();
-    }
+
+    if (req.body.type === "checkout.session.completed") {
+      try {
+        const sessionRes = await stripe.checkout.sessions.retrieve(
+          req.body.data.object.id,
+          {
+            expand: ["line_items"],
+          }
+        );
+
+           let lines = sessionRes.line_items.data;
+           console.log(lines)
+        let processedLines = [];
+
+        lines.forEach((product) => {
+          processedLines.push([product.description, product.quantity]);
+        });
+        console.log(processedLines);
+
+        processedLines.forEach(async (line) => {
+          try {
+            let voteUpdate = await voteCount.findOne({
+              where: {
+                uploadedVideoFileName: line[0],
+              },
+            });
+            voteUpdate.voteTally += line[1];
+            voteUpdate.save();
+          } catch (error) {
+            console.log(error);
+          }
+        });
+        res.status(200).end();
+      } catch (error) {
+        console.log(error);
+      }
+     }
   }
 );
-
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 async function createVoteRecord(
   muxUploadId,

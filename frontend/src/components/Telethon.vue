@@ -1,5 +1,5 @@
 <template>
-  <section style="margin-bottom: 5rem">
+  <section style="margin-bottom: 5rem; padding: 3rem">
     <hr class="telethon-hr">
     <div style="width: 16rem; margin: 2rem 0">
       <img
@@ -10,7 +10,7 @@
     </div>
 
     <p>
-      he NCFJE Chabad’s tireless effort on behalf of all people, has achieved
+      The NCFJE Chabad’s tireless effort on behalf of all people, has achieved
       widespread recognition. Children and adults from all walks of life benefit
       directly from the public support of the Telethon.
     </p>

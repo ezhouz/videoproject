@@ -9,11 +9,15 @@
         />
       </div>
       <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">LOGIN TO SUBMIT A VIDEO</h1>
+        <h1 class="header-text" :class="$mq">RESET YOUR PASSWORD</h1>
       </div>
     </article>
+
     <article>
-      <form style="margin: 7rem" @submit.prevent="loginUser(email, password)">
+      <form
+        style="margin: 7rem"
+        @submit.prevent="resetPassword(email)"
+      >
         <b-form-group id="email" label="Email:" label-for="email">
           <b-form-input
             id="email"
@@ -23,19 +27,14 @@
             required
           ></b-form-input>
         </b-form-group>
-
-        <b-form-group id="password" label="Password:" label-for="password">
-          <b-form-input
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Password"
-            required
-          ></b-form-input>
-        </b-form-group>
         <div v-if="showError">
           <div class="alert alert-danger" role="alert">
             {{ errorMessage }}
+          </div>
+        </div>
+        <div v-if="showSuccess">
+          <div class="alert alert-success" role="alert">
+            {{ successMessage }}
           </div>
         </div>
         <b-button
@@ -49,19 +48,10 @@
             border: none;
           "
           type="submit"
-          >Login</b-button
+          >Reset Password</b-button
         >
       </form>
     </article>
-
-     <article>
-      <p style="display: flex; justify-content: center;">
-        <a href="/passwordreset"
-          ><span class="reset-text">Forgot password? Reset it here.</span></a
-        >
-      </p>
-    </article>
-
   </section>
 </template>
 
@@ -69,33 +59,30 @@
 import axios from "axios";
 
 export default {
-  name: "Login",
+  name: "passwordreset",
   data() {
     return {
       showError: false,
       errorMessage: "",
+      showSuccess: false,
+      successMessage: "",
       email: "",
-      password: "",
-      accountConfirmed: '',
-      accountConfirmedMessage: ''
     };
   },
   methods: {
-    async loginUser(email, password) {
+    async resetPassword(email) {
       try {
-        const loggedInUser = await axios.post(`api/auth/login`, {
+        const existingUserSearch = await axios.post("api/auth/password-reset", {
           email,
-          password,
         });
-
-        if (loggedInUser.data.status === 401) {
+        if (existingUserSearch.data.status === 201) {
           this.showError = true;
-          this.errorMessage = `${loggedInUser.data.message}`
+          this.showSuccess = false;
+          this.errorMessage = existingUserSearch.data.message;
         } else {
-          localStorage.setItem("chabadtoken", loggedInUser.data.token);
-          this.$router.push({
-            name: "UploadVideo",
-          });
+          this.showSuccess = true;
+          this.showError = false;
+          this.successMessage = existingUserSearch.data.message;
         }
       } catch (error) {
         console.log(error);
@@ -104,7 +91,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .reset-text {

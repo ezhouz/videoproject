@@ -91,6 +91,9 @@ export default {
   created() {
     this.countdown();
   },
+  mounted() {
+
+  }
 };
 </script>
 

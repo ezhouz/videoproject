@@ -19,21 +19,19 @@ function sendEmail(email, subject, emailText) {
       MessageStream: "outbound",
     });
   } catch (error) {
-    console.log('issue sending confirmation email')
+    console.log("issue sending confirmation email");
   }
 }
 
 router.use(passport.initialize());
 
 router.post("/login", async (req, res) => {
-  console.log(req.body.email)
   try {
     const user = await uploaderInfo.findOne({
       where: {
         uploaderEmail: req.body.email,
       },
     });
-    console.log(user)
 
     if (!user) {
       res.send({
@@ -44,7 +42,8 @@ router.post("/login", async (req, res) => {
     } else if (!user.uploaderIsConfirmed) {
       res.send({
         status: 401,
-        message: "Please confirm your email. If you don't see our email in your inbox, please check the spam folder.",
+        message:
+          "Please confirm your email. If you don't see our email in your inbox, please check the spam folder.",
         success: false,
       });
     } else {
@@ -108,14 +107,19 @@ router.post("/register", async (req, res) => {
             (err, emailToken) => {
               const url = `${process.env.EMAIL_AUTH_URL}/${emailToken}`;
               const emailText = `<h1>Please confirm your email by clicking this link</h1> <a href="${url}">${url}</a>`;
-              sendEmail(newUser.uploaderEmail, "Confirm your account", emailText);
+              sendEmail(
+                newUser.uploaderEmail,
+                "Confirm your account",
+                emailText
+              );
             }
           );
         }
 
         res.send({
           status: 200,
-          message: "Thank you for creating your account. Please click on the link in the email that we sent confirm your email address",
+          message:
+            "Thank you for creating your account. Please click on the link in the email that we sent confirm your email address",
         });
       } catch (error) {
         console.log(error);
@@ -141,10 +145,8 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
       process.env.EMAIL_SECRET
     );
     if (user) {
-      console.log(user)
       const foundUser = await uploaderInfo.findOne({ where: user.user });
       if (foundUser) {
-        console.log(foundUser);
         try {
           foundUser.uploaderIsConfirmed = true;
           foundUser.save();
@@ -152,7 +154,11 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
             foundUser.uploaderEmail,
             "Account Confirmed",
             "<h2>Your account has been confirmed at jewishbirthdaymakeover.com! Mazal Tov!" +
-            "</h2><h3>Please <a href='jewishbirthdaymakeover.com/vote'>Click here to log and post your video.</a></h3>"
+              "</h2><h3>Please <a href='jewishbirthdaymakeover.com/vote'>Click here to log and post your video.</a></h3>"
+          );
+          req.flash(
+            "message",
+            "Your account hs been confirmed. An email confirmation has been sent, and you can y"
           );
           res.redirect("/login");
         } catch (error) {
@@ -174,15 +180,25 @@ router.post("/password-reset", async (req, res) => {
         uploaderEmail: req.body.email,
       },
     });
-    console.log(foundUser.id);
-    if (foundUser.id) {
+
+    console.log(foundUser);
+    if (!foundUser) {
+      res.send({
+        status: 201,
+        message:
+          "No user found with that email address. Please check the email address and try again.",
+      });
+    } else {
       jwt.sign(
         { user: foundUser.id },
         process.env.EMAIL_SECRET,
         { expiresIn: "1d" },
-
         (err, emailToken) => {
-          const url = `${process.env.EMAIL_RESET_URL}/${emailToken}` || `http://localhost:3001/api/auth/password-reset/${emailToken}`;
+          if (err) {
+            console.log(err);
+          }
+
+          const url = `${process.env.EMAIL_RESET_URL}/${emailToken}`;
           const emailText = `<h1>Please reset your password by clicking this link</h1>: <a href="${url}">${url}</a>`;
           sendEmail(
             foundUser.uploaderEmail,
@@ -191,10 +207,9 @@ router.post("/password-reset", async (req, res) => {
           );
         }
       );
-    } else {
       res.send({
-        status: 201,
-        message: "No user found",
+        message:
+          "Thank you. Please a password reset link will be sent to your email address.",
       });
     }
   } catch (error) {
@@ -202,15 +217,65 @@ router.post("/password-reset", async (req, res) => {
   }
 });
 
-router.post("/password-reset/:emailtoken", async (req, res) => {
+router.get("/password-reset/:emailtoken", async (req, res) => {
   try {
     const user = await jwt.verify(
       req.params.emailtoken,
       process.env.EMAIL_SECRET
     );
-    res.send(user)
+    console.log(user.user);
+    if (user.user) {
+      req.flash("message", "Please finish resetting your password");
+      res.redirect("/passwordresetfinish");
+    } else {
+    }
   } catch (error) {
     res.send(error);
+  }
+});
+
+router.post("/password-reset-finish", async (req, res) => {
+  try {
+    const foundUser = await uploaderInfo.findOne({
+      where: {
+        uploaderEmail: req.body.email,
+      },
+    });
+    if(!foundUser) {
+
+      res.send({
+        status: 201,
+        message: "User not found. Please check your email address",
+      });
+
+    }
+    if(req.body.newPassword.length < 8) {
+      res.send({
+        status: 201,
+        message: "Password much be at least 8 characters"
+      })
+      return
+    }
+    else if (foundUser) {
+      if (req.body.newPassword === req.body.repeatNewPassword) {
+        const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+        foundUser.uploaderPassword = hashedPassword;
+        foundUser.save();
+        res.setHeader('Content-type','text/html')
+        res.send({
+          status: 200,
+          message:
+            "Your password has been reset. You may now log in with your new password.",
+        });
+      } else {
+        res.send({
+          status: 201,
+          message: "Passwords do not match",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 

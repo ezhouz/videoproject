@@ -23,6 +23,9 @@ POST http://localhost:3001/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6I
 
 GET  http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxNSwiaWF0IjoxNjM1NjUwNzU1LCJleHAiOjE2MzU3MzcxNTV9.Vwmml6EI60J6PDaCxJ07GMRJ4OT9Tvc-xkjyPJzGcRU
 ###
+GET http://localhost:8080/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjozLCJpYXQiOjE2MzU2NTAxNDMsImV4cCI6MTYzNTczNjU0M30.4Gg3dx329FOmBqYmC6gQ0mNG7UFLEu80A7rmwdk0Gv8
+
+###
 POST http://localhost:3001/api/auth/test
 Content-Type: application/json
 
@@ -109,8 +112,9 @@ GET http://api.mux.com/video/v1/assets/nK01Wb01xbu8TxyY3NFyPKG02qCta5np7PrRrVDuQ
 Authorization: Basic YmU2NDQyNmQtMjAzMC00ZmRjLTk1MDYtMWQwZWQwNGE3M2EzOmlMSVB6RDFxSUpoRW1UUzBFNHlGbVFkd3BJSEZ2T0ZLWjA0N2NRanlDcm1MaTNRcnFROG9WelA2ZHFsTXM1OXpJamcyTnpxZElZZg==
 Content-Type: text/plain
 ###
-POST http://localhost:3001/api/post/stripe-success
+POST http://localhost:3001/api/auth/password-reset
+Content-Type: application/json
 
 {
-    
+    "email": "yyitzingerrr@gmail.com"
 }

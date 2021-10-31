@@ -9,6 +9,8 @@ import Logout from "../views/Logout";
 import AboutBirthdays from "../views/AboutBirthdays";
 import Success from "../views/Success";
 import About from "../views/About";
+import Passwordreset from "../views/Passwordreset"
+import PasswordResetFinish from "../views/PasswordResetFinish";
 
 Vue.use(VueRouter);
 
@@ -61,6 +63,17 @@ const routes = [
     name: "logout",
     component: Logout,
   },
+  {
+    path: "/passwordreset",
+    name: "Passwordreset",
+    component: Passwordreset,
+  },
+  {
+    path: "/passwordresetfinish",
+    name: "PasswordResetFinish",
+    component: PasswordResetFinish,
+  },
+  
   {
     path: '*',
     component: Home 

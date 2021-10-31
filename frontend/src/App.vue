@@ -16,8 +16,8 @@
             <b-nav-item>
               <router-link to="/vote">Vote</router-link>
             </b-nav-item>
-            <b-nav-item>
-              <router-link v-if="currentUser" to="/uploadvideo">Upload</router-link>
+            <b-nav-item v-if="currentUser">
+              <router-link to="/uploadvideo">Upload</router-link>
             </b-nav-item>
             <b-nav-item-dropdown>
               <template #button-content>
@@ -40,7 +40,7 @@
               <b-dropdown-item v-if="!currentUser" class="dropdown-nav-item" href="login"
                 >Log in</b-dropdown-item
               >
-              <b-dropdown-item class="dropdown-nav-item" href="logout"
+              <b-dropdown-item v-if="currentUser" class="dropdown-nav-item" href="logout"
                 >Log Out</b-dropdown-item
               >
             </b-nav-item-dropdown>

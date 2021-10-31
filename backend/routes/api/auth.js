@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
             res.send({
               success: false,
               status: 401,
-              msg: "Password incorrect.",
+              message: "Password incorrect.",
             });
           }
         }

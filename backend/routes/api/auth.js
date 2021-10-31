@@ -160,7 +160,7 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
             "message",
             "Your account hs been confirmed. An email confirmation has been sent, and you can y"
           );
-          res.redirect("/login");
+          res.redirect("https://jewishbirthdaymakeover.com/login");
         } catch (error) {
           res.send(error);
         }
@@ -223,11 +223,8 @@ router.get("/password-reset/:emailtoken", async (req, res) => {
       req.params.emailtoken,
       process.env.EMAIL_SECRET
     );
-    console.log(user.user);
     if (user.user) {
-      req.flash("message", "Please finish resetting your password");
-      res.redirect("/passwordresetfinish");
-    } else {
+      res.redirect("https://jewishbirthdaymakeover.com/passwordresetfinish");
     }
   } catch (error) {
     res.send(error);

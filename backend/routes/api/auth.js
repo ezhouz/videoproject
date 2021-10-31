@@ -26,12 +26,14 @@ function sendEmail(email, subject, emailText) {
 router.use(passport.initialize());
 
 router.post("/login", async (req, res) => {
+  console.log(req.body.email)
   try {
     const user = await uploaderInfo.findOne({
       where: {
         uploaderEmail: req.body.email,
       },
     });
+    console.log(user)
 
     if (!user) {
       res.send({
@@ -56,8 +58,9 @@ router.post("/login", async (req, res) => {
             // return the information including token as JSON
             res.json({ status: 200, success: true, token });
           } else {
-            res.status(401).send({
+            res.send({
               success: false,
+              status: 401,
               msg: "Authentication failed. Wrong password.",
             });
           }

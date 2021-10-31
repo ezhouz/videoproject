@@ -8,6 +8,7 @@ export default {
   created() {
     localStorage.removeItem("chabadtoken");
     this.$router.push("/");
+    location.reload();
   },
 };
 </script>

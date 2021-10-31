@@ -17,7 +17,7 @@
               <router-link to="/vote">Vote</router-link>
             </b-nav-item>
             <b-nav-item>
-              <router-link to="/uploadvideo">Upload</router-link>
+              <router-link v-if="currentUser" to="/uploadvideo">Upload</router-link>
             </b-nav-item>
             <b-nav-item-dropdown>
               <template #button-content>
@@ -34,10 +34,10 @@
               <template #button-content>
                 <em>Account</em>
               </template>
-              <b-dropdown-item class="dropdown-nav-item" href="register"
+              <b-dropdown-item v-if="!currentUser" class="dropdown-nav-item" href="register"
                 >Register</b-dropdown-item
               >
-              <b-dropdown-item class="dropdown-nav-item" href="login"
+              <b-dropdown-item v-if="!currentUser" class="dropdown-nav-item" href="login"
                 >Log in</b-dropdown-item
               >
               <b-dropdown-item class="dropdown-nav-item" href="logout"
@@ -83,8 +83,16 @@ export default {
     BIconTwitter,
     CartItems,
   },
+  created() {
+    if(localStorage.getItem("chabadtoken")) {
+      this.currentUser = true;
+    }
+
+  },
   data() {
-    return {};
+    return {
+      currentUser: null
+    };
   },
 };
 </script>

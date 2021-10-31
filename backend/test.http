@@ -21,8 +21,7 @@ POST http://localhost:3001/api/auth/password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6I
 ###
 
 
-GET  http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxNCwiaWF0IjoxNjM1NDg5NzA5LCJleHAiOjE2MzU1NzYxMDl9.fzSxGJKfOrF72d-FYYCkwzlZFE7fTAisl0X8pqZNKdY
-
+GET  http://localhost:3001/api/auth/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxNSwiaWF0IjoxNjM1NjUwNzU1LCJleHAiOjE2MzU3MzcxNTV9.Vwmml6EI60J6PDaCxJ07GMRJ4OT9Tvc-xkjyPJzGcRU
 ###
 POST http://localhost:3001/api/auth/test
 Content-Type: application/json

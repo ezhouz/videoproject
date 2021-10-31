@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <form v-if="showForm" @submit.prevent="registerUser(user)">
+    <form class="register-user" v-if="showForm" @submit.prevent="registerUser(user)">
       <b-form-group id="firstname" label="First Name:" label-for="firstname">
         <b-form-input
           id="firstname"
@@ -71,7 +71,7 @@
         style="
           width: 100%;
           background: #febf59;
-          border-radius: 4rem;
+          border-radius: 20px;
           height: 4rem;
           font-size: 2rem;
           border: none;
@@ -149,8 +149,11 @@ export default {
 };
 </script>
 
-<style scoped>
-form div {
+<style>
+.register-user div {
   font-size: 1.6rem;
+}
+.register-user .form-group label {
+  margin-left: 1rem !important;
 }
 </style>

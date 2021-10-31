@@ -158,12 +158,12 @@ let config = {
 router.post("/created-video-info", async (req, res) => {
   let muxVideoAssetId = "";
   let muxVideoUploadId = "";
+  
   if (req.body.type === "video.asset.created") {
     muxVideoAssetId = req.body.object.id;
     muxVideoUploadId = req.body.data.upload_id;
-  } else {
-    return;
-  }
+  } 
+
   try {
     const singlevideo = await axios.get(
       `http://api.mux.com/video/v1/assets/${muxVideoAssetId}`,
@@ -194,7 +194,6 @@ router.post("/created-video-info", async (req, res) => {
   }
 });
 
-// where all the issues are happening
 router.post("/create-new-product", async (req, res) => {
   const muxUploadId = req.body.muxUploadId;
   const uploaderId = req.body.uploaderId;

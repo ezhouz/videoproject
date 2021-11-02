@@ -2,7 +2,7 @@
   <section class="countdown-wrapper">
     <article class="countdown-text-wrapper">
       <div class="countdown-text-header">
-        Countdown to the Chanukah Telethon
+        Countdown to the <br />Chanukah Telethon
       </div>
       <hr class="telethon-hr" />
       <ul class="countdown-ul">
@@ -154,11 +154,13 @@ export default {
 }
 .countdown-number-wrapper-image h3,
 .countdown-text-number-wrapper h3 {
-  font-size: 5rem;
+  font-size: 3rem;
+  font-weight: normal;
 }
 .countdown-number-wrapper-image h5,
 .countdown-text-number-wrapper h5 {
   font-size: 2rem;
+  font-weight: bold;
 }
 .countdown-image-container {
   width: 11rem;
@@ -177,11 +179,11 @@ export default {
   justify-content: space-between;
 }
 .countdown-text-header {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 900;
 }
 .telethon-hr {
-  border-top: 4px solid #ef91dc;
+  border-top: 4px solid transparent;
   margin: 3rem 2rem 3rem 0;
 }
 .countdown-ul {

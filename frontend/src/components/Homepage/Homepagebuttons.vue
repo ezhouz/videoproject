@@ -5,7 +5,7 @@
     </article>
     <article class="button-container">
       <div class="two-buttons-wrapper">
-        <a href="submit">
+        <a href="uploadvideo">
           <button class="btn yellow-button">Submit my video</button>
         </a>
         <a href="vote">
@@ -25,7 +25,7 @@
     </article>
     <article class="bottom-text">
       <a href="about">
-        <h2>About the Chanukah Telethon Dec 5, 2021</h2>
+        <button class="btn yellow-button">About the Chanukah Telethon Dec 5, 2021</button>
       </a>
     </article>
   </section>
@@ -60,9 +60,10 @@ export default {
   margin: 2rem;
 }
 .top-text h2 {
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 900;
-  width: 70%;
+  width: 80%;
+  text-transform: uppercase;
 }
 .button-wrapper {
   display: flex;
@@ -77,7 +78,9 @@ button {
   border-radius: 40px;
   margin: 1.5rem;
   padding: 1rem 3rem;
+  width: 100%;
 }
+
 button:hover {
   opacity: 0.8;
 }
@@ -94,16 +97,23 @@ button:hover {
 }
 @media (min-width: 768px) {
   .bottom-text h2 {
-  font-size: 3rem;
+    font-size: 3rem;
   }
   button {
-    font-size: 3.6rem;
+    font-size: 4.2rem;
+    border-radius: 6rem;
+    padding: 2rem;
   }
   .top-text h2 {
     font-size: 5rem;
   }
   .two-buttons-wrapper {
     flex-direction: row;
+    justify-content: space-between;
+  }
+  .two-buttons-wrapper button {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
   .yellow-button {
     width: initial;

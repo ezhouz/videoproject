@@ -27,6 +27,7 @@ router.use(passport.initialize());
 
 router.post("/login", async (req, res) => {
   try {
+    console.log(req.body);
     const user = await uploaderInfo.findOne({
       where: {
         uploaderEmail: req.body.email,
@@ -91,7 +92,7 @@ router.post("/register", async (req, res) => {
         const hashedPassword = await bcrypt.hash(uploader.password, 10);
         const newUser = await uploaderInfo.create({
           uploaderFirstName: uploader.firstname,
-          uploaderLastName: uploader.firstname,
+          uploaderLastName: uploader.lastname,
           uploaderEmail: uploader.email,
           uploaderPassword: hashedPassword,
           uploaderDOBEnglish: uploader.uploaderDOBEnglish,

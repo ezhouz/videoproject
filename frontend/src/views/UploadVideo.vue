@@ -187,6 +187,11 @@ export default {
 </script>
 
 <style scoped>
+
+.progress {
+  margin: 1rem;
+}
+
 .image-header {
   position: relative;
   text-align: center;

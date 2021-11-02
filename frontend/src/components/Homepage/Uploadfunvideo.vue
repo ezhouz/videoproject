@@ -8,10 +8,7 @@
         </h3>
       </div>
       <div class="image-container">
-        <img
-          src="../../../public/images/images-exported/Jewish-Bday-image2.png"
-          alt=""
-        />
+        <div class="home-image home-image-birthday"></div>
       </div>
     </article>
 
@@ -20,10 +17,7 @@
         <h3>Every submission earns a prize. Since we are all winners!</h3>
       </div>
       <div class="image-container">
-        <img
-          src="../../../public/images/images-exported/Artboard 5.png"
-          alt=""
-        />
+        <div class="home-image home-image-friends"></div>
       </div>
     </article>
 
@@ -36,11 +30,7 @@
         </h3>
       </div>
       <div class="image-container">
-        <img
-          style="max-height: 200rem"
-          src="../../../public/images/images-exported/Artboard 3.png"
-          alt=""
-        />
+        <div class="home-image home-image-happy-guy"></div>
       </div>
     </article>
   </section>
@@ -56,18 +46,36 @@ export default {
 </script>
 
 <style scoped>
-.bottom .image-container {
-  margin: -3rem 0 0 0;
+
+.image-container .home-image{
+  background-repeat: no-repeat;
+  background-size: contain;
 }
-.middle .image-container {
-  margin: -6rem 0 -3rem 0;
+
+.image-container .home-image.home-image-birthday {
+  width: 435px;
+  height: 350px;
+  background-image: url("../../../public/images/home/home-image-birthday.svg");
 }
-.top .image-container {
-  margin: -10rem 7rem 0 0;
+.image-container .home-image.home-image-happy-guy {
+  width: 530px;
+  height: 500px;
+  background-image: url("../../../public/images/home/home-image-happy-guy.svg");
 }
-.top img {
-  max-height: 100rem;
+.image-container .home-image.home-image-friends {
+  width: 530px;
+  height: 400px;
+  background-image: url("../../../public/images/home/home-image-friends.svg");
 }
+
+article.top {
+  height: 360px;
+}
+
+article.middle {
+  height: 200px;
+}
+
 .section-wrapper {
   margin: 3rem;
 }

@@ -5,8 +5,10 @@
         <h1 class="header-text" :class="$mq">
           Let’s throw you a party and shower you with gifts on LIVE TV
         </h1>
-        <h2 class="header-secondary-text" :class="$mq">
+        <h2 class="header-secondary-text uc" :class="$mq">
           Join the Jewish Birthday Makeover Contest
+        </h2>
+        <h2 class="header-secondary-text" :class="$mq">Project of Chabad Mineola Rabbi <br/>Anchelle Perl, Director
         </h2>
       </div>
     </article>
@@ -21,10 +23,10 @@ export default {
 
 <style scoped>
 .image-header {
-  min-height: 50rem;
+  min-height: 54rem;
   background: url("../../../public/images/images-exported/Header.png");
   background-repeat: no-repeat;
-  background-size: auto 100%;
+  background-size: cover;
   position: relative;
 }
 .header-image {
@@ -32,9 +34,10 @@ export default {
   height: auto;
 }
 .header-secondary-text {
-  max-width: 60%;
+  max-width: 80%;
   margin-top: 2rem;
   font-weight: 600;
+  margin-left: 4rem;
 }
 .header-secondary-text.desktop {
   font-size: 3.5rem;
@@ -56,7 +59,8 @@ export default {
   font-size: 2.5rem;
 }
 .header-text.desktop {
-  font-size: 5.5rem;
+  font-size: 6rem;
+  margin-left: 4rem;
 }
 .header-text.tablet {
   font-size: 3.5rem;

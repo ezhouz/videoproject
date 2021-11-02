@@ -19,17 +19,12 @@
             <b-nav-item v-if="currentUser">
               <router-link to="/uploadvideo">Upload</router-link>
             </b-nav-item>
-            <b-nav-item-dropdown>
-              <template #button-content>
-                <em>About</em>
-              </template>
-              <b-dropdown-item class="dropdown-nav-item" href="about"
-                >About Us</b-dropdown-item
-              >
-              <b-dropdown-item class="dropdown-nav-item" href="about-birthdays"
-                >Jewish Birthdays</b-dropdown-item
-              >
-            </b-nav-item-dropdown>
+            <b-nav-item>
+              <router-link to="/about">About</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link to="/about-birthdays">Jewish Birthdays</router-link>
+            </b-nav-item>
             <b-nav-item-dropdown>
               <template #button-content>
                 <em>Account</em>

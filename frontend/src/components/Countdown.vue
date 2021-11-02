@@ -11,7 +11,7 @@
           :key="index"
           class="countdown-li"
         >
-          <div>
+          <div class="countdown-icon">
             <BIconCheck style="background: #febf59; border-radius: 50%" />
           </div>
           <div>
@@ -66,7 +66,11 @@ export default {
   },
   data() {
     return {
-      eventListItems: ["Contest Winners", "Celebration", "Birthday Presents"],
+      eventListItems: [
+        "8 Contest Winners",
+        "VIP Celebrity Birthday Party",
+        "Receive Birthday Gifts on Live Stage at the Chanukah Telethon",
+      ],
       timeRemaining: null,
     };
   },
@@ -107,6 +111,9 @@ export default {
 </script>
 
 <style scoped>
+.countdown-icon {
+  margin-right: 1rem;
+}
 .pink-back {
   background: #ef91dc;
 }
@@ -131,9 +138,8 @@ export default {
 }
 .numbers-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
-
 .countdown-number-wrapper-image {
   display: flex;
   flex-direction: column;
@@ -167,6 +173,7 @@ export default {
 .countdown-wrapper {
   margin: 2rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 .countdown-text-header {
@@ -186,8 +193,8 @@ export default {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-.countdown-li div {
-  display: inline-block;
+.countdown-li {
+  display: flex;
   margin-right: 2rem;
   font-size: 2.5rem;
 }
@@ -211,10 +218,15 @@ export default {
   }
 }
 @media (min-width: 650px) {
-  
+  .countdown-wrapper {
+    flex-direction: row;
+  }
   .countdown-numbers {
     display: flex;
     flex-direction: row;
+  }
+  .numbers-wrapper {
+    flex-direction: column;
   }
   .countdown-ul {
     padding-left: 2rem;

@@ -43,14 +43,15 @@ export default {
   flex-direction: column;
 }
 .bottom-text h2 {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  text-align: center;
   font-weight: 400;
   margin-top: 3rem;
   color: #000;
   text-decoration: underline;
 }
-.bottom-text h2 {
-    opacity: .8;
+.bottom-text h2:hover {
+  opacity: 0.8;
 }
 .top-text {
   display: flex;
@@ -59,7 +60,7 @@ export default {
   margin: 2rem;
 }
 .top-text h2 {
-  font-size: 5rem;
+  font-size: 3.5rem;
   font-weight: 900;
   width: 70%;
 }
@@ -70,7 +71,7 @@ export default {
   align-items: center;
 }
 button {
-  font-size: 3.6rem;
+  font-size: 2.5rem;
   color: #fff;
   font-weight: 800;
   border-radius: 40px;
@@ -92,6 +93,15 @@ button:hover {
   background: #699af1;
 }
 @media (min-width: 768px) {
+  .bottom-text h2 {
+  font-size: 3rem;
+  }
+  button {
+    font-size: 3.6rem;
+  }
+  .top-text h2 {
+    font-size: 5rem;
+  }
   .two-buttons-wrapper {
     flex-direction: row;
   }

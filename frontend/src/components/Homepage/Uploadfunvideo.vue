@@ -56,17 +56,20 @@ export default {
 </script>
 
 <style scoped>
+.bottom .image-container {
+  margin: -3rem 0 0 0;
+}
 .middle .image-container {
-  margin: -8 0;
+  margin: -6rem 0 -3rem 0;
 }
 .top .image-container {
-  margin: -20rem 7rem 0 0;
+  margin: -10rem 7rem 0 0;
 }
 .top img {
   max-height: 100rem;
 }
 .section-wrapper {
-  margin: 8rem;
+  margin: 3rem;
 }
 article {
   margin: 3rem 0;
@@ -88,6 +91,9 @@ article {
   height: auto;
 }
 @media (min-width: 768px) {
+  .section-wrapper {
+    margin: 8rem;
+  }
   .image-and-text-container.middle {
     display: flex;
     flex-direction: row-reverse;

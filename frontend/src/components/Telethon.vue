@@ -32,7 +32,6 @@ export default {
   border-top: 7px solid #febf59;
   width: 50%;
   display: inline-block;
-  margin-top: 8rem;
 }
 p {
   font-size: 1.2rem;

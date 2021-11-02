@@ -11,39 +11,43 @@
           :key="index"
           class="countdown-li"
         >
-          {{ eventListItem }}
+          <div>
+            <BIconCheck style="background: #febf59; border-radius: 50%" />
+          </div>
+          <div>
+            {{ eventListItem }}
+          </div>
         </li>
       </ul>
     </article>
     <article class="countdown-numbers">
-      <div>
+      <div class="numbers-wrapper">
         <div class="countdown-image-container countdown-days">
           <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number-wrapper">
+          <div class="countdown-number-wrapper-image">
             <h3>{{ timeRemaining.days }}</h3>
             <h5>Days</h5>
           </div>
         </div>
-        <div class="countdown-image-container countdown-minutes">
-          <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number-wrapper">
-            <h3>{{ timeRemaining.minutes }}</h3>
-            <h5>Minutes</h5>
-          </div>
-        </div>
-      </div>
 
-      <div class="hours-and-seconds">
-        <div class="countdown-image-container countdown-hours">
-          <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number-wrapper">
+        <div class="countdown-text-number-wrapper blue-back">
+          <div class="">
             <h3>{{ timeRemaining.hours }}</h3>
             <h5>Hours</h5>
           </div>
         </div>
-        <div class="countdown-image-container countdown-seconds">
-          <img src="../../public/images/home/Intersection_2.png" alt="" />
-          <div class="countdown-number-wrapper">
+      </div>
+
+      <div class="numbers-wrapper minutes-and-seconds">
+        <div class="countdown-text-number-wrapper yellow-back">
+          <div class="">
+            <h3>{{ timeRemaining.minutes }}</h3>
+            <h5>Minutes</h5>
+          </div>
+        </div>
+
+        <div class="countdown-text-number-wrapper pink-back">
+          <div class="">
             <h3>{{ timeRemaining.seconds }}</h3>
             <h5>Seconds</h5>
           </div>
@@ -54,8 +58,12 @@
 </template>
 
 <script>
+import { BIconCheck } from "bootstrap-vue";
 export default {
   name: "Countdown",
+  components: {
+    BIconCheck,
+  },
   data() {
     return {
       eventListItems: ["Contest Winners", "Celebration", "Birthday Presents"],
@@ -77,6 +85,7 @@ export default {
 
         // Time calculations for days, hours, minutes and seconds
         let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
         let hours = Math.floor(
           (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
         );
@@ -91,14 +100,41 @@ export default {
   created() {
     this.countdown();
   },
-  mounted() {
-
-  }
+  beforeDestroy() {
+    this.timeRemaining = null;
+  },
 };
 </script>
 
 <style scoped>
-.countdown-number-wrapper {
+.pink-back {
+  background: #ef91dc;
+}
+.blue-back {
+  background: #699af1;
+}
+.yellow-back {
+  background: #febf59;
+}
+.countdown-text-number-wrapper {
+  width: 11rem;
+  height: 11rem;
+  margin: 2rem 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 500;
+  border-radius: 25px;
+  text-align: center;
+}
+.numbers-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-number-wrapper-image {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -108,11 +144,14 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
+  border-radius: 30px;
 }
-.countdown-number-wrapper h3 {
+.countdown-number-wrapper-image h3,
+.countdown-text-number-wrapper h3 {
   font-size: 5rem;
 }
-.countdown-number-wrapper h5 {
+.countdown-number-wrapper-image h5,
+.countdown-text-number-wrapper h5 {
   font-size: 2rem;
 }
 .countdown-image-container {
@@ -147,6 +186,11 @@ export default {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
+.countdown-li div {
+  display: inline-block;
+  margin-right: 2rem;
+  font-size: 2.5rem;
+}
 .countdown-numbers {
   display: flex;
   flex-direction: column;
@@ -161,8 +205,13 @@ export default {
   .countdown-number-wrapper h5 {
     font-size: 3rem;
   }
+  .countdown-text-number-wrapper {
+    width: 15rem;
+    height: 15rem;
+  }
 }
 @media (min-width: 650px) {
+  
   .countdown-numbers {
     display: flex;
     flex-direction: row;

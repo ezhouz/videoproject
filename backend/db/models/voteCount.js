@@ -1,7 +1,16 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const db = require('../dbconfig');
+const UploaderInfo = require('./uploaderInfo');
 
-const voteCount = db.define('voteCount', {
+class VoteCount extends Model {}
+
+VoteCount.init({
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+    primaryKey: true
+  },
   muxUploadId: {
     type: DataTypes.STRING,
     allowNull: false
@@ -10,13 +19,20 @@ const voteCount = db.define('voteCount', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  uploadedVideoFileName: {
+  fileName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    defaultValue: ''
   },
-  voteTally: {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: ''
+  },
+  votes: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 0
   },
   stripeProductId: {
     type: DataTypes.STRING,
@@ -25,20 +41,22 @@ const voteCount = db.define('voteCount', {
   stripePriceId: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  uploaderId: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  uploaderEmail: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
+  }
 }, {
   freezeTableName: true,
-  timestamps: false
+  timestamps: false,
+  sequelize: db,
+  modelName: 'VoteCount',
+  tableName: 'voteCount',
+  scopes: {
+    public: {
+      include: {model: UploaderInfo, as: 'uploader'}
+    }
+  }
 })
+
+VoteCount.belongsTo(UploaderInfo, {as: 'uploader'});
 
 //voteCount.sync({force: true})
 
-module.exports = voteCount;
+module.exports = db.models.VoteCount;

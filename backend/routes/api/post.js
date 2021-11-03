@@ -3,8 +3,7 @@ const router = express.Router();
 const hebrewDate = require("hebrew-date");
 const Mux = require("@mux/mux-node");
 const voteCount = require("../../db/models/voteCount");
-var passport = require("passport");
-require("../../config/passport")(passport);
+const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const { validateMyToken } = require("./authcheck");
 const axios = require("axios");
@@ -68,21 +67,30 @@ router.post(
 
 async function createVoteRecord(
   muxUploadId,
-  uploadedVideoFileName,
+  fileName,
+  title,
   stripeProductId,
   stripePriceId,
-  uploaderId,
-  uploaderEmail
+  user,
 ) {
+  const existing = await voteCount.findOne({
+    where: {
+      uploaderId: user.id
+    }
+  });
+  if (existing) {
+    throw new Error('You can upload only one video');
+  }
   try {
+
     const newVote = await voteCount.create({
       muxUploadId,
-      uploadedVideoFileName,
-      voteTally: 0,
+      fileName,
+      votes: 0,
+      title,
       stripeProductId,
       stripePriceId,
-      uploaderId,
-      uploaderEmail,
+      uploaderId: user.id
     });
     if (newVote) {
       console.log("newVote");
@@ -123,22 +131,24 @@ router.post("/validatetoken", (req, res) => {
   }
 });
 
-router.post("/processvid", async (req, res) => {
-  const { Video, Data } = new Mux();
+router.post("/processvid",
+    passport.authenticate('jwt', {session: false}),
+    async (req, res) => {
+      const {Video, Data} = new Mux();
 
-  Video.Uploads.create({
-    cors_origin: process.env.MUX_CORS_ORIGIN || "http://localhost:8080",
-    new_asset_settings: {
-      playback_policy: "public",
-    },
-  }).then((upload) => {
-    // upload.url is what you'll want to return to your client.
-    res.json({
-      uploadId: upload.id,
-      url: upload.url,
+      Video.Uploads.create({
+        cors_origin: process.env.MUX_CORS_ORIGIN || "http://localhost:8080",
+        new_asset_settings: {
+          playback_policy: "public",
+        },
+      }).then((upload) => {
+        // upload.url is what you'll want to return to your client.
+        res.json({
+          uploadId: upload.id,
+          url: upload.url,
+        });
+      });
     });
-  });
-});
 
 let muxVideoPlaybackId = "";
 
@@ -158,11 +168,11 @@ let config = {
 router.post("/created-video-info", async (req, res) => {
   let muxVideoAssetId = "";
   let muxVideoUploadId = "";
-  
+
   if (req.body.type === "video.asset.created") {
     muxVideoAssetId = req.body.object.id;
     muxVideoUploadId = req.body.data.upload_id;
-  } 
+  }
 
   try {
     const singlevideo = await axios.get(
@@ -171,7 +181,8 @@ router.post("/created-video-info", async (req, res) => {
     );
 
     if (singlevideo.data.data) {
-      muxVideoPlaybackId = singlevideo.data.data["playback_ids"][0].id;
+      const videoResp = singlevideo.data.data instanceof Array ? singlevideo.data.data[0] : singlevideo.data.data;
+      muxVideoPlaybackId = videoResp["playback_ids"][0].id;
       const foundVideoRecord = await voteCount.findOne({
         where: {
           muxUploadId: muxVideoUploadId,
@@ -194,52 +205,68 @@ router.post("/created-video-info", async (req, res) => {
   }
 });
 
-router.post("/create-new-product", async (req, res) => {
-  const muxUploadId = req.body.muxUploadId;
-  const uploaderId = req.body.uploaderId;
-  const uploaderEmail = req.body.uploaderEmail;
-  const uploadedVideoFileName = req.body.uploadedVideoFileName;
+router.post("/create-new-product",
+     passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      const user = req.user;
+      const muxUploadId = req.body.muxUploadId;
+      const uploadedVideoFileName = req.body.uploadedVideoFileName;
+      const title = req.body.title;
 
-  let stripeId = "";
+      let stripeId = "";
 
-  if (uploadedVideoFileName) {
-    try {
-      const newStripeProduct = await stripe.products.create({
-        name: uploadedVideoFileName,
-      });
-
-      if (newStripeProduct.id) {
-        stripeId = newStripeProduct.id;
+      if (uploadedVideoFileName) {
         try {
-          const stripePrice = await stripe.prices.create({
-            product: stripeId,
-            unit_amount: 100,
-            currency: "usd",
+          const newStripeProduct = await stripe.products.create({
+            name: uploadedVideoFileName,
           });
-          if (stripePrice) {
-            createVoteRecord(
-              muxUploadId,
-              uploadedVideoFileName,
-              newStripeProduct.id,
-              stripePrice.id,
-              uploaderId,
-              uploaderEmail
-            );
+
+          if (newStripeProduct.id) {
+            stripeId = newStripeProduct.id;
+            try {
+              const stripePrice = await stripe.prices.create({
+                product: stripeId,
+                unit_amount: 100,
+                currency: "usd",
+              });
+              if (stripePrice) {
+                try {
+                  await createVoteRecord(
+                      muxUploadId,
+                      uploadedVideoFileName,
+                      title || uploadedVideoFileName,
+                      newStripeProduct.id,
+                      stripePrice.id,
+                      user,
+                  );
+                } catch (e) {
+                  console.log('trying to upload more than one video');
+                  res.status(400);
+                  res.json({
+                    message: e.message,
+                  });
+                  return;
+                }
+              }
+              res.status(201);
+              res.json({
+                message: "Video uploaded",
+              });
+            } catch (err) {
+              console.log(err);
+            }
+          } else {
+            console.log("I have no id");
           }
         } catch (err) {
           console.log(err);
         }
       } else {
-        console.log("I have no id");
+        res.json({
+          message: "No video filename",
+        });
       }
-    } catch (err) {
-      console.log(err);
-    }
-  } else {
-    res.json({
-      message: "No video filename",
-    });
-  }
+      res.send();
 });
 
 router.post("/convertdate", function (req, res) {

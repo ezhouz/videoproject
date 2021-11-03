@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require("express");
 const app = express();
+const passport = require("passport");
+require("./config/passport")(passport);
 
 const cors = require("cors");
 app.use(cors());
@@ -16,6 +18,8 @@ app.use(
     extended: true,
   })
 );
+app.use(passport.initialize());
+app.set('trust proxy', true)
 
 const db = require("./db/dbconfig");
 

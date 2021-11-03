@@ -15,7 +15,8 @@
         <h3 style="font-size: 3rem; margin-top: 2rem">CHABAD OF MINEOLA</h3>
       </div>
     </article>
-    <VideoList />
+    <SearchBar placeholder="Search name" v-model="searchText" v-on:search="onSearch(searchText)" />
+    <VideoList v-bind:search-term="searchText" />
     <Telethon />
   </div>
 </template>
@@ -24,10 +25,12 @@
 // import axios from "axios";
 import VideoList from "../components/VideoList.vue";
 import Telethon from "../components/Telethon.vue";
+import SearchBar from "../components/SearchBar";
 
 export default {
   name: "Votes",
   components: {
+    SearchBar,
     VideoList,
     Telethon
   },
@@ -35,12 +38,23 @@ export default {
     return {
       voteInfo: [],
       votingData: {},
+      searchText: '',
     };
   },
+  methods: {
+    onSearch(e) {
+      console.log(e);
+    }
+  }
 };
 </script>
 
 <style scoped>
+
+.header-image-wrapper img {
+  width: 100%;
+}
+
 .image-header {
   position: relative;
   text-align: center;

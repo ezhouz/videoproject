@@ -100,7 +100,7 @@ article {
 }
 @media (min-width: 768px) {
   .section-wrapper {
-    margin: 8rem;
+    margin: 4rem 8rem;
   }
   .image-and-text-container.middle {
     display: flex;

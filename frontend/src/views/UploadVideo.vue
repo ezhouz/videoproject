@@ -28,6 +28,7 @@
           <li>Last Name: {{ loggedInUser.lastname }}</li>
           <li>Email Address: {{ loggedInUser.email }}</li>
           <li>Jewish Date of Birth: {{ loggedInUser.hebrewDOB }}</li>
+          <li>Video Title: <input v-model="title" /></li>
         </ul>
       </div>
     </article>
@@ -83,6 +84,7 @@ export default {
       showError: false,
       progress: 0,
       newVideoOptions: {},
+      title: ''
     };
   },
   async created() {
@@ -137,6 +139,7 @@ export default {
         method: "post",
         url: `api/post/processvid`,
         data: {},
+        ...this.existingToken
       });
 
       console.log(newVideoUpload)
@@ -146,6 +149,7 @@ export default {
         this.newVideoOptions.uploaderId = this.loggedInUser.id;
         this.newVideoOptions.uploaderEmail = this.loggedInUser.email;
         this.newVideoOptions.uploadedVideoFileName = this.uploadedVideoFileName;
+        this.newVideoOptions.title = this.title;
 
         try {
           const upload = UpChunk.createUpload({

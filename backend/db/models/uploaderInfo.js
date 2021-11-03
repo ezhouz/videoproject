@@ -1,7 +1,15 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const db = require('../dbconfig');
 
-const uploaderInfo = db.define('uploaderInfo', {
+class UploaderInfo extends Model {}
+
+UploaderInfo.init({
+  id: {
+    type: DataTypes.INTEGER(11),
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
   uploaderFirstName: {
     type: DataTypes.STRING,
     allowNull: false
@@ -32,9 +40,17 @@ const uploaderInfo = db.define('uploaderInfo', {
   }
 }, {
   freezeTableName: true,
-  timestamps: false
+  timestamps: false,
+  sequelize: db,
+  modelName: 'UploaderInfo',
+  tableName: 'uploaderInfo',
+  scopes: {
+    public: {
+      attributes: { exclude: ['uploaderPassword', 'uploaderIsConfirmed'] },
+    }
+  },
 })
 
 //uploaderInfo.sync({force: true})
 
-module.exports = uploaderInfo;
+module.exports = db.models.UploaderInfo;

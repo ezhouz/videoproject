@@ -5,7 +5,7 @@
         <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
 
         <b-navbar-brand>
-          <a href="/"><img class="app-logo" src="./assets/logo.png" alt="" /></a>
+          <a href="/"><img class="app-logo" src="./assets/logo.svg" alt="" /></a>
         </b-navbar-brand>
 
         <b-collapse id="nav-text-collapse" is-nav>
@@ -90,6 +90,7 @@ export default {
 .main-navbar.navbar {
   margin: 0;
   padding: 0;
+  background-color: #fff !important;
 }
 
 #nav-text-collapse {

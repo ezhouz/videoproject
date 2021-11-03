@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="submission-container">
-      <div v-for="video in videos" :key="video.id" class="submission">
+      <div v-for="video in filtered" :key="video.id" class="submission">
         <article class="video-component-container">
           <div class="player-wrapper">
             <video-player
@@ -15,67 +15,22 @@
                 autoplay: false,
                 controls: true,
                 poster: video.thumbnail,
+                width: 300,
                 sources: [{ src: video.src, type: video.type }],
               }"
             />
           </div>
-
           <div class="video-info-container">
-            <div style="margin: 3rem 0" class="video-info">
-              <h2 style="font-weight: 900">Submission Information</h2>
-              <h3>Name: {{ video.uploadedVideoFileName }}</h3>
-              <h3>Votes: {{ video.voteTally }}</h3>
+            <div class="video-info">
+              <h3 class="video-name">{{ video.title }}</h3>
+              <p class="date-birth"><i class="icon icon-calendar"></i> {{ video.uploaderBirthDate }}</p>
+              <h3><span>{{ video.votes }}</span> votes</h3>
             </div>
-            <div v-if="addedToCart" class="messages">
-              {{ addedToCartMessage }}
-            </div>
-            <div class="video-form">
-              <b-input-group>
-                <b-input-group-prepend>
-                  <b-btn
-                    variant="outline-info"
-                    @click="changeVoteCount('minus', video.newVotes, video.id)"
-                    >-</b-btn
-                  >
-                </b-input-group-prepend>
-
-                <b-form-input
-                  v-model="video.newVotes"
-                  type="number"
-                  min="1"
-                  @change="changeVoteCount(video.newVotes, video.id)"
-                ></b-form-input>
-
-                <b-input-group-append>
-                  <b-btn
-                    variant="outline-secondary"
-                    @click="changeVoteCount('plus', video.newVotes, video.id)"
-                    >+</b-btn
-                  >
-                </b-input-group-append>
-
-                <b-input-group-append>
-                  <b-btn
-                    variant="warning"
-                    @click="
-                      addToCart(
-                        video.uploadedVideoFileName,
-                        video.newVotes,
-                        video.thumbnail,
-                        video.id
-                      )
-                    "
-                    >Add to cart</b-btn
-                  >
-                </b-input-group-append>
-
-                <b-input-group-append>
-                  <b-btn variant="success" @click="submitStripePayment()"
-                    >Purchase Votes</b-btn
-                  >
-                </b-input-group-append>
-              </b-input-group>
-            </div>
+            <button v-if="!video.isVoted"
+                class="btn btn-primary vote-btn"
+                v-on:click="vote(video.id)"
+            >Vote</button>
+            <div class="voted-text" v-if="video.isCurrentVideoVoted"><i class="icon icon-checkmark"></i> Voted</div>
           </div>
         </article>
       </div>
@@ -84,14 +39,32 @@
 </template>
 
 <script>
-import axios from "axios";
+import videoService from "../services/video.service";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import "video.js/dist/video-js.css";
+
+const filter = (videos, searchTerm) => {
+  return (searchTerm !== undefined && searchTerm.length > 0) ? videos.filter(v => v.title.toLowerCase().includes(searchTerm.toLowerCase())): videos;
+}
 
 export default {
   name: "VideoList",
   components: {
     VideoPlayer,
+  },
+  props: {
+    searchTerm: String
+  },
+  watch: {
+    searchTerm: function(newVal, oldVal) {
+      console.log(this);
+      if (newVal !== oldVal && this.videos) {
+        this.filtered = filter(this.videos, newVal);
+      }
+    },
+    videos: function(newVal) {
+      this.filtered = filter(newVal, this.searchTerm);
+    }
   },
   data() {
     return {
@@ -99,149 +72,22 @@ export default {
       loadError: false,
       loadErrorMessge: "",
       videos: [],
+      filtered: [],
       cartForDisplay: [],
       addedToCart: false,
       addedToCartMessage: "Succesfully added to cart",
     };
   },
   async created() {
-    const voteInfo = await axios.get(`api/getall/current-vote-count`);
-    if (voteInfo.status !== 200) {
-      this.loadError = true;
-      this.loadErrorMessge = "Error loading vote information";
-    } else {
-      try {
-        this.voteInfo = voteInfo.data;
-        voteInfo.data.forEach((item) =>
-          this.voteInfoVideoIds.push(item.muxVideoId)
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    const allVideos = await axios.get(`api/getall/allvideos`);
-    try {
-      allVideos.data.forEach((video) => {
-        const currentPlaybackId = video.muxPlaybackId;
-        this.videos.push({
-          src: `https://stream.mux.com/${currentPlaybackId}.m3u8`,
-          thumbnail: `https://image.mux.com/${currentPlaybackId}/thumbnail.jpg`,
-          type: "application/x-mpegURL",
-          voteTally: video.voteTally,
-          newVotes: 1,
-          id: currentPlaybackId,
-          uploadedVideoFileName: video.uploadedVideoFileName,
-          uploaderEmail: video.uploaderEmail,
-          uploaderId: video.uploaderId,
-        });
-      });
-    } catch (error) {
-      this.loadError = true;
-      this.loadErrorMessge = "Error loading videos";
-      console.log(error);
-    }
-
-    const onCreateLocalCartExistingItems = localStorage.getItem("shoppingCart");
-    let onCreateLocalCartExistingItemsFormatted = JSON.parse(
-      onCreateLocalCartExistingItems
-    );
-    this.cartForDisplay = onCreateLocalCartExistingItemsFormatted;
+    this.videos = await videoService.loadVideos();
   },
   methods: {
-    changeVoteCount(operator = null, number, id) {
-      if (operator !== null) {
-        if (operator === "minus") {
-          number--;
-        } else if (operator === "plus") {
-          number++;
-        }
-      }
-      this.videos.forEach((video) => {
-        if (video.id === id) {
-          video.newVotes = number;
-        }
-      });
-    },
-
-    addToCart(name, newVotes, thumbnail, id) {
-      const localCartExistingItems = localStorage.getItem("shoppingCart");
-      let localCartExistingItemsFormatted = JSON.parse(localCartExistingItems);
-
-      if (localCartExistingItemsFormatted) {
-        //check if the product is in the cart
-        let existing = localCartExistingItemsFormatted
-          .map((product) => product.name)
-          .includes(name);
-
-        if (!existing) {
-          localCartExistingItemsFormatted.push({
-            name,
-            newVotes: newVotes,
-            thumbnail,
-            id,
-          });
-          this.addUpdateLocalCart(localCartExistingItemsFormatted);
-          //loop through the products and add newvotes to the produt in the cart
-        } else {
-          localCartExistingItemsFormatted.forEach((product) => {
-            if (product.name === name) {
-              let newVotesParsed = parseInt(newVotes);
-              let existingVotesNumber = parseInt(product.newVotes, 10);
-              existingVotesNumber += newVotesParsed;
-              product.newVotes = existingVotesNumber;
-              return product;
-            }
-          });
-          this.addUpdateLocalCart(localCartExistingItemsFormatted);
-        }
-      } else {
-        // if the cart is empty, push the new product
-        this.addUpdateLocalCart([{ name, newVotes: newVotes, thumbnail, id }]);
-      }
-    },
-
-    addUpdateLocalCart(cart) {
-      const cartString = JSON.stringify(cart)
-      localStorage.setItem("shoppingCart", cartString);
-      let updatedCart = localStorage.getItem("shoppingCart");
-      let updatedCartParsed = JSON.parse(updatedCart);
-      this.cartForDisplay = updatedCartParsed;
-      location.reload();
-    },
-
-    async submitStripePayment() {
-      let formattedProducts = [];
-      this.cartForDisplay.forEach((product) => {
-        formattedProducts.push({
-          adjustable_quantity: {
-            enabled: true,
-            minimum: 1,
-            maximum: 999,
-          },
-          price_data: {
-            currency: "usd",
-            unit_amount: 100,
-            product_data: {
-              name: product.name,
-            },
-          },
-          quantity: product.newVotes,
-        });
-      });
-
-      try {
-        let stripeSession = await axios.post(
-          "api/post/create-checkout-session",
-          { products: formattedProducts }
-        );
-        window.location = stripeSession.data.url;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
-};
+    async vote(id) {
+      await videoService.vote(id);
+      this.videos = await videoService.loadVideos();
+    }
+  }
+}
 </script>
 
 <style>
@@ -250,12 +96,93 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+.submission-container article {
+  display: flex;
+  flex-direction: row;
+}
+
+.submission-container .player-wrapper {
+  width: 300px;
+  position: relative;
+}
+
+
 .video-form {
   font-size: 1.6rem;
 }
 .video-component-container {
   margin: 3rem;
 }
+
+.video-info h3 {
+  font-weight: bold;
+}
+.video-info .date-birth {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 2rem 0;
+}
+.video-info .icon.icon-calendar {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+}
+.video-info .video-name {
+  font-size: 2rem;
+}
+
+.video-info-container {
+  padding: 1rem;
+  white-space: normal;
+  width: 210px;
+  overflow: hidden;
+}
+
+.video-info-container .vote-btn.btn {
+  font-size: 1.6rem;
+  font-weight: bold;
+  background-color: #EF91DC;
+  border: none;
+  padding: 0.75rem 2.2rem;
+  border-radius: 1rem;
+  color: #000;
+}
+.video-info-container .vote-btn.btn:active,
+.video-info-container .vote-btn.btn:focus,
+.video-info-container .vote-btn.btn.active{
+  opacity: 0.8;
+  background-color: #EF91DC;
+}
+
+.video-info-container .voted-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #EF91DC;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+}
+.video-info-container .icon.icon-checkmark {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+
+.player-wrapper {
+  border-radius: 1.6rem;
+  overflow: hidden;
+}
+
+.player-wrapper .vjs-big-play-button {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .input-group-append .btn,
 input.form-control {
   font-size: 1.6rem !important;

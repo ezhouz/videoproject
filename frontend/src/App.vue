@@ -98,8 +98,9 @@ export default {
 }
 
 .app-logo {
-  height: 100px;
+  height: 110px;
   margin-left: 10rem;
+  padding: 1rem;
 ;
 }
 

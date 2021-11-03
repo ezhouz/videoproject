@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="second-header">
     <article class="image-header">
       <div class="header-image-wrapper">
         <img

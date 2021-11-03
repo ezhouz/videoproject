@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
             uploader: {
                 id: v.uploader.id,
                 uploaderDOBEnglish: v.uploader.uploaderDOBEnglish,
-                uploaderDOBHebrew: v.uploader.uploaderDOBHebrew,
+                uploaderDOBHebrew: v.uploader.uploaderDOBHebrew.split('-').slice(0, 2).join(' '),
                 uploaderFirstName: v.uploader.uploaderFirstName,
                 uploaderLastName: v.uploader.uploaderLastName
             }

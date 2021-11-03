@@ -1,5 +1,5 @@
 <template>
-  <section class="">
+  <section class="second-header">
     <article class="image-header">
       <div class="header-image-wrapper">
         <img
@@ -97,10 +97,6 @@ export default {
 
 
 <style scoped>
-.image-header {
-  position: relative;
-  text-align: center;
-}
 
 .header-text.desktop {
   font-size: 6rem;
@@ -113,13 +109,6 @@ export default {
   font-weight: 900;
 }
 
-.header-text-wrapper {
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .b-form-btn-label-control.form-control {
   width: 60%;
   font-size: 2rem;

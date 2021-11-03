@@ -11,6 +11,26 @@ html {
     text-transform: uppercase;
 }
 
+.bold {
+    font-weight: bold;
+}
+.medium {
+    font-weight: 500;
+}
+
+.mbt-20 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.mbt-40 {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+.mbt-60 {
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
 .navbar a.router-link-active.router-link-exact-active {
     border-bottom: 2px solid #EF91DC;
 }
@@ -34,3 +54,33 @@ html {
 .icon.icon-checkmark {
     background-image: url("../../assets/icons/checkmark.svg");
 }
+
+.second-header .header-image-wrapper img {
+    width: 100%;
+}
+
+.second-header .image-header {
+    position: relative;
+    text-align: center;
+}
+
+.second-header .header-text.desktop {
+    font-size: 5rem;
+}
+.second-header .header-text.tablet {
+    font-size: 4rem;
+}
+.second-header .header-text {
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.second-header .header-text-wrapper {
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+}
+

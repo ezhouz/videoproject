@@ -1,14 +1,9 @@
 import axios from "axios";
+import {BaseService} from "./base.service";
 
-class VideoService {
+class VideoService extends BaseService {
     static VIDEO_LIST_URI = 'api/videos'
     static VIDEO_VOTE_URI = 'api/videos/vote'
-
-    #authToken;
-
-    setAuthToken(token) {
-        this.#authToken = token;
-    }
 
     async loadVideos() {
         const resp = await axios.get(VideoService.VIDEO_LIST_URI, {
@@ -51,16 +46,6 @@ class VideoService {
             this.loadError = true;
             this.loadErrorMessge = "Can't vote due some error";
             console.log(resp.data);
-        }
-    }
-
-    getHeaders() {
-        if (this.#authToken) {
-            return {
-                Authorization: 'Bearer ' + this.#authToken
-            };
-        } else {
-            return {};
         }
     }
 }

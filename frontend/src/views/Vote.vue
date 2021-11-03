@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="second-header">
     <article class="image-header">
       <div class="header-image-wrapper">
         <img
@@ -17,6 +17,7 @@
     </article>
     <SearchBar placeholder="Search name" v-model="searchText" v-on:search="onSearch(searchText)" />
     <VideoList v-bind:search-term="searchText" />
+    <HowItWorks />
     <Telethon />
   </div>
 </template>
@@ -26,10 +27,12 @@
 import VideoList from "../components/VideoList.vue";
 import Telethon from "../components/Telethon.vue";
 import SearchBar from "../components/SearchBar";
+import HowItWorks from "../components/HowItWorks";
 
 export default {
   name: "Votes",
   components: {
+    HowItWorks,
     SearchBar,
     VideoList,
     Telethon
@@ -51,32 +54,4 @@ export default {
 
 <style scoped>
 
-.header-image-wrapper img {
-  width: 100%;
-}
-
-.image-header {
-  position: relative;
-  text-align: center;
-}
-
-.header-text.desktop {
-  font-size: 6rem;
-}
-.header-text.tablet {
-  font-size: 4rem;
-}
-.header-text {
-  font-size: 3rem;
-  font-weight: 900;
-}
-
-.header-text-wrapper {
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 85%;
-}
 </style>

@@ -115,7 +115,7 @@ router.post("/create-checkout-session", async (req, res) => {
 });
 
 router.post("/validatetoken", (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : null;
 
   let tokenres = validateMyToken(token);
   if (tokenres.id) {

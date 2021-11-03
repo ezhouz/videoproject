@@ -35,11 +35,15 @@
         </article>
       </div>
     </div>
+    <div v-if="isLoggedIn" class="submit-video">
+      <button class="btn-primary vote-btn btn" v-on:click="onVideoSubmit()">Submit a Video</button>
+    </div>
   </section>
 </template>
 
 <script>
 import videoService from "../services/video.service";
+import userService from "../services/user.service";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import "video.js/dist/video-js.css";
 
@@ -76,15 +80,26 @@ export default {
       cartForDisplay: [],
       addedToCart: false,
       addedToCartMessage: "Succesfully added to cart",
+      isLoggedIn: false
     };
   },
   async created() {
+    const authToken = localStorage.getItem("chabadtoken");
     this.videos = await videoService.loadVideos();
+    userService.setAuthToken(authToken);
+    const user = await userService.getCurrentUser();
+    console.log(user)
+    this.isLoggedIn = !!user;
   },
   methods: {
     async vote(id) {
       await videoService.vote(id);
       this.videos = await videoService.loadVideos();
+    },
+    onVideoSubmit() {
+      this.$router.push({
+        name: "UploadVideo",
+      });
     }
   }
 }
@@ -122,6 +137,7 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   margin: 2rem 0;
+  font-size: 1.2rem;
 }
 .video-info .icon.icon-calendar {
   width: 16px;
@@ -139,7 +155,7 @@ export default {
   overflow: hidden;
 }
 
-.video-info-container .vote-btn.btn {
+.vote-btn.btn {
   font-size: 1.6rem;
   font-weight: bold;
   background-color: #EF91DC;
@@ -148,14 +164,15 @@ export default {
   border-radius: 1rem;
   color: #000;
 }
-.video-info-container .vote-btn.btn:active,
-.video-info-container .vote-btn.btn:focus,
-.video-info-container .vote-btn.btn.active{
+.vote-btn.btn:active,
+.vote-btn.btn:focus,
+.vote-btn.btn:hover,
+.vote-btn.btn.active {
   opacity: 0.8;
   background-color: #EF91DC;
 }
 
-.video-info-container .voted-text {
+.voted-text {
   font-size: 2rem;
   font-weight: bold;
   color: #EF91DC;
@@ -181,6 +198,27 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.submit-video {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3rem 0;
+}
+.submit-video .btn {
+  border-radius: 3rem;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+  padding: 1.4rem 4rem;
+
+}
+.submit-video .btn:hover,
+.submit-video .btn:active,
+.submit-video .btn:focus {
+  color: #fff;
 }
 
 .input-group-append .btn,

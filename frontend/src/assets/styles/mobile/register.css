@@ -40,6 +40,9 @@ and (device-height: 640px) {
     .login-section .reset-text {
         font-size: 1.6rem !important;
     }
+    .login-section .reset-text.reset-password-text {
+        font-size: 1.2rem !important;
+    }
 
     .register-section .login-text {
         font-size: 1.6rem !important;

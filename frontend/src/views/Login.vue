@@ -51,18 +51,19 @@
 
       <article>
         <p style="display: flex; justify-content: center;">
-          <a href="/passwordreset"
-          ><span class="reset-text">Forgot password? Reset it here.</span></a
+          <a href="/register"
+          ><span class="reset-text">I don't have an account. Register here</span></a
           >
         </p>
       </article>
       <article>
         <p style="display: flex; justify-content: center;">
-          <a href="/register"
-          ><span class="reset-text">I have no account. Register</span></a
+          <a href="/passwordreset"
+          ><span class="reset-text reset-password-text">Forgot password? Reset it here.</span></a
           >
         </p>
       </article>
+
     </div>
   </section>
 </template>
@@ -136,6 +137,10 @@ export default {
   font-weight: bold;
   color: #ef91dc;
   text-decoration: none;
+}
+
+.reset-password-text {
+  font-size: 1.6rem;
 }
 
 form div {

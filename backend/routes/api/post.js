@@ -269,14 +269,36 @@ router.post("/create-new-product",
       res.send();
 });
 
-router.post("/convertdate", function (req, res) {
-  let newHebDateSplit = req.body.date.split("-");
-  let year, month, day;
-  year = Number(newHebDateSplit[0].replace(/['"]+/g, ""));
-  month = newHebDateSplit[1];
-  day = newHebDateSplit[2].replace(/['"]+/g, "");
-  let processedHebrewDate = hebrewDate(year, month, day);
-  res.send(processedHebrewDate);
+router.post("/convertdate", async function (req, res) {
+    const dateStr = req.body.date;
+    if (!dateStr) {
+        res.status(400);
+        res.json({
+            message: 'invalida date is given'
+        });
+        return;
+    }
+    let [year, month, day] = dateStr.split("-");
+    try {
+        const resp = await axios.get(`https://www.hebcal.com/converter?cfg=json&gy=${year}&gm=${month}&gd=${day}&g2h=1`);
+        if (resp && resp.status === 200) {
+            let processedHebrewDate = `${resp.data.hm}-${resp.data.hd}-${resp.data.hy}`;
+            res.json({
+                date: resp.data.hd,
+                month: resp.data.hm,
+                year: resp.data.hy,
+                month_name: resp.data.hm
+            });
+        } else {
+            throw new Error('hebcal api request problem');
+        }
+    } catch (e) {
+        console.log(e.message);
+        res.status(502);
+        res.json({
+            message: 'Service unavailable'
+        })
+    }
 });
 
 module.exports = router;

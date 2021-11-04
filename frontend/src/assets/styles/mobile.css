@@ -69,6 +69,13 @@ and (device-height: 640px) {
     .telethon-section p {
         font-size: 1.2rem !important;
     }
+    .video-js .vjs-big-play-button {
+        left: 60px !important;
+        top: 70px !important;
+        margin: 0 !important;
+    }
+
+
 
 
 }
@@ -101,6 +108,7 @@ and (orientation: landscape) {
     .main-navbar .navbar-collapse .nav-item a {
         font-size: 1.2rem !important;
     }
+
 }
 
 /* ----------- iPhone 6+, 7+ and 8+ ----------- */

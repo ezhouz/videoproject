@@ -25,6 +25,8 @@ class VideoService extends BaseService {
                     uploadedVideoFileName: video.fileName,
                     title: video.title,
                     uploaderEmail: video.uploader.uploaderEmail,
+                    uploaderFirstName: video.uploader.uploaderFirstName,
+                    uploaderLastName: video.uploader.uploaderLastName,
                     uploaderBirthDate: video.uploader.uploaderDOBHebrew,
                     uploaderId: video.uploader.uploaderId,
                 });

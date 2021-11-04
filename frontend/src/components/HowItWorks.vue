@@ -6,14 +6,20 @@
         <div class="icon"><img :src="item.src" /></div><span>{{ item.text }}</span>
       </li>
     </ul>
+    <div v-if="!isLoggedIn" class="register-btn">
+      <button class="btn-primary register-btn btn" v-on:click="onRegister()">Register</button>
+    </div>
   </div>
 </template>
 
 <script>
+import userService from '../services/user.service';
+
 export default {
   name: 'HowItWorks',
   data() {
     return {
+      isLoggedIn: false,
       items: [
         {
           iconClass: 'calendar',
@@ -41,6 +47,16 @@ export default {
           text: '8 winners will have a Jewish birthday bash, on the Chanukah Telethon, plus Birthday gifts to be gifted live on the telethon'
         }
       ]
+    }
+  },
+  async created() {
+    const authToken = localStorage.getItem("chabadtoken");
+    userService.setAuthToken(authToken);
+    this.isLoggedIn = !!(await userService.getCurrentUser());
+  },
+  methods: {
+    onRegister(){
+      this.$router.push('Register');
     }
   }
 }
@@ -84,5 +100,31 @@ export default {
 
 .how-it-works ul > li span {
 
+}
+
+.how-it-works .register-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+}
+
+.how-it-works .register-btn.btn {
+  font-weight: bold;
+  background-color: #699AF1;
+  border: none;
+  border-radius: 3rem;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 1.4rem 4rem;
+
+}
+.how-it-works .register-btn.btn:active,
+.how-it-works .register-btn.btn:focus,
+.how-it-works .register-btn.btn:hover,
+.how-it-works .register-btn.btn.active {
+  opacity: 0.8;
+  background-color: #699AF1;
 }
 </style>

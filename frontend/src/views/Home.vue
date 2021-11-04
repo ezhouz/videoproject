@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="home-page">
     <Homeheader />
     <Uploadfunvideo />
     <Homepagebuttons />

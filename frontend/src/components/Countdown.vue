@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="countdown-text-number-wrapper blue-back">
+        <div class="countdown-text-number-wrapper countdown-hours blue-back">
           <div class="">
             <h3>{{ timeRemaining.hours }}</h3>
             <h5>Hours</h5>
@@ -204,37 +204,31 @@ export default {
   display: flex;
   flex-direction: column;
 }
-@media (min-width: 374px) {
-  .countdown-image-container {
-    width: 15rem;
-  }
-  .countdown-number-wrapper h3 {
-    font-size: 7rem;
-  }
-  .countdown-number-wrapper h5 {
-    font-size: 3rem;
-  }
-  .countdown-text-number-wrapper {
-    width: 15rem;
-    height: 15rem;
-  }
+
+.countdown-wrapper {
+  flex-direction: row;
 }
-@media (min-width: 650px) {
-  .countdown-wrapper {
-    flex-direction: row;
-  }
-  .countdown-numbers {
-    display: flex;
-    flex-direction: row;
-  }
-  .numbers-wrapper {
-    flex-direction: column;
-  }
-  .countdown-ul {
-    padding-left: 2rem;
-  }
-  .countdown-wrapper {
-    margin: 5rem;
-  }
+.countdown-numbers {
+  display: flex;
+  flex-direction: row;
 }
+.numbers-wrapper {
+  flex-direction: column;
+}
+.countdown-ul {
+  padding-left: 2rem;
+}
+.countdown-wrapper {
+  margin: 5rem;
+}
+
+.countdown-days {
+  margin: 0 0 0 -1rem;
+  width: 13rem;
+}
+
+.countdown-hours {
+  margin-top: 4rem;
+}
+
 </style>

@@ -64,17 +64,15 @@ html {
     text-align: center;
 }
 
-.second-header .header-text.desktop {
-    font-size: 5rem;
-}
-.second-header .header-text.tablet {
-    font-size: 4rem;
-}
 .second-header .header-text {
-    font-size: 3rem;
+    font-size: 4rem;
     font-weight: 900;
 }
 
+.second-header .header-text-wrapper h3 {
+    font-size: 3rem;
+    margin-top: 2rem
+}
 .second-header .header-text-wrapper {
     color: #fff;
     position: absolute;
@@ -84,3 +82,4 @@ html {
     width: 85%;
 }
 
+@import "mobile.css";

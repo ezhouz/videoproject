@@ -23,6 +23,7 @@
           <div class="video-info-container">
             <div class="video-info">
               <h3 class="video-name">{{ video.title }}</h3>
+              <p class="uploader-name"> {{ video.uploaderFirstName }} {{ video.uploaderLastName }}</p>
               <p class="date-birth"><i class="icon icon-calendar"></i> {{ video.uploaderBirthDate }}</p>
               <h3><span>{{ video.votes }}</span> votes</h3>
             </div>
@@ -35,7 +36,7 @@
         </article>
       </div>
     </div>
-    <div v-if="isLoggedIn" class="submit-video">
+    <div class="submit-video">
       <button class="btn-primary vote-btn btn" v-on:click="onVideoSubmit()">Submit a Video</button>
     </div>
   </section>
@@ -132,6 +133,12 @@ export default {
 .video-info h3 {
   font-weight: bold;
 }
+.video-info .uploader-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #699AF1;
+}
+
 .video-info .date-birth {
   display: flex;
   flex-direction: row;

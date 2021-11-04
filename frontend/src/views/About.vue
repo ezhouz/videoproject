@@ -20,7 +20,7 @@
         <h2>WHERE TO WATCH THE CHANUKAH TELETHON</h2>
         <h3 class="mbt-60">Watch The Presentation of Jewish Birthday Makeover Awards!</h3>
         <div class="two-cols-wrapper row">
-          <div class="col-6 col medium">
+          <div class="col-md-6 col-sm-12 col-xs-12 col medium">
             <h2 class="mbt-20">Live Music, Dancing Rabbis and many Surprises!</h2>
             <p><span class="marked">Telethon Hosts:</span>
               Jay Oliver, Rabbi Anchelle Perl and Kive Strickoff</p>
@@ -28,8 +28,8 @@
               JBS TV Jewish Broadcasting Service NY, Long Island, 5 Boros, NJ, CT, FL
             </p>
           </div>
-          <div class="col-6">
-            <img class="photo-full" src="images/about/photo-1.svg"/>
+          <div class="col-md-6 col-sm-12 col-xs-12">
+            <img class="photo-full" :class="$mq" src="images/about/photo-1.svg"/>
           </div>
         </div>
         <p class="medium">
@@ -50,14 +50,14 @@
           persuasions are well represented and participate in the Chanukah Telethon. They come to show their support of
           the on-going humanitarian programs of the NCFJE Chabad Mineola.</p>
         <div class="two-cols-wrapper row">
-          <div class="col-6 col">
+          <div class="col-md-6 col-sm-12 col">
             <h2 class="mbt-60">AN EXTRAVAGANZA OF ENTERTAINMENT & SAVING LIVES
             </h2>
             <p>Behind the fun and entertainment of the Chabad Chanukah Telethon is a very serious purpose. It’s all
               about meeting the serious challenges of our times, it’s all about providing a warm “home away from home”
               for those who fall between the cracks.</p>
           </div>
-          <div class="col-6 col">
+          <div class="col-md-6 col-sm-12 col">
             <img class="photo-full" src="images/about/photo-3.svg"/>
           </div>
         </div>

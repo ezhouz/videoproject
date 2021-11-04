@@ -1,0 +1,69 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+    .about-content {
+        padding: 2rem 1rem !important;
+    }
+
+    .about-content h2 {
+        font-size: 2rem !important;
+    }
+
+    .about-content h3 {
+        font-size: 2rem !important;
+    }
+
+    .about-content h3.mbt-60,
+    .about-content h2.mbt-60 {
+        margin-top: 3rem !important;
+        margin-bottom: 3rem !important;
+    }
+
+    .about-content .two-cols-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    .about-content p {
+        font-size: 1.6rem !important;
+        line-height: 3rem !important;
+    }
+
+    .about-content  .photo-full.tablet {
+        width: 60% !important;
+        margin-left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .about-content .marked {
+        font-size: 2.6rem !important;
+    }
+
+    .about-content ul > li {
+        font-size: 3rem !important;
+        margin: 2rem 0 !important;
+
+    }
+
+    .about-content ul > li .icon {
+        display: none !important;
+    }
+
+    .about-content ul > li h4 {
+        font-size: 2rem !important;
+    }
+}

@@ -1,0 +1,127 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+
+    .header-text-wrapper .header-text {
+        font-size: 2.8rem !important;
+        max-width: 100% !important;
+    }
+    .header-text-wrapper .header-secondary-text {
+        font-size: 2rem !important;
+        max-width: 100%;
+        margin-left: 0 !important;
+        margin-top: 4rem !important;
+        margin-bottom: 4rem !important;
+    }
+    .home-page .image-header {
+        min-height: 44rem !important;
+    }
+
+    .home-page .section-wrapper {
+        margin: 1rem !important;
+    }
+    .home-upload-info .text-container h3 {
+        font-size: 1.6rem !important;
+    }
+    .home-upload-info .image-and-text-container.top {
+        height: 200px !important;
+    }
+    .home-upload-info .home-image-birthday {
+        width: 195px !important;
+        height: 200px !important;
+    }
+    .home-upload-info .home-image-friends {
+        width: 220px !important;
+        height: 280px !important;
+    }
+    .home-upload-info .home-image-happy-guy {
+        width: 195px !important;
+        height: 220px !important;
+    }
+
+    .home-page .top-text {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .home-page .top-text h2 {
+        font-size: 3rem !important;
+    }
+
+    .home-page .button-wrapper .btn {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 800;
+        border-radius: 6rem;
+        margin: 0.5rem 0.25rem !important;
+        padding: 1rem 2rem !important;
+        width: 100% !important;
+    }
+    .home-page .button-wrapper .about-btn {
+        font-size: 1.3rem;
+        padding: 1.8rem 2rem !important;
+    }
+
+    .home-page .countdown-wrapper {
+        margin: 1rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .home-page .countdown-wrapper .countdown-ul {
+        padding-left: 0 !important;
+    }
+    .home-page .countdown-wrapper .countdown-li {
+        font-size: 1.8rem !important;
+    }
+    .home-page .countdown-wrapper .countdown-text-header {
+        font-size: 3rem;
+    }
+    .home-page .countdown-wrapper .telethon-hr {
+        margin: 1rem !important;
+    }
+
+}
+
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px) {
+
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px) {
+
+}
+
+
+/* ----------- iPad 1, 2, Mini and Air ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px) {
+
+}

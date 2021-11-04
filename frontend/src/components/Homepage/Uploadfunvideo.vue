@@ -1,5 +1,5 @@
 <template>
-  <section class="section-wrapper">
+  <section class="section-wrapper home-upload-info">
     <article class="image-and-text-container top">
       <div class="text-container">
         <h3>
@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 
-.image-container .home-image{
+.image-container .home-image {
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -57,11 +57,13 @@ export default {
   height: 350px;
   background-image: url("../../../public/images/home/home-image-birthday.svg");
 }
+
 .image-container .home-image.home-image-happy-guy {
   width: 530px;
   height: 500px;
   background-image: url("../../../public/images/home/home-image-happy-guy.svg");
 }
+
 .image-container .home-image.home-image-friends {
   width: 530px;
   height: 400px;
@@ -77,50 +79,57 @@ article.middle {
 }
 
 .section-wrapper {
-  margin: 3rem;
+  margin: 4rem 8rem;
 }
+
 article {
   margin: 3rem 0;
 }
+
 .text-container h3 {
   font-weight: 700;
   font-size: 2.8rem;
 }
+
 .image-and-text-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
 }
+
 .image-and-text-container div {
   flex-grow: 1;
 }
+
 .image-container img {
   width: 100%;
   height: auto;
 }
-@media (min-width: 768px) {
-  .section-wrapper {
-    margin: 4rem 8rem;
-  }
-  .image-and-text-container.middle {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  .text-container h3 {
-    font-weight: 700;
-    font-size: 3.5rem;
-  }
-  .top img {
-    max-height: 150rem;
-  }
-  .image-and-text-container {
-    flex-direction: row;
-  }
-  .middle .image-container {
-    margin: -11rem 0;
-  }
-  .top .image-container {
-    margin: -20rem 0;
-  }
+
+.image-and-text-container.middle {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.text-container h3 {
+  font-weight: 700;
+  font-size: 3.5rem;
+}
+
+.top img {
+  max-height: 150rem;
+}
+
+.image-and-text-container {
+  flex-direction: row;
+}
+
+.middle .image-container {
+  margin: -11rem 0;
+}
+
+.top .image-container {
+  margin: -20rem 0;
+
 }
 </style>

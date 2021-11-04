@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="sm" type="light" variant="light" class="main-navbar">
-        <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
+      <b-navbar toggleable="sm" type="light" variant="light" class="main-navbar navbar-inverse">
+        <b-navbar-toggle target="nav-text-collapse" class="navbar-toggler-right">Menu</b-navbar-toggle>
 
         <b-navbar-brand>
           <a href="/"><img class="app-logo" src="./assets/logo.svg" alt="" /></a>
@@ -37,7 +37,7 @@
           </b-navbar-nav>
         </b-collapse>
 
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto header-social-buttons">
 
           <div class="icon-yellow-wrapper">
             <a href="https://www.facebook.com/rabbiperl">

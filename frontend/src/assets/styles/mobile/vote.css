@@ -1,0 +1,75 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px),
+  /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+  /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+  /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+
+  .submission-container {
+    justify-content: flex-start !important;
+    flex-direction: column !important;
+  }
+  .submission-container .player-wrapper {
+    width: 165px !important;
+  }
+
+  .video-info-container {
+    width: auto !important;
+  }
+
+  .video-component-container {
+    margin : 1rem !important;
+  }
+
+  .player-wrapper .vjs-big-play-button {
+    left: 85px !important;
+  }
+
+  .video-info .date-birth {
+    margin: 1rem 0 !important;
+  }
+
+  .submit-video .btn {
+    padding: 1rem 2rem !important;
+    font-size: 2rem !important;
+  }
+
+  .how-it-works {
+    margin: 3rem 1rem !important;
+  }
+
+  .how-it-works h3 {
+    font-size: 3rem !important;
+  }
+
+  .how-it-works ul {
+    padding-left: 0 !important;
+  }
+
+  .how-it-works ul > li .icon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .how-it-works ul > li {
+    font-size: 2rem !important;
+  }
+
+
+  .how-it-works .register-btn.btn {
+    padding: 1rem 2rem !important;
+    font-size: 2rem !important;
+  }
+}

@@ -1,7 +1,7 @@
 <template>
-  <section style="margin-bottom: 5rem; padding: 3rem">
+  <section class="telethon-section" >
     <hr class="telethon-hr">
-    <div style="width: 300px; margin: 2rem 0">
+    <div class="image-wrapper">
       <img
         style="width: 100%; height: auto"
         src="../../public/images/home/pressrelease_66915_1224266498-_i.png"
@@ -22,18 +22,24 @@ export default {
 </script>
 
 <style scoped>
+
+.telethon-section {
+  margin-bottom: 5rem; padding: 3rem;
+}
+
 .telethon-hr {
   border-top: 5px solid #febf59;
   width: 50%;
   display: inline-block;
 }
 p {
-  font-size: 1.2rem;
+  font-size: 2.2rem;
+  font-weight: 500;
 }
-@media (min-width: 768px) {
-  p {
-    font-size: 2.2rem;
-    font-weight: 500;
-  }
+
+.image-wrapper {
+  width: 300px;
+  margin: 2rem 0
 }
+
 </style>

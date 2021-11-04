@@ -50,7 +50,10 @@ VoteCount.init({
   tableName: 'voteCount',
   scopes: {
     public: {
-      include: {model: UploaderInfo, as: 'uploader'}
+      include: {model: UploaderInfo, as: 'uploader'},
+      order: [
+        ['title', 'ASC'],
+      ]
     }
   }
 })

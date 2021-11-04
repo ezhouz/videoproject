@@ -25,7 +25,7 @@
     </article>
     <article class="bottom-text">
       <a href="about">
-        <button class="btn yellow-button">About the Chanukah Telethon Dec 5, 2021</button>
+        <button class="btn yellow-button about-btn">About the Chanukah Telethon Dec 5, 2021</button>
       </a>
     </article>
   </section>
@@ -42,6 +42,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .bottom-text h2 {
   font-size: 2.5rem;
   text-align: center;
@@ -50,32 +51,37 @@ export default {
   color: #000;
   text-decoration: underline;
 }
+
 .bottom-text h2:hover {
   opacity: 0.8;
 }
+
 .top-text {
   display: flex;
   justify-content: center;
   text-align: center;
   margin: 2rem;
 }
+
 .top-text h2 {
   font-size: 4rem;
   font-weight: 900;
   width: 80%;
   text-transform: uppercase;
 }
+
 .button-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 button {
-  font-size: 2.5rem;
+  font-size: 4.2rem;
   color: #fff;
   font-weight: 800;
-  border-radius: 40px;
+  border-radius: 6rem;
   margin: 1.5rem;
   padding: 1rem 3rem;
   width: 100%;
@@ -84,39 +90,41 @@ button {
 button:hover {
   opacity: 0.8;
 }
+
 .pink-button {
   background: #ef91dc;
 }
+
 .yellow-button {
   background: #febf59;
   color: #000;
   width: 90%;
 }
+
 .blue-button {
   background: #699af1;
 }
-@media (min-width: 768px) {
-  .bottom-text h2 {
-    font-size: 3rem;
-  }
-  button {
-    font-size: 4.2rem;
-    border-radius: 6rem;
-    padding: 2rem;
-  }
-  .top-text h2 {
-    font-size: 5rem;
-  }
-  .two-buttons-wrapper {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .two-buttons-wrapper button {
-    padding-left: 4rem;
-    padding-right: 4rem;
-  }
-  .yellow-button {
-    width: initial;
-  }
+
+.bottom-text h2 {
+  font-size: 3rem;
 }
+
+.top-text h2 {
+  font-size: 5rem;
+}
+
+.two-buttons-wrapper {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.two-buttons-wrapper button {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.yellow-button {
+  width: initial;
+}
+
 </style>

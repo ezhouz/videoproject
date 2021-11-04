@@ -43,10 +43,6 @@ export default {
   font-size: 3.5rem;
 }
 
-.header-secondary-text.tablet {
-  font-size: 3rem;
-}
-
 .header-text-h2.desktop {
   font-size: 4rem;
 }
@@ -62,9 +58,7 @@ export default {
   font-size: 6rem;
   margin-left: 4rem;
 }
-.header-text.tablet {
-  font-size: 3.5rem;
-}
+
 .header-text {
   text-align: left;
   font-size: 3rem;
@@ -78,14 +72,5 @@ export default {
   top: 5rem;
   left: 3rem;
 }
-@media (min-width: 650px) {
-  .header-text-wrapper {
-    left: 6rem;
-  }
-  .home-temp-buttons button {
-    min-width: 50rem;
-    height: initial;
-    padding: initial;
-  }
-}
+
 </style>

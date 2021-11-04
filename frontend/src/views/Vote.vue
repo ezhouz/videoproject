@@ -12,7 +12,7 @@
         <h1 class="header-text" :class="$mq">
           WATCH, VOTE, SUPPORT, CELEBRATE.
         </h1>
-        <h3 style="font-size: 3rem; margin-top: 2rem">CHABAD OF MINEOLA</h3>
+        <h3>CHABAD OF MINEOLA</h3>
       </div>
     </article>
     <SearchBar placeholder="Search name" v-model="searchText" v-on:search="onSearch(searchText)" />

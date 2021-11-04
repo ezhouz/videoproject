@@ -1,0 +1,132 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+    .main-navbar {
+        justify-content: space-between !important;
+        flex-direction: row-reverse !important;
+    }
+
+    .main-navbar .navbar-brand {
+        margin-left: 0;
+    }
+
+    .main-navbar .navbar-brand .app-logo {
+        margin-left: 1rem !important;
+        height: 80px !important;
+    }
+
+    .main-navbar .navbar-toggler {
+        color: #699AF1 !important;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        border: none !important;
+        margin-right: 2rem;
+    }
+
+    .main-navbar .navbar-collapse {
+        padding-left: 3rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .main-navbar .navbar-collapse .nav-item,
+    .main-navbar .navbar-collapse .nav-item a {
+        font-size: 2rem !important;
+    }
+
+    .header-social-buttons {
+        display: none !important;
+    }
+
+    .telethon-hr {
+        width: 100% !important;
+    }
+
+    .telethon-section {
+        margin-bottom: 2rem !important;
+        padding: 1rem !important;
+    }
+
+    .telethon-section .image-wrapper {
+        width: 230px !important;
+    }
+
+    .telethon-section p {
+        font-size: 1.2rem !important;
+    }
+
+
+}
+
+
+/* Landscape */
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px)
+and (orientation: landscape),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px)
+and (orientation: landscape),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (orientation: landscape),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px)
+and (orientation: landscape) {
+    .main-navbar {
+        flex-direction: row !important;
+    }
+    .main-navbar .navbar-collapse .nav-item,
+    .main-navbar .navbar-collapse .nav-item a {
+        font-size: 1.2rem !important;
+    }
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px) {
+    .header-social-buttons {
+        display: none;
+    }
+}
+
+/* ----------- iPad 1, 2, Mini and Air ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px) {
+
+}
+
+
+@import "mobile/home.css";
+@import "mobile/header.css";
+@import "mobile/searchbar.css";
+@import "mobile/vote.css";
+@import "mobile/about.css";
+

@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
         const logRec = await VoteLog.findOne({
             where: {
                 ip
-            }
+            },
         });
         let allVideos = await VoteCount.scope('public').findAll();
         allVideos = allVideos.map(v => ({

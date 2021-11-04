@@ -18,7 +18,7 @@
       </article>
       <div class="about-content">
         <h2>WHERE TO WATCH THE CHANUKAH TELETHON</h2>
-        <h3 class="mbt-60">Watch the Jewish Birthday Makeover awards on the Telethon</h3>
+        <h3 class="mbt-60">Watch the Jewish birthday awards on the Telethon</h3>
         <div class="two-cols-wrapper row">
           <div class="col-md-6 col-sm-12 col-xs-12 col medium">
             <h2 class="mbt-20">Live Music, Dancing Rabbis and many Surprises!</h2>

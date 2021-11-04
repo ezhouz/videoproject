@@ -8,17 +8,8 @@
     <div class="submission-container">
       <div v-for="video in filtered" :key="video.id" class="submission">
         <article class="video-component-container">
-          <div class="player-wrapper">
-            <video-player
-              class="video-player"
-              :options="{
-                autoplay: false,
-                controls: true,
-                poster: video.thumbnail,
-                width: 300,
-                sources: [{ src: video.src, type: video.type }],
-              }"
-            />
+          <div class="player-wrapper" v-on:click="playVideo(video)" v-b-modal.modal-1>
+            <div class="player-thumb" :style="{ backgroundImage: 'url('+video.thumbnail+')' }"></div>
           </div>
           <div class="video-info-container">
             <div class="video-info">
@@ -39,6 +30,20 @@
     <div class="submit-video">
       <button class="btn-primary vote-btn btn" v-on:click="onVideoSubmit()">Submit a Video</button>
     </div>
+<!--    <b-button v-b-modal.modal-xl v-b-modal.modal-1>Launch demo modal</b-button>-->
+    <b-modal id="modal-1" centered hide-footer :title="selectedVideo ? selectedVideo.title: ''">
+      <video-player
+          v-if="selectedVideo"
+          class="video-player"
+          :options="{
+                autoplay: true,
+                controls: true,
+                poster: selectedVideo.thumbnail,
+                width: this.getVideoWidth(),
+                sources: [{ src: selectedVideo.src, type: selectedVideo.type }],
+              }"
+      />
+    </b-modal>
   </section>
 </template>
 
@@ -73,6 +78,7 @@ export default {
   },
   data() {
     return {
+      selectedVideo: null,
       voteInfoVideoIds: [],
       loadError: false,
       loadErrorMessge: "",
@@ -101,6 +107,18 @@ export default {
       this.$router.push({
         name: "UploadVideo",
       });
+    },
+    playVideo(video) {
+      this.selectedVideo = video;
+    },
+    getVideoWidth() {
+      let width = window.innerWidth;
+      if (width > 800) {
+        width = 800;
+      } else {
+        width = width - 20;
+      }
+      return width;
     }
   }
 }

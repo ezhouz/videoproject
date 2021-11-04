@@ -100,53 +100,38 @@ html {
     margin: 0 !important;
 }
 
+.modal-dialog {
+    width: 80%;
+    min-width: 80%;
+}
+
+.modal-dialog .modal-header .close {
+    font-size: 3rem;
+}
+
+.modal-dialog .modal-header .modal-title {
+    font-size: 3rem;
+}
+.modal-dialog .modal-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .player-wrapper {
     width: 310px;
+    height: 310px;
     position: relative;
+    border: 1px solid #699AF1;
+    border-radius: 2rem;
 }
 
-.player-wrapper .video-player .vjs-poster {
+.player-wrapper .player-thumb {
     height: 310px;
-}
-.player-wrapper .video-player {
     width: 310px;
-    height: 310px;
-}
-
-
-
-@media only screen
-and (min-width: 375px)
-and (max-width: 667px),
-    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
-only screen
-and (min-device-width: 320px)
-and (max-device-width: 568px),
-    /* ----------- iPhone X ----------- */
-only screen
-and (min-device-width: 375px)
-and (max-device-width: 812px),
-    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
-only screen
-and (device-width: 360px)
-and (device-height: 640px) {
-
-    .video-js .vjs-big-play-button {
-        left: 80px !important;
-        top: 80px !important;
-        margin: 0 !important;
-    }
-
-    .player-wrapper .video-player {
-        width: 155px !important;
-        height: 155px !important;
-    }
-
-    .player-wrapper .video-player .vjs-poster {
-        height: 170px !important;
-        width: 170px !important;
-        background-repeat: no-repeat;
-    }
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 

@@ -69,6 +69,31 @@ and (device-height: 640px) {
     .telethon-section p {
         font-size: 1.2rem !important;
     }
+    .player-wrapper {
+        width: 165px;
+        height: 165px;
+    }
+    .player-wrapper .player-thumb {
+        height: 165px;
+        width: 165px;
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    .modal-dialog {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .modal-dialog .modal-body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        min-width: 100%;
+    }
+
+
 
 
 

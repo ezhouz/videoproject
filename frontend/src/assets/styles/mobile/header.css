@@ -24,7 +24,7 @@ and (device-height: 640px) {
     }
 
     .second-header .header-text-wrapper h3 {
-        font-size: 1.75rem;
+        font-size: 1.75rem !important;
     }
 
     .second-header .header-image-wrapper img {

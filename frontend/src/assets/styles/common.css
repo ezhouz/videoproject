@@ -14,6 +14,7 @@ html {
 .bold {
     font-weight: bold;
 }
+
 .medium {
     font-weight: 500;
 }
@@ -22,10 +23,12 @@ html {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
+
 .mbt-40 {
     margin-top: 4rem;
     margin-bottom: 4rem;
 }
+
 .mbt-60 {
     margin-top: 6rem;
     margin-bottom: 6rem;
@@ -73,6 +76,7 @@ html {
     font-size: 3rem;
     margin-top: 2rem
 }
+
 .second-header .header-text-wrapper {
     color: #fff;
     position: absolute;
@@ -81,20 +85,73 @@ html {
     transform: translate(-50%, -50%);
     width: 85%;
 }
+
 .video-js {
     position: relative;
 }
+
+
 .video-js .vjs-big-play-button {
-    left: 130px !important;
-    top: 140px !important;
+    left: 150px !important;
+    top: 150px !important;
     width: 50px !important;
     height: 30px !important;
     font-size: 2rem !important;
     margin: 0 !important;
 }
 
+.player-wrapper {
+    width: 310px;
+    position: relative;
+}
+
+.player-wrapper .video-player .vjs-poster {
+    height: 310px;
+}
+.player-wrapper .video-player {
+    width: 310px;
+    height: 310px;
+}
+
+
+
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+
+    .video-js .vjs-big-play-button {
+        left: 80px !important;
+        top: 80px !important;
+        margin: 0 !important;
+    }
+
+    .player-wrapper .video-player {
+        width: 155px !important;
+        height: 155px !important;
+    }
+
+    .player-wrapper .video-player .vjs-poster {
+        height: 170px !important;
+        width: 170px !important;
+        background-repeat: no-repeat;
+    }
+}
+
+
 .video-js .vjs-play-control:before {
-    top:20% !important;
+    top: 20% !important;
     content: '\f101' !important;
     font-size: 48px !important;
 }

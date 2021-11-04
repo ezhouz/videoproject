@@ -117,20 +117,6 @@ export default {
   flex-direction: row;
 }
 
-.submission-container .player-wrapper {
-  width: 300px;
-  position: relative;
-}
-
-.submission-container .player-wrapper .video-player .vjs-poster {
-  height: 310px;
-}
-.submission-container .player-wrapper .video-player {
-  width: 310px;
-  height: 310px;
-}
-
-
 .video-form {
   font-size: 1.6rem;
 }
@@ -209,6 +195,11 @@ export default {
   overflow: hidden;
 }
 
+.player-wrapper .vjs-big-play-button {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .submit-video {
   width: 100%;
   display: flex;

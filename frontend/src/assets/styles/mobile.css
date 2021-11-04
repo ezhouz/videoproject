@@ -129,4 +129,6 @@ and (max-device-width: 1024px) {
 @import "mobile/searchbar.css";
 @import "mobile/vote.css";
 @import "mobile/about.css";
+@import "mobile/about-birthdate.css";
+@import "mobile/register.css";
 

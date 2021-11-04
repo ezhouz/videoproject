@@ -1,5 +1,6 @@
 <template>
-  <section>
+  <section class="password-rest-section ">
+    <div class="second-header">
     <article class="image-header">
       <div class="header-image-wrapper">
         <img
@@ -12,10 +13,9 @@
         <h1 class="header-text" :class="$mq">RESET YOUR PASSWORD</h1>
       </div>
     </article>
-
-    <article>
+    </div>
+    <article class="reset-form">
       <form
-        style="margin: 7rem"
         @submit.prevent="resetPassword(email)"
       >
         <b-form-group id="email" label="Email:" label-for="email">
@@ -37,19 +37,12 @@
             {{ successMessage }}
           </div>
         </div>
+        <div class="d-flex align-items-center justify-content-center" style="width: 100%">
         <b-button
-          style="
-            width: 100%;
-            margin-top: 2rem;
-            background: #febf59;
-            border-radius: 4rem;
-            height: 4rem;
-            font-size: 2rem;
-            border: none;
-          "
           type="submit"
           >Reset Password</b-button
         >
+        </div>
       </form>
     </article>
   </section>
@@ -93,6 +86,29 @@ export default {
 </script>
 
 <style scoped>
+
+.reset-form {
+  width: 50%;
+  margin: 0 auto;
+
+}
+
+.reset-form form {
+  margin: 7rem;
+}
+
+
+.reset-form .btn[type="submit"] {
+  width: auto;
+  background: #febf59;
+  border-radius: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: none;
+  padding: 0.5rem 2rem;
+  text-transform: uppercase;
+}
+
 .reset-text {
   font-size: 2.3rem;
   font-weight: bold;
@@ -102,27 +118,5 @@ export default {
 form div {
   font-size: 1.6rem;
 }
-.image-header {
-  position: relative;
-  text-align: center;
-}
 
-.header-text.desktop {
-  font-size: 6rem;
-}
-.header-text.tablet {
-  font-size: 4rem;
-}
-.header-text {
-  font-size: 3rem;
-  font-weight: 900;
-}
-
-.header-text-wrapper {
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 </style>

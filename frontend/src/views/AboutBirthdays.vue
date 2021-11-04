@@ -15,23 +15,23 @@
       </div>
     </article>
 
-    <div style="margin: 3rem">
+    <div class="about-birthdate">
       <article class="so-great">
         <div class="so-great-text-and-image">
           <div class="so-great-text-wrapper">
-            <div class="so-great-header">
+            <div class="so-great-header medium">
               <h3 class="so-great-h3">
                 WHAT’S SO GREAT ABOUT A JEWISH BIRTHDAY?
               </h3>
             </div>
             <div class="so-great-text">
               <p>
-                THE DAY YOU WERE BORN WAS THE DAY YOU BECAME YOUR VERY OWN
-                PERSON.
+                The day you were born was the day you became your very own
+                person.
               </p>
               <p class="thats-why-desktop">
-                THAT’S WHY IT’S A DAY TO PONDER: WHAT HAVE I ACCOMPLISHED BY
-                BEING HERE? DID THE WORLD CHANGE BECAUSE I WAS BORN?
+                That’s why it’s a day to ponder: what have i accomplished by
+                being here? Did the world change because i was born?
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@
               <img :src="custom.image" />
             </div>
             <div class="customs-text-wrapper">
-              <p style="font-size: 1.6rem" class="customs-text">
+              <p class="customs-text">
                 {{ custom.text }}
               </p>
             </div>
@@ -98,23 +98,23 @@ export default {
     return {
       customs: [
         {
-          image: "../../images/birthday/Icons-2.png",
+          image: "../../images/birthday/head.svg",
           text: "Think about what went right the past year, what went not-so-right, and what can be fixed",
         },
         {
-          image: "../../images/birthday/Icons-4.png",
+          image: "../../images/birthday/walk.svg",
           text: "Take your life to a new level by committing to a new Mitzvah (good deed)",
         },
         {
-          image: "../../images/birthday/Icons-1.png",
+          image: "../../images/birthday/extra-charity.svg",
           text: "Give extra charity",
         },
         {
-          image: "../../images/birthday/Icons-4.png",
+          image: "../../images/birthday/book.svg",
           text: "Spend time praying, thank G-d, and ask for everything you need and desire",
         },
         {
-          image: "../../images/birthday/Icons-2.png",
+          image: "../../images/birthday/celebrate.svg",
           text: "Celebrate with your friends and uplift each other to do more Mitzvot (good deeds)",
         },
       ],
@@ -125,12 +125,17 @@ export default {
 </script>
 
 <style scoped>
+
+.about-birthdate {
+  margin: 3rem;
+}
+
 .heb-calendar {
   margin-top: 2rem;
 }
 .heb-calendar p {
   font-size: 1.5rem;
-  color: #ef91dc;
+  color: #316EDB;
   font-weight: 700;
   line-height: 1.5rem;
 }
@@ -145,16 +150,7 @@ export default {
 .so-great-text-and-image {
   display: flex;
 }
-.header-text.desktop {
-  font-size: 6rem;
-}
-.header-text.tablet {
-  font-size: 4rem;
-}
-.header-text {
-  font-size: 3rem;
-  font-weight: 900;
-}
+
 .header-text-wrapper {
   width: 90%;
   color: #fff;
@@ -192,6 +188,24 @@ export default {
   font-size: 1.6rem;
 }
 
+ul {
+  padding-left: 0;
+}
+ul li p.customs-text {
+  font-size: 2rem;
+}
+
+ul li .customs-image-wrapper {
+  width: 80px;
+  height: 80px;
+}
+
+ul li .customs-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
 @media (min-width: 600px) {
   .heb-calendar p {
     font-size: 3rem;
@@ -214,5 +228,9 @@ export default {
   .so-great-text p {
     font-size: 2.5rem;
   }
+  ul li p.customs-text {
+    font-size: 2rem;
+  }
+
 }
 </style>

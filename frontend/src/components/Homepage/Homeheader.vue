@@ -8,7 +8,7 @@
         <h2 class="header-secondary-text uc" :class="$mq">
           Join the Jewish Birthday Makeover Contest
         </h2>
-        <h2 class="header-secondary-text" :class="$mq">Project of Chabad Mineola Rabbi <br/>Anchelle Perl, Director
+        <h2 class="header-secondary-text" :class="$mq">Project of Chabad Mineola <br/>Rabbi Anchelle Perl, Director
         </h2>
       </div>
     </article>

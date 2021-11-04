@@ -1,0 +1,31 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+and (min-width: 375px)
+and (max-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+    .about-birthdate {
+        margin: 2rem 1rem !important;
+    }
+    .about-birthdate ul li .customs-text-wrapper {
+        width: 100%;
+    }
+    .about-birthdate ul li p.customs-text {
+        font-size: 1.4rem !important;
+    }
+    .datepicker label {
+        font-size: 1.2rem !important;
+    }
+}

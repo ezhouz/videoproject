@@ -14,59 +14,63 @@
         </h1>
       </div>
     </article>
+    <div class="register-section">
 
-    <article class="d-flex align-items-center flex-column">
-      <label class="display-4 mt-4 mb-5" for="date"
-        >Enter your Date of Birth</label
-      >
-      <b-form-datepicker
-        id="date"
-        v-model="uploaderDOBEnglish"
-        class="mb-2"
-      ></b-form-datepicker>
+      <date-converter button-label="Register" hide-header="false" v-on:changed="onDateChanged($event)" />
 
-      <b-button
-        class="hebrew-convert-button"
-        @click="convertDate(JSON.stringify(uploaderDOBEnglish))"
-      >
-        Show my Jewish Date of Birth and Register
-      </b-button>
-    </article>
-
-    <article v-if="uploaderDOBHebrew">
-      <div
-        style="
+      <article v-if="uploaderDOBHebrew">
+        <div
+            style="
           display: flex;
           justify-content: center;
           margin: 3rem auto 0rem auto;
         "
-      >
-        <h3 style="font-weight: 900">
-          {{ uploaderDOBHebrewMessage }}
-        </h3>
-      </div>
-      <RegisterForm :engdob="uploaderDOBEnglish" :hebdob="uploaderDOBHebrew" />
-    </article>
-    
-    <article>
-      <p style="display: flex; justify-content: center; margin: 3rem auto">
-        <a href="/login"
-          ><span class="login-text">I have an account. Login.</span></a
         >
-      </p>
-    </article>
+          <h3 style="font-weight: 900">
+            {{ uploaderDOBHebrewMessage }}
+          </h3>
+        </div>
+        <RegisterForm :engdob="uploaderDOBEnglish" :hebdob="uploaderDOBHebrew" />
+      </article>
+
+      <article>
+        <p style="display: flex; justify-content: center; margin: 3rem auto">
+          <a href="/login"
+          ><span class="login-text">I have an account. Login.</span></a
+          >
+        </p>
+      </article>
+
+      <div class="rules">
+        <h2>RULES:</h2>
+
+        <p><span class="bold">Videos must be uploaded</span> by November 29th</p>
+
+        <p><span class="bold">VIP Celebrity Birthday Party</span>  Date To Be Announced
+
+        <p><span class="bold">Winners Announced</span> on November 30th</p>
+
+        <p>Chanukah Telethon is on Sunday Dec 5, 2021 7pm-10pm</p>
+
+        <p class="bold">No costs to join. Open to all ages 12-120.</p>
+
+        <p style="font-style: italic">Winning contestants are responsible for their own transportation to the VIP Celebrity Birthday Party in Nassau County NY and to the Live Telethon Studio in Ronkonkoma Long Island.</p>
+
+      </div>
+    </div>
 
 
   </section>
 </template>
 
 <script>
-import axios from "axios";
 import RegisterForm from "../components/RegisterForm.vue";
+import DateConverter from "../components/DateConverter";
 
 export default {
   name: "Register",
   components: {
+    DateConverter,
     RegisterForm,
   },
   data() {
@@ -78,19 +82,11 @@ export default {
   },
 
   methods: {
-    async convertDate(date) {
-      try {
-        const hebrewDate = await axios.post(`api/post/convertdate`, {
-          date,
-        });
-        if (hebrewDate) {
-          this.uploaderDOBHebrewMessage = `Your Jewish Date of birth is ${hebrewDate.data.date} ${hebrewDate.data.month_name} ${hebrewDate.data.year}`;
-          this.uploaderDOBHebrew = `${hebrewDate.data.date}-${hebrewDate.data.month_name}-${hebrewDate.data.year}`;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    onDateChanged(val) {
+      this.uploaderDOBEnglish = val.dob;
+      this.uploaderDOBHebrew = val.hebrewDob;
+      this.uploaderDOBHebrewMessage = val.hebrewDob;
+    }
   },
 };
 </script>
@@ -98,15 +94,8 @@ export default {
 
 <style scoped>
 
-.header-text.desktop {
-  font-size: 6rem;
-}
-.header-text.tablet {
-  font-size: 4rem;
-}
-.header-text {
-  font-size: 3rem;
-  font-weight: 900;
+.register-section {
+  margin: 3rem;
 }
 
 .b-form-btn-label-control.form-control {
@@ -133,5 +122,14 @@ export default {
   font-weight: bold;
   color: #ef91dc;
   text-decoration: none;
+}
+
+.rules {
+  font-size: 2rem;
+}
+.rules h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 2rem 0;
 }
 </style>

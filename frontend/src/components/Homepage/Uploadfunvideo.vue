@@ -24,9 +24,10 @@
     <article class="image-and-text-container bottom">
       <div class="text-container">
         <h3>
-          The 8 winners with the most votes will get a VIP birthday party and
-          receive surprise gifts Featured on Live TV, on the Chanukah Telethon
-          Dec 5, 2021
+          The 8 winners with the most
+          votes will join a VIP Celebrity Birthday Party and will also be invited to make a Cameo Appearance, to receive
+          surprise gifts, on the Live TV
+          Stage during the Chanukah Telethon Dec 5, 2021
         </h3>
       </div>
       <div class="image-container">

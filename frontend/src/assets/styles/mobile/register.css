@@ -1,0 +1,47 @@
+/* ----------- iPhone 6, 7 and 8 ----------- */
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 667px),
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+only screen
+and (min-device-width: 320px)
+and (max-device-width: 568px),
+    /* ----------- iPhone X ----------- */
+only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px),
+    /* ----------- Galaxy, HTC One, Google Pixel, Nexus 5 ----------- */
+only screen
+and (device-width: 360px)
+and (device-height: 640px) {
+    .register-section, .login-section, .password-rest-section .reset-form {
+        margin: 3rem 1rem;
+    }
+
+
+    .register-user,
+    .login-section .form-wrapper,
+    .password-rest-section .reset-form {
+        width:  100% !important;
+    }
+
+    .register-user .btn[type="submit"],
+    .login-section .btn[type="submit"],
+    .password-rest-section .btn[type="submit"] {
+        width: 100% !important;
+    }
+
+    .login-section .form-wrapper form,
+    .password-rest-section .reset-form form {
+        margin: 2rem 0 !important;
+    }
+
+    .login-section .reset-text {
+        font-size: 1.6rem !important;
+    }
+
+    .register-section .login-text {
+        font-size: 1.6rem !important;
+    }
+}

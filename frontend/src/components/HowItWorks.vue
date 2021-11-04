@@ -44,7 +44,7 @@ export default {
         {
           iconClass: 'winner',
           src: 'images/vote/winner.svg',
-          text: '8 winners will have a Jewish birthday bash, on the Chanukah Telethon, plus Birthday gifts to be gifted live on the telethon'
+          text: 'The 8 winners with the most votes will join a VIP Celebrity Birthday Party and will also be invited to make a Cameo Appearance, to receive surprise gifts, on the Live TV Stage during the Chanukah Telethon Dec 5, 2021'
         }
       ]
     }

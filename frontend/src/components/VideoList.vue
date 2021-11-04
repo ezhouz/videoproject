@@ -168,8 +168,8 @@ export default {
   background-color: #EF91DC;
   border: none;
   padding: 0.75rem 2.2rem;
-  border-radius: 1rem;
-  color: #000;
+  border-radius: 2rem;
+  color: #fff;
 }
 .vote-btn.btn:active,
 .vote-btn.btn:focus,

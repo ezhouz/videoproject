@@ -22,7 +22,7 @@ and (device-height: 640px) {
     }
     .header-text-wrapper .header-secondary-text {
         font-size: 2rem !important;
-        max-width: 100%;
+        max-width: 100% !important;
         margin-left: 0 !important;
         margin-top: 4rem !important;
         margin-bottom: 4rem !important;

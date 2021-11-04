@@ -14,22 +14,22 @@
               <router-link to="/">Home</router-link>
             </b-nav-item>
             <b-nav-item>
+              <router-link to="/about-birthdays">Jewish Birthdays</router-link>
+            </b-nav-item>
+            <b-nav-item>
               <router-link to="/vote">Vote</router-link>
             </b-nav-item>
             <b-nav-item v-if="currentUser">
               <router-link to="/uploadvideo">Upload</router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link to="/about">About</router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link to="/about-birthdays">Jewish Birthdays</router-link>
             </b-nav-item>
             <b-nav-item v-if="!currentUser">
               <router-link to="/register">Register</router-link>
             </b-nav-item>
             <b-nav-item v-if="!currentUser">
               <router-link to="/login">Login</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link to="/about">About</router-link>
             </b-nav-item>
             <b-nav-item v-if="currentUser">
               <router-link to="/logout">Logout</router-link>

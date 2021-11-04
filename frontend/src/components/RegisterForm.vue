@@ -1,5 +1,5 @@
 <template>
-  <article>
+  <article class="register-form">
     <div style="font-size: 1.6rem">
       <div v-if="showError">
         <div v-for="(message, index) in errorMessages" :key="index" class="alert alert-danger" role="alert">
@@ -67,18 +67,12 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button
-        style="
-          width: 100%;
-          background: #febf59;
-          border-radius: 20px;
-          height: 4rem;
-          font-size: 2rem;
-          border: none;
-        "
-        type="submit"
+      <div class="d-flex align-items-center justify-content-center" style="width: 100%">
+        <b-button
+            type="submit"
         >Submit</b-button
-      >
+        >
+      </div>
     </form>
   </article>
 </template>
@@ -150,8 +144,22 @@ export default {
 </script>
 
 <style>
+.register-user {
+  width:  50%;
+  margin:  0 auto;
+}
 .register-user div {
   font-size: 1.6rem;
+}
+.register-user .btn[type="submit"] {
+  width: auto;
+  background: #febf59;
+  border-radius: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: none;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
 }
 .register-user .form-group label {
   margin-left: 1rem !important;

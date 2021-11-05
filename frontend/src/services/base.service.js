@@ -1,6 +1,10 @@
 export class BaseService {
     #authToken;
 
+    constructor() {
+        this.setAuthToken(localStorage.getItem("chabadtoken"));
+    }
+
     setAuthToken(token) {
         this.#authToken = token;
     }

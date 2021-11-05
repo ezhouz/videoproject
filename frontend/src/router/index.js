@@ -13,6 +13,7 @@ import Passwordreset from "../views/Passwordreset"
 import PasswordResetFinish from "../views/PasswordResetFinish";
 import EmailConfirmed from "../views/EmailConfirmed";
 import UploadSuccess from "../views/UploadSuccess";
+import PlayVideo from "../views/PlayVideo";
 
 Vue.use(VueRouter);
 
@@ -64,6 +65,11 @@ const routes = [
     path: "/upload-success",
     name: "UploadSuccess",
     component: UploadSuccess,
+  },
+  {
+    path: "/play-video/:id",
+    name: "PlayVideo",
+    component: PlayVideo,
   },
   {
     path: "/success",

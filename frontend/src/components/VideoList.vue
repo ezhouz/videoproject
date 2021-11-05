@@ -18,12 +18,18 @@
               <p class="date-birth"><i class="icon icon-calendar"></i> {{ video.uploaderBirthDate }}</p>
               <h3><span>{{ video.votes }}</span> votes</h3>
             </div>
-            <button v-if="!video.isVoted"
-                class="btn btn-primary vote-btn"
-                v-on:click="vote(video.id)"
-            >Vote</button>
             <div class="voted-text" v-if="video.isCurrentVideoVoted"><i class="icon icon-checkmark"></i> Voted</div>
-          </div>
+            <div class="buttons d-flex flex-row align-items-start justify-content-start">
+              <button v-if="!video.isVoted"
+                  class="btn btn-primary vote-btn"
+                  v-on:click="vote(video.id)"
+              >Vote</button>
+
+              <button class="btn btn-primary vote-btn share-btn"
+                      v-b-modal.modal-share
+                      v-on:click="showLink(video)">Share</button>
+            </div>
+            </div>
         </article>
       </div>
     </div>
@@ -38,6 +44,10 @@
           :options="this.getVideoOptions(selectedVideo)"
       />
     </b-modal>
+    <b-modal id="modal-share" centered ok-title="Copy Link" cancel-title="Hide" title="Copy a link to this video" v-on:ok="copyLink()">
+      <textarea ref="copy-text" readonly class="form-control copy-area" v-if="selectedVideo" v-model="selectedLink" style="font-size: 2rem; margin: 5rem 0;min-height: 150px">
+      </textarea>
+    </b-modal>
   </section>
 </template>
 
@@ -48,7 +58,14 @@ import VideoPlayer from "../components/VideoPlayer.vue";
 import "video.js/dist/video-js.css";
 
 const filter = (videos, searchTerm) => {
-  return (searchTerm !== undefined && searchTerm.length > 0) ? videos.filter(v => v.title.toLowerCase().includes(searchTerm.toLowerCase())): videos;
+  console.log(searchTerm)
+  const res = (searchTerm !== undefined && searchTerm.length > 0) ? videos.filter(v =>
+      v.title.toLowerCase().includes(searchTerm.toLowerCase())
+      || v.uploaderFirstName.toLowerCase().includes(searchTerm.toLowerCase())
+      || v.uploaderLastName.toLowerCase().includes(searchTerm.toLowerCase())
+  ): videos;
+  console.log(res)
+  return res;
 }
 
 export default {
@@ -72,6 +89,7 @@ export default {
   },
   data() {
     return {
+      selectedLink: '',
       selectedVideo: null,
       voteInfoVideoIds: [],
       loadError: false,
@@ -86,9 +104,7 @@ export default {
     };
   },
   async created() {
-    const authToken = localStorage.getItem("chabadtoken");
     this.videos = await videoService.loadVideos();
-    userService.setAuthToken(authToken);
     const user = await userService.getCurrentUser();
     console.log(user)
     this.isLoggedIn = !!user;
@@ -159,6 +175,22 @@ export default {
     },
     getVideoOptions(video) {
       return this.options[video.id];
+    },
+    showLink(video) {
+      this.selectedVideo = video;
+      this.selectedLink = window.location.protocol + '//' + window.location.host + '/play-video/' + video.id;
+    },
+    copyLink() {
+      let testingCodeToCopy = this.$refs['copy-text'];
+      testingCodeToCopy.select()
+
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error(err);
+      }
+
+      window.getSelection().removeAllRanges()
     }
   }
 }
@@ -222,6 +254,7 @@ export default {
   padding: 0.75rem 2.2rem;
   border-radius: 2rem;
   color: #fff;
+  margin-right: 1rem;
 }
 .vote-btn.btn:active,
 .vote-btn.btn:focus,
@@ -245,6 +278,10 @@ export default {
   height: 24px;
   margin-right: 0.5rem;
   margin-top: 0.25rem;
+}
+
+.share-btn {
+  background-color: #699AF1 !important;
 }
 
 

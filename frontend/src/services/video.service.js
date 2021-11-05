@@ -2,8 +2,9 @@ import axios from "axios";
 import {BaseService} from "./base.service";
 
 class VideoService extends BaseService {
-    static VIDEO_LIST_URI = 'api/videos'
-    static VIDEO_VOTE_URI = 'api/videos/vote'
+    static VIDEO_LIST_URI = '/api/videos'
+    static VIDEO_BY_ID_URI = '/api/videos/video'
+    static VIDEO_VOTE_URI = '/api/videos/vote'
 
     async loadVideos() {
         const resp = await axios.get(VideoService.VIDEO_LIST_URI, {
@@ -32,6 +33,37 @@ class VideoService extends BaseService {
                 });
             });
             return videos;
+        } catch (error) {
+            this.loadError = true;
+            this.loadErrorMessge = "Error loading videos";
+            console.log(error);
+        }
+    }
+
+    async loadVideo(id) {
+        const resp = await axios.get(VideoService.VIDEO_BY_ID_URI + '/' + id, {
+            headers: this.getHeaders()
+        });
+        const video = resp.data;
+        try {
+            const currentPlaybackId = video.muxPlaybackId;
+             return {
+                 id: video.id,
+                 src: `https://stream.mux.com/${currentPlaybackId}.m3u8`,
+                 thumbnail: `https://image.mux.com/${currentPlaybackId}/thumbnail.jpg`,
+                 type: "application/x-mpegURL",
+                 votes: video.votes,
+                 isVoted: video.isVoted,
+                 isCurrentVideoVoted: video.votedId === video.id,
+                 playbackId: currentPlaybackId,
+                 uploadedVideoFileName: video.fileName,
+                 title: video.title,
+                 uploaderEmail: video.uploader.uploaderEmail,
+                 uploaderFirstName: video.uploader.uploaderFirstName,
+                 uploaderLastName: video.uploader.uploaderLastName,
+                 uploaderBirthDate: video.uploader.uploaderDOBHebrew,
+                 uploaderId: video.uploader.uploaderId,
+             };
         } catch (error) {
             this.loadError = true;
             this.loadErrorMessge = "Error loading videos";

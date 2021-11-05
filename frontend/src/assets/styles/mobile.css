@@ -88,6 +88,14 @@ and (device-height: 640px) {
         min-width: 100% !important;
     }
 
+    .play-video-section .player {
+        flex-direction: column-reverse !important;
+    }
+
+    .play-video-section .video-info-container {
+        padding-left: 0 !important;
+    }
+
 }
 
 

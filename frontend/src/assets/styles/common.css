@@ -62,6 +62,10 @@ html {
     background-image: url("../../assets/icons/success.svg");
 }
 
+.icon.icon-share {
+    background-image: url("../../assets/icons/share.svg");
+}
+
 .second-header .header-image-wrapper img {
     width: 100%;
 }
@@ -114,6 +118,26 @@ html {
     overflow: hidden;
 }
 
+.modal-dialog .modal-footer .btn.btn-primary:active,
+.modal-dialog .modal-footer .btn.btn-primary:focus,
+.modal-dialog .modal-footer .btn.btn-primary:hover,
+.modal-dialog .modal-footer .btn.btn-primary.active {
+    opacity: 0.8;
+    background-color: #EF91DC;
+}
+
+.modal-dialog .modal-footer .btn.btn-primary {
+    background-color: #EF91DC;
+}
+.modal-dialog .modal-footer .btn {
+    font-size: 1.6rem;
+    font-weight: bold;
+    border: none;
+    padding: 0.75rem 2.2rem;
+    border-radius: 2rem;
+    color: #fff;
+}
+
 .player-wrapper {
     width: 310px;
     height: 310px;
@@ -130,6 +154,7 @@ html {
     background-position: center center;
     background-repeat: no-repeat;
 }
+
 
 
 @import "mobile.css";

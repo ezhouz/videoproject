@@ -21,9 +21,6 @@ and (device-height: 640px) {
     justify-content: flex-start !important;
     flex-direction: column !important;
   }
-  .submission-container .player-wrapper {
-    width: 165px !important;
-  }
 
   .video-info-container {
     width: auto !important;

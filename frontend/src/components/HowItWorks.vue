@@ -24,7 +24,7 @@ export default {
         {
           iconClass: 'calendar',
           src: 'images/vote/calendar.svg',
-          text: 'Look up the date of your Jewish birthday, using our date converter.'
+          text: 'Look up the date of your Jewish birthday, using our date converter. (we won\'t tell anyone the year!)'
         },
         {
           iconClass: 'play',
@@ -34,7 +34,7 @@ export default {
         {
           iconClass: 'upload',
           src: 'images/vote/upload.svg',
-          text: 'Upload the video to A Jew is Born contest'
+          text: 'Upload the video to A Jewish Birthday Makeover contest'
         },
         {
           iconClass: 'share',

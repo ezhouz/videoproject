@@ -74,23 +74,19 @@ and (device-height: 640px) {
         height: 165px !important;
     }
     .player-wrapper .player-thumb {
-        height: 165px !important;
-        width: 165px !important;
+        height: 164px !important;
+        width: 164px !important;
     }
     .modal-dialog {
         width: 100% !important;
         min-width: 100% !important;
+        margin: 0 !important;
     }
 
     .modal-dialog .modal-body {
         width: 100% !important;
         min-width: 100% !important;
     }
-
-
-
-
-
 
 }
 

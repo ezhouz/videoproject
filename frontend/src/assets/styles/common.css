@@ -58,6 +58,10 @@ html {
     background-image: url("../../assets/icons/checkmark.svg");
 }
 
+.icon.icon-success {
+    background-image: url("../../assets/icons/success.svg");
+}
+
 .second-header .header-image-wrapper img {
     width: 100%;
 }
@@ -90,23 +94,14 @@ html {
     position: relative;
 }
 
-
-.video-js .vjs-big-play-button {
-    left: 150px !important;
-    top: 150px !important;
-    width: 50px !important;
-    height: 30px !important;
-    font-size: 2rem !important;
-    margin: 0 !important;
-}
-
 .modal-dialog {
     width: 80%;
     min-width: 80%;
 }
 
 .modal-dialog .modal-header .close {
-    font-size: 3rem;
+    font-size: 4rem;
+    padding: 1rem 2rem;
 }
 
 .modal-dialog .modal-header .modal-title {
@@ -116,6 +111,7 @@ html {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    overflow: hidden;
 }
 
 .player-wrapper {
@@ -124,21 +120,15 @@ html {
     position: relative;
     border: 1px solid #699AF1;
     border-radius: 2rem;
+    box-shadow: 0.25rem 0.25rem 0.5rem rgba(105, 154, 241, 0.5);
 }
 
 .player-wrapper .player-thumb {
-    height: 310px;
-    width: 310px;
+    height: 309px;
+    width: 309px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
-}
-
-
-.video-js .vjs-play-control:before {
-    top: 20% !important;
-    content: '\f101' !important;
-    font-size: 48px !important;
 }
 
 

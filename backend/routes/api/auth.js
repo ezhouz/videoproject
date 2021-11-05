@@ -140,6 +140,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/confirmation/:emailtoken", async (req, res) => {
+  const homeUrl = process.env.HOME_URL + '/email-confirmed';
   try {
     const user = await jwt.verify(
       req.params.emailtoken,
@@ -147,7 +148,7 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
     );
     if (user) {
       const foundUser = await uploaderInfo.findOne({ where: user.user });
-      if (foundUser) {
+      if (foundUser && !foundUser.uploaderIsConfirmed) {
         try {
           foundUser.uploaderIsConfirmed = true;
           foundUser.save();
@@ -157,11 +158,6 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
             "<h2>Your account has been confirmed at jewishbirthdaymakeover.com! Mazal Tov!" +
               "</h2><h3>Please <a href='jewishbirthdaymakeover.com/vote'>Click here to log and post your video.</a></h3>"
           );
-          req.flash(
-            "message",
-            "Your account hs been confirmed. An email confirmation has been sent, and you can y"
-          );
-          res.redirect("https://jewishbirthdaymakeover.com/login");
         } catch (error) {
           res.send(error);
         }
@@ -172,6 +168,7 @@ router.get("/confirmation/:emailtoken", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  res.redirect(homeUrl);
 });
 
 router.post("/password-reset", async (req, res) => {

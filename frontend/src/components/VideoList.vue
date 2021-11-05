@@ -30,18 +30,12 @@
     <div class="submit-video">
       <button class="btn-primary vote-btn btn" v-on:click="onVideoSubmit()">Submit a Video</button>
     </div>
-<!--    <b-button v-b-modal.modal-xl v-b-modal.modal-1>Launch demo modal</b-button>-->
+
     <b-modal id="modal-1" centered hide-footer :title="selectedVideo ? selectedVideo.title: ''">
       <video-player
           v-if="selectedVideo"
           class="video-player"
-          :options="{
-                autoplay: true,
-                controls: true,
-                poster: selectedVideo.thumbnail,
-                width: this.getVideoWidth(),
-                sources: [{ src: selectedVideo.src, type: selectedVideo.type }],
-              }"
+          :options="this.getVideoOptions(selectedVideo)"
       />
     </b-modal>
   </section>
@@ -87,7 +81,8 @@ export default {
       cartForDisplay: [],
       addedToCart: false,
       addedToCartMessage: "Succesfully added to cart",
-      isLoggedIn: false
+      isLoggedIn: false,
+      options: {}
     };
   },
   async created() {
@@ -97,6 +92,10 @@ export default {
     const user = await userService.getCurrentUser();
     console.log(user)
     this.isLoggedIn = !!user;
+    for(let i = 0; i < this.videos.length; i++) {
+      const v = this.videos[i];
+      this.options[v.id] = await this.initVideoOptions(v);
+    }
   },
   methods: {
     async vote(id) {
@@ -119,6 +118,47 @@ export default {
         width = width - 20;
       }
       return width;
+    },
+    getVideoHeight() {
+      let height = window.innerHeight;
+      if (height > 768) {
+        height = 768;
+      } else {
+        height = height - 100;
+      }
+      return height;
+    },
+    async initVideoOptions(video) {
+      return new Promise((resolve) => {
+        const thumbnail = video.thumbnail;
+        const img = new Image();
+        img.width = 0;
+        img.height = 0;
+        img.addEventListener('load', () => {
+          const ratio = img.naturalWidth / img.naturalHeight;
+          resolve({
+            autoplay: true,
+            controls: true,
+            poster: video.thumbnail,
+            height: ratio < 1 ? this.getVideoHeight() : undefined,
+            width: ratio >= 1 ? this.getVideoWidth() : undefined,
+            sources: [{ src: video.src, type: video.type }],
+          });
+        });
+        img.addEventListener('error', () => {
+          resolve({
+            autoplay: true,
+            controls: true,
+            poster: video.thumbnail,
+            sources: [{ src: video.src, type: video.type }],
+          });
+        });
+        img.src = thumbnail;
+        document.documentElement.appendChild(img);
+      });
+    },
+    getVideoOptions(video) {
+      return this.options[video.id];
     }
   }
 }
@@ -128,7 +168,7 @@ export default {
 .submission-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .submission-container article {
   display: flex;
@@ -210,7 +250,6 @@ export default {
 
 .player-wrapper {
   border-radius: 1.6rem;
-  overflow: hidden;
 }
 
 .player-wrapper .vjs-big-play-button {

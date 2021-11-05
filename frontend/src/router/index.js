@@ -11,6 +11,8 @@ import Success from "../views/Success";
 import About from "../views/About";
 import Passwordreset from "../views/Passwordreset"
 import PasswordResetFinish from "../views/PasswordResetFinish";
+import EmailConfirmed from "../views/EmailConfirmed";
+import UploadSuccess from "../views/UploadSuccess";
 
 Vue.use(VueRouter);
 
@@ -52,6 +54,16 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/email-confirmed",
+    name: "EmailConfirmed",
+    component: EmailConfirmed,
+  },
+  {
+    path: "/upload-success",
+    name: "UploadSuccess",
+    component: UploadSuccess,
   },
   {
     path: "/success",

@@ -171,12 +171,18 @@ export default {
 
           // subscribe to events
           upload.on("success", async () => {
-            const newProduct = await axios.post(
-              `api/post/create-new-product`,
-              this.newVideoOptions,
-              this.existingToken
-            );
-            console.log(newProduct);
+            try {
+              const newProduct = await axios.post(
+                  `api/post/create-new-product`,
+                  this.newVideoOptions,
+                  this.existingToken
+              );
+              this.$router.push('upload-success');
+              console.log(newProduct);
+            } catch (e) {
+              console.log(e);
+              alert(e.response.data.message);
+            }
           });
         } catch (error) {
           console.log(error);

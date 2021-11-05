@@ -18,6 +18,7 @@
     <SearchBar placeholder="Search name" v-model="searchText" v-on:search="onSearch(searchText)" />
     <VideoList v-bind:search-term="searchText" />
     <HowItWorks />
+    <p class="support-info">For support contact <a href="mailto:info@jewishbirthdaymakeover.com">info@jewishbirthdaymakeover.com</a></p>
     <Telethon />
   </div>
 </template>

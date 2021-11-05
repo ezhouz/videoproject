@@ -34,6 +34,40 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/video/:id", async (req, res) => {
+    try {
+        const ip = req.ip;
+        const logRec = await VoteLog.findOne({
+            where: {
+                ip
+            },
+        });
+        let video = await VoteCount.scope('public').findOne({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (!video) {
+            throw new Error('Video not found');
+        }
+        res.send({
+            ...video.toJSON(),
+            isVoted: !!logRec,
+            votedId: logRec ? logRec.videoId : null,
+            uploader: {
+                id: video.uploader.id,
+                uploaderDOBEnglish: video.uploader.uploaderDOBEnglish,
+                uploaderDOBHebrew: video.uploader.uploaderDOBHebrew.split('-').slice(0, 2).join(' '),
+                uploaderFirstName: video.uploader.uploaderFirstName,
+                uploaderLastName: video.uploader.uploaderLastName
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.send(error)
+    }
+});
+
 router.post("/vote", async (req, res) => {
 
     const t = await db.transaction();

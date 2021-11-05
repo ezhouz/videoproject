@@ -32,7 +32,7 @@
         </ul>
       </div>
     </article>
-    <article style="display: flex; justify-content: center; font-size: 2rem">
+    <article style="display: flex; justify-content: flex-start; font-size: 2rem">
 
 
   <!-- <b-form-group label="Drand and drop video here:" label-cols-sm="2" label-size="lg">
@@ -41,14 +41,17 @@
     ></b-form-file>
   </b-form-group> -->
 
+      <div class="file-upload">
+        <div class="form-group">
+          <input @change="getFileName" type="file" name="file" id="uploadedVideoFile" class="input-file" accept="video/*">
+          <label for="uploadedVideoFile" class="btn btn-tertiary js-labelFile" :class="selected ? 'has-file' : ''">
+            <i class="icon icon-upload"></i>
+            <span class="js-fileName">Загрузить файл</span>
+          </label>
+        </div>
+      </div>
 
-      <input
-        @change="getFileName"
-        id="uploadedVideoFile"
-        type="file"
-        accept="video/*"
-      />
-      <button @click="uploadVideo(uploadedVideoFile)">Upload Video File</button>
+      <button :disabled="!selected" class="btn primary-btn" @click="uploadVideo(uploadedVideoFile)">Upload Video File</button>
     </article>
     <article>
       <div v-if="progress > 0 && progress < 100" class="progress">
@@ -62,17 +65,22 @@
         ></div>
       </div>
     </article>
+    <p class="support-info">For support contact <a href="mailto:info@jewishbirthdaymakeover.com">info@jewishbirthdaymakeover.com</a></p>
+    <Telethon />
   </section>
 </template>
 
 <script>
 import axios from "axios";
 import * as UpChunk from "@mux/upchunk";
+import Telethon from "../components/Telethon";
 
 export default {
   name: "UploadVideo",
+  components: {Telethon},
   data() {
     return {
+      selected: false,
       existingToken: "",
       uploadedVideoFile: "",
       uploadedVideoFileName: "",
@@ -132,6 +140,7 @@ export default {
         document.getElementById("uploadedVideoFile").files[0];
       this.uploadedVideoFileName =
         document.getElementById("uploadedVideoFile").files[0].name;
+      this.selected = true;
     },
 
     async uploadVideo() {
@@ -237,6 +246,32 @@ export default {
 }
 .user-info li {
   font-size: 2rem;
+}
+
+.file-upload .form-group {
+  margin: 0;
+}
+
+.file-upload .btn-tertiary{color:#555;padding:0;line-height:40px;width:300px;margin:auto;display:block;border:2px solid #555}
+.file-upload .btn-tertiary:hover,.file-upload .btn-tertiary:focus{color:#888;border-color:#888}
+.file-upload .input-file{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}
+.file-upload .input-file + .js-labelFile{
+  cursor: pointer;
+  border:  none;
+  background-color: #699AF1;
+  border-radius: 2rem;
+  font-size: 1.6rem;
+  color:  #fff;
+  font-weight: bold;
+  padding: 0.75rem 2.2rem;
+  margin: 0 2rem;
+}
+.file-upload .input-file + .js-labelFile.has-file{
+  background-color: #5AAC7B;
+}
+
+.support-info {
+  margin: 3rem 0;
 }
 
 </style>

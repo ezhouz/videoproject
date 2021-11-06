@@ -97,6 +97,7 @@ router.post("/register", async (req, res) => {
           uploaderPassword: hashedPassword,
           uploaderDOBEnglish: uploader.uploaderDOBEnglish,
           uploaderDOBHebrew: uploader.uploaderDOBHebrew,
+          isAdmin: false
         });
 
         if (newUser) {

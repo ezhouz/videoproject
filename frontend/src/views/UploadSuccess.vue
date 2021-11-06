@@ -1,20 +1,6 @@
 <template>
   <section>
-    <div class="second-header">
-      <article class="image-header">
-        <div class="header-image-wrapper">
-          <img
-              src="../../public/images/register/Intersection_3_bl.png"
-              alt=""
-              class="header-image"
-          />
-        </div>
-        <div class="header-text-wrapper">
-          <h1 class="header-text" :class="$mq">THANK YOU FOR UPLOADING.<br />
-            NOW GET YOUR FRIENDS TO VOTE!</h1>
-        </div>
-      </article>
-    </div>
+    <Header title="THANK YOU FOR UPLOADING. NOW GET YOUR FRIENDS TO VOTE!" />
     <div class="mbt-40 button-container ">
       <i class="icon icon-success"></i>
     </div>
@@ -34,3 +20,9 @@
   height: 150px;
 }
 </style>
+<script>
+import Header from "../components/Header";
+export default {
+  components: {Header}
+}
+</script>

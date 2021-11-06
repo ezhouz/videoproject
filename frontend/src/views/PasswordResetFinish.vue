@@ -1,17 +1,6 @@
 <template>
   <section>
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">FINISH RESETTING YOUR PASSWORD</h1>
-      </div>
-    </article>
+    <Header title="Finish resetting your password" />
 
     <article>
       <form
@@ -86,9 +75,11 @@
 
 <script>
 import axios from "axios";
+import Header from "../components/Header";
 
 export default {
   name: "PasswordResetFinish",
+  components: {Header},
   data() {
     return {
       email: "",

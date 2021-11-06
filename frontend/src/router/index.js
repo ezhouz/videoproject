@@ -14,6 +14,7 @@ import PasswordResetFinish from "../views/PasswordResetFinish";
 import EmailConfirmed from "../views/EmailConfirmed";
 import UploadSuccess from "../views/UploadSuccess";
 import PlayVideo from "../views/PlayVideo";
+import Admin from "../views/Admin";
 
 Vue.use(VueRouter);
 
@@ -91,7 +92,12 @@ const routes = [
     name: "PasswordResetFinish",
     component: PasswordResetFinish,
   },
-  
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
+  },
+
   {
     path: '*',
     component: Home 

@@ -37,10 +37,15 @@ UploaderInfo.init({
   uploaderIsConfirmed: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
   }
 }, {
   freezeTableName: true,
-  timestamps: false,
+  timestamps: true,
   sequelize: db,
   modelName: 'UploaderInfo',
   tableName: 'uploaderInfo',

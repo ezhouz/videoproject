@@ -6,6 +6,19 @@ const VoteCount = require("../../db/models/voteCount");
 const UploaderInfo = require("../../db/models/uploaderInfo");
 const VoteLog = require("../../db/models/voteLog");
 
+const mapVideo = (v, logRec) => ({
+    ...v.toJSON(),
+    isVoted: !!logRec,
+    votedId: logRec ? logRec.videoId : null,
+    uploader: {
+        id: v.uploader.id,
+        uploaderDOBEnglish: v.uploader.uploaderDOBEnglish,
+        uploaderDOBHebrew: v.uploader.uploaderDOBHebrew.split('-').slice(0, 2).join(' '),
+        uploaderFirstName: v.uploader.uploaderFirstName,
+        uploaderLastName: v.uploader.uploaderLastName
+    }
+});
+
 router.get("/", async (req, res) => {
     try {
         const ip = req.ip;
@@ -15,18 +28,7 @@ router.get("/", async (req, res) => {
             },
         });
         let allVideos = await VoteCount.scope('public').findAll();
-        allVideos = allVideos.map(v => ({
-            ...v.toJSON(),
-            isVoted: !!logRec,
-            votedId: logRec ? logRec.videoId : null,
-            uploader: {
-                id: v.uploader.id,
-                uploaderDOBEnglish: v.uploader.uploaderDOBEnglish,
-                uploaderDOBHebrew: v.uploader.uploaderDOBHebrew.split('-').slice(0, 2).join(' '),
-                uploaderFirstName: v.uploader.uploaderFirstName,
-                uploaderLastName: v.uploader.uploaderLastName
-            }
-        }))
+        allVideos = allVideos.map(v => mapVideo(v, logRec));
         res.send(allVideos);
     } catch (error) {
         console.error(error);
@@ -50,18 +52,7 @@ router.get("/video/:id", async (req, res) => {
         if (!video) {
             throw new Error('Video not found');
         }
-        res.send({
-            ...video.toJSON(),
-            isVoted: !!logRec,
-            votedId: logRec ? logRec.videoId : null,
-            uploader: {
-                id: video.uploader.id,
-                uploaderDOBEnglish: video.uploader.uploaderDOBEnglish,
-                uploaderDOBHebrew: video.uploader.uploaderDOBHebrew.split('-').slice(0, 2).join(' '),
-                uploaderFirstName: video.uploader.uploaderFirstName,
-                uploaderLastName: video.uploader.uploaderLastName
-            }
-        });
+        res.send(mapVideo(video, logRec));
     } catch (error) {
         console.error(error);
         res.send(error)

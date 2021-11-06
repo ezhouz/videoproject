@@ -1,30 +1,17 @@
 <template>
   <section class="password-rest-section ">
-    <div class="second-header">
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">RESET YOUR PASSWORD</h1>
-      </div>
-    </article>
-    </div>
+    <Header title="Reset your password"/>
     <article class="reset-form">
       <form
-        @submit.prevent="resetPassword(email)"
+          @submit.prevent="resetPassword(email)"
       >
         <b-form-group id="email" label="Email:" label-for="email">
           <b-form-input
-            id="email"
-            v-model="email"
-            type="email"
-            placeholder="Email"
-            required
+              id="email"
+              v-model="email"
+              type="email"
+              placeholder="Email"
+              required
           ></b-form-input>
         </b-form-group>
         <div v-if="showError">
@@ -38,10 +25,11 @@
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-center" style="width: 100%">
-        <b-button
-          type="submit"
-          >Reset Password</b-button
-        >
+          <b-button
+              type="submit"
+          >Reset Password
+          </b-button
+          >
         </div>
       </form>
     </article>
@@ -50,9 +38,11 @@
 
 <script>
 import axios from "axios";
+import Header from "../components/Header";
 
 export default {
   name: "passwordreset",
+  components: {Header},
   data() {
     return {
       showError: false,
@@ -115,6 +105,7 @@ export default {
   color: #ef91dc;
   text-decoration: none;
 }
+
 form div {
   font-size: 1.6rem;
 }

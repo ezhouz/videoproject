@@ -1,19 +1,6 @@
 <template>
   <section>
-    <div class="second-header">
-      <article class="image-header">
-        <div class="header-image-wrapper">
-          <img
-              src="../../public/images/register/Intersection_3_bl.png"
-              alt=""
-              class="header-image"
-          />
-        </div>
-        <div class="header-text-wrapper">
-          <h1 class="header-text" :class="$mq">Your email is confirmed</h1>
-        </div>
-      </article>
-  </div>
+    <Header title="Yor email is confirmed" />
     <div class="mbt-40 button-container ">
       <button class="btn btn-primary" v-on:click="$router.push('Login')">Log in</button>
     </div>
@@ -44,3 +31,9 @@
   color: #fff;
 }
 </style>
+<script>
+import Header from "../components/Header";
+export default {
+  components: {Header}
+}
+</script>

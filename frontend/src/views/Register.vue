@@ -1,19 +1,6 @@
 <template>
-  <section class="second-header">
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">
-          ENTER THE CONTEST AND SUBMIT A VIDEO
-        </h1>
-      </div>
-    </article>
+  <section>
+    <Header title="ENTER THE CONTEST AND SUBMIT A VIDEO" />
     <div class="register-section">
 
       <date-converter button-label="Register" hide-header="false" v-on:changed="onDateChanged($event)" />
@@ -66,10 +53,12 @@
 <script>
 import RegisterForm from "../components/RegisterForm.vue";
 import DateConverter from "../components/DateConverter";
+import Header from "../components/Header";
 
 export default {
   name: "Register",
   components: {
+    Header,
     DateConverter,
     RegisterForm,
   },

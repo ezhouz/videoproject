@@ -41,16 +41,24 @@ VoteCount.init({
   stripePriceId: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   }
 }, {
   freezeTableName: true,
-  timestamps: false,
+  timestamps: true,
   sequelize: db,
   modelName: 'VoteCount',
   tableName: 'voteCount',
   scopes: {
     public: {
       include: {model: UploaderInfo, as: 'uploader'},
+      where: {
+        isActive: true,
+      },
       order: [
         ['title', 'ASC'],
       ]

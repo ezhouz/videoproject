@@ -1,20 +1,6 @@
 <template>
   <section>
-
-     <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">
-          UPLOAD YOUR VIDEO FOR THE CONTEST
-        </h1>
-      </div>
-    </article>
+    <Header title=" UPLOAD YOUR VIDEO FOR THE CONTEST" />
 
     <article class="messages">
       <div v-if="showError" class="errorMessage">
@@ -74,10 +60,11 @@
 import axios from "axios";
 import * as UpChunk from "@mux/upchunk";
 import Telethon from "../components/Telethon";
+import Header from "../components/Header";
 
 export default {
   name: "UploadVideo",
-  components: {Telethon},
+  components: {Header, Telethon},
   data() {
     return {
       selected: false,

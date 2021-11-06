@@ -1,21 +1,7 @@
 <template>
   <section>
-    <article class="second-header">
-      <article class="image-header">
-        <div class="header-image-wrapper">
-          <img
-              src="../../public/images/register/Intersection_3_bl.png"
-              alt=""
-              class="header-image"
-          />
-        </div>
-        <div class="header-text-wrapper">
-          <h1 class="header-text" :class="$mq">
-            The Chanukah Telethon<br/>
-            Supports Life Saving Programs
-          </h1>
-        </div>
-      </article>
+    <Header title="The Chanukah Telethon Supports Life Saving Programs" />
+    <article>
       <div class="about-content">
         <h2>WHERE TO WATCH THE CHANUKAH TELETHON</h2>
         <h3 class="mbt-60">Watch the Jewish Birthday Makeover awards on the Telethon</h3>
@@ -84,10 +70,12 @@
 
 <script>
 import Telethon from "../components/Telethon.vue"
+import Header from "../components/Header";
 
 export default {
   name: "About",
   components: {
+    Header,
     Telethon
   },
   data() {

@@ -1,19 +1,6 @@
 <template>
-  <section class="second-header">
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">
-          WHAT IS A JEWISH BIRTHDAY AND HOW DO WE CELEBRATE?
-        </h1>
-      </div>
-    </article>
+  <section>
+    <Header title="WHAT IS A JEWISH BIRTHDAY AND HOW DO WE CELEBRATE?" />
 
     <div class="about-birthdate">
       <article class="so-great">
@@ -86,10 +73,12 @@
 <script>
 import DateConverter from "../components/DateConverter.vue";
 import Telethon from '../components/Telethon.vue';
+import Header from "../components/Header";
 
 export default {
   name: "AboutBirthdays",
   components: {
+    Header,
     DateConverter,
     Telethon,
 

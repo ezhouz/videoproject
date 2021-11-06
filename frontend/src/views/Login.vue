@@ -1,17 +1,6 @@
 <template>
-  <section class="second-header">
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-            src="../../public/images/register/Intersection_3_bl.png"
-            alt=""
-            class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">LOGIN TO SUBMIT A VIDEO</h1>
-      </div>
-    </article>
+  <section>
+    <Header title="LOGIN TO SUBMIT A VIDEO" />
 
     <div class="login-section">
       <article class="form-wrapper">
@@ -70,9 +59,11 @@
 
 <script>
 import axios from "axios";
+import Header from "../components/Header";
 
 export default {
   name: "Login",
+  components: {Header},
   data() {
     return {
       showError: false,
@@ -96,9 +87,10 @@ export default {
           this.errorMessage = loggedInUser.data.message
         } else {
           localStorage.setItem("chabadtoken", loggedInUser.data.token);
-          this.$router.push({
+          await this.$router.push({
             name: "UploadVideo",
           });
+          location.reload();
         }
       } catch (error) {
         console.log(error);

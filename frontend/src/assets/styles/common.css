@@ -88,6 +88,7 @@ html {
     flex-direction: row;
     justify-content: center;
     overflow: hidden;
+    font-size: 2rem;
 }
 
 .modal-dialog .modal-footer .btn.btn-primary:active,

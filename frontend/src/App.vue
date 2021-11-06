@@ -34,6 +34,9 @@
             <b-nav-item v-if="currentUser">
               <router-link to="/logout">Logout</router-link>
             </b-nav-item>
+            <b-nav-item v-if="currentUser && currentUser.isAdmin">
+              <router-link to="/admin">Admin</router-link>
+            </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
 
@@ -58,15 +61,14 @@
 
 <script>
 import { BIconFacebook, BIconTwitter } from "bootstrap-vue";
+import userService from './services/user.service';
 export default {
   components: {
     BIconFacebook,
     BIconTwitter,
   },
-  created() {
-    if(localStorage.getItem("chabadtoken")) {
-      this.currentUser = true;
-    }
+  async created() {
+    this.currentUser = await userService.getCurrentUser();
 
   },
   data() {

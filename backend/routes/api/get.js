@@ -10,6 +10,7 @@ router.get("/getuser", async (req, res) => {
         if(user.id) {
             res.json({
                 id: user.id,
+                isAdmin: user.isAdmin,
                 firstname: user.uploaderFirstName,
                 lastname: user.uploaderLastName,
                 email: user.uploaderEmail,

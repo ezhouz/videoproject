@@ -1,19 +1,6 @@
 <template>
   <section class="play-video-section">
-    <div class="second-header">
-      <article class="image-header">
-        <div class="header-image-wrapper">
-          <img
-              src="../../public/images/register/Intersection_3_bl.png"
-              alt=""
-              class="header-image"
-          />
-        </div>
-        <div class="header-text-wrapper">
-          <h1 class="header-text" :class="$mq">Jewish Birthday Makeover</h1>
-        </div>
-      </article>
-    </div>
+    <Header title="Jewish Birthday Makeover" />
     <div v-if="video" class="player">
       <video-player
           class="video-player"
@@ -40,8 +27,10 @@
 import VideoPlayer from "../components/VideoPlayer.vue";
 import "video.js/dist/video-js.css";
 import videoService from '../services/video.service';
+import Header from "../components/Header";
 export default {
   components: {
+    Header,
     VideoPlayer,
   },
   data(){

@@ -1,17 +1,6 @@
 <template>
   <section>
-    <article class="image-header">
-      <div class="header-image-wrapper">
-        <img
-          src="../../public/images/register/Intersection_3_bl.png"
-          alt=""
-          class="header-image"
-        />
-      </div>
-      <div class="header-text-wrapper">
-        <h1 class="header-text" :class="$mq">THANK YOU FOR SUPPORTING CHABAD OF MINEOLA</h1>
-      </div>
-    </article>
+    <Header title="THANK YOU FOR SUPPORTING CHABAD OF MINEOLA" />
   
   </section>
 </template>

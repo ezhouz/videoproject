@@ -9,6 +9,9 @@ const { validateMyToken } = require("./authcheck");
 const axios = require("axios");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
+const postmark = require("postmark");
+const client = new postmark.ServerClient(process.env.POSTMARK_SECRET);
+
 if (process.env.NODE_ENV !== "production") {
   const SmeeClient = require("smee-client");
 
@@ -20,6 +23,19 @@ if (process.env.NODE_ENV !== "production") {
   smee.start();
 }
 
+const sendUploadNotification = async () => {
+    try {
+        await client.sendEmail({
+            From: "noreply@jewishbirthdaymakeover.com",
+            To: 'rabbi@jewishbirthdaymakeover.com',
+            Subject: 'New video is uploaded on jewishbirthdaymakeover.com',
+            HtmlBody: 'A new video is uploaded on jewishbirthdaymakeover.com<br> you can moderate it by using the following link <a href="https://jewishbirthdaymakeover.com/admin">https://jewishbirthdaymakeover.com/admin</a>',
+            MessageStream: "outbound",
+        });
+    } catch (error) {
+        console.error("issue sending notification email", error);
+    }
+}
 router.post(
   "/stripe-success",
   express.json({ type: "application/json" }),
@@ -248,6 +264,7 @@ router.post("/create-new-product",
                   return;
                 }
               }
+              await sendUploadNotification();
               res.status(201);
               res.json({
                 message: "Video uploaded",

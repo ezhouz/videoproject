@@ -157,4 +157,6 @@ and (max-device-width: 1024px) {
 @import "mobile/about.css";
 @import "mobile/about-birthdate.css";
 @import "mobile/register.css";
+@import "mobile/datepicker.css";
+
 

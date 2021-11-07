@@ -6,11 +6,13 @@ import { BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueMq from 'vue-mq';
+import VueMask from 'v-mask'
 
 
-Vue.use(VueRouter)
-Vue.use(BootstrapVue)
-Vue.use(BootstrapVueIcons)
+Vue.use(VueRouter);
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
+Vue.use(VueMask);
 
 Vue.use(VueMq, {
   breakpoints: {
@@ -20,7 +22,7 @@ Vue.use(VueMq, {
   }
 })
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,

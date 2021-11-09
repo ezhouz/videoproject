@@ -7,12 +7,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueMq from 'vue-mq';
 import VueMask from 'v-mask'
+import VueGtag from 'vue-gtag';
 
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueMask);
+Vue.use(VueGtag, {
+  config: {id: 'G-KQQDS9D2RG'}
+}, router);
 
 Vue.use(VueMq, {
   breakpoints: {

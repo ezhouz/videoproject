@@ -31,11 +31,11 @@
       <div class="rules">
         <h2>RULES:</h2>
 
-        <p><span class="bold">Videos must be uploaded</span> by November 29th</p>
+        <p><span class="bold">Videos must be uploaded</span> by December 1</p>
 
         <p><span class="bold">VIP Celebrity Birthday Party</span>  Date To Be Announced
 
-        <p><span class="bold">Winners Announced</span> on November 30th</p>
+        <p><span class="bold">Winners Announced</span> on December 2</p>
 
         <p>Chanukah Telethon is on Sunday Dec 5, 2021 7pm-10pm</p>
 

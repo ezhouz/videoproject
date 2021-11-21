@@ -44,7 +44,7 @@ export default {
         {
           iconClass: 'winner',
           src: 'images/vote/winner.svg',
-          text: 'The 8 winners with the most votes will join a VIP Celebrity Birthday Party and will also be invited to make a Cameo Appearance, to receive surprise gifts, on the Live TV Stage during the Chanukah Telethon Dec 5, 2021'
+          text: 'The 8 winners with the most votes will join a VIP Celebrity Birthday Party, win $250, and will also be invited to make a Cameo Appearance, to receive surprise gifts on the Live TV Stage during the Chanukah Telethon Dec 5, 2021'
         }
       ]
     }
